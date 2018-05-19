@@ -1,0 +1,102 @@
+* {
+   margin:0;
+   padding:0
+}
+html, body, #wrap {
+   height: 100%;
+   font-family: OpenSans-Regular, sans-serif;    
+}
+body  #wrap {
+   height: auto !important;
+   min-height: 100%;
+   font-family: OpenSans-Regular, sans-serif;   
+  
+}
+section {   
+	height:auto;
+	min-height: 86%; 
+	width:100%;	
+	position: relative;
+} 
+
+/*El margin top del footer debe ser igual al padding-bottom del section en negativo*/
+footer {
+   position: relative;
+   /*margin-top: -50px; 
+   height: 50px;*/
+   clear: both;
+   background-color:#009FDB;
+   font-size: 11px;
+   margin-top: -50; 
+   height:7%;
+   width:100%;   
+   bottom: 0;
+}
+
+header {
+	background-color: #009FDB;
+	height:7%;
+	width:100%;	
+}
+
+input {
+	/*height: 10px;*/
+	font-size: 1px;
+}
+
+section, article, aside, footer, header, nav, hgroup {
+  display:block;
+}
+
+.container_web {	
+	display: flex;
+	height:auto !important;
+	min-height: 100%;
+	width:100%;		
+}
+
+.menu {	
+	float:left; 
+	width: 25%; 
+	height:100%;
+	min-height: 100%;
+	padding:20px;
+	padding-left:20px;
+	padding-right:20px;
+	border-right: 3px #009FDB dashed;
+}
+
+.panel {
+	float: left; 
+	width: 75%; 
+	height:100%;
+	min-height: 100%;
+	padding:20px;
+	padding-left:20px;
+	padding-right:20px;	
+	background-color: white; 	
+}
+
+.lista_empresas {	
+	float:left; 
+	width: 50%; 
+	height:100%;
+	min-height: 100%;
+	padding:20px;
+	padding-left:20px;
+	padding-right:20px;
+	border-right: 3px #009FDB dashed;
+}
+
+.zona_maps {
+	float: left; 
+	width: 50%; 
+	height:100%;
+	min-height: 100%;
+	padding:20px;
+	padding-left:20px;
+	padding-right:20px;	
+}
+
+
+
