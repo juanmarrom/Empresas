@@ -1,0 +1,4 @@
+url = localhost
+login = root
+password = PFCmysql
+base_datos = BD_EMPRESAS
