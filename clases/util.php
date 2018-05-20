@@ -12,11 +12,11 @@
 
 		while(!feof($fp)) {
 			$linea = fgets($fp);
-			echo $linea . "\n";
+			//echo $linea . "\n";
 			if ($numero_linea < 5) {
 				list($variable, $valor) = explode('=', $linea);
 				$valor = trim($valor);
-				echo "Variable: $variable; Valor: '$valor'\n";
+				//echo "Variable: $variable; Valor: '$valor'\n";
 				if ($numero_linea == 1) {
 					$url = $valor;
 				}
