@@ -37,67 +37,74 @@ s	la variable correspondiente es de tipo string
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="css/alta.css">
+<script>
+	function validar() {
+	    var pass = document.forms["alta"]["pass"].value;
+	    var pass2 = document.forms["alta"]["pass2"].value;
+	    if (pass != pass2) {
+		alert("Las contraseñas tienen que coincidir");
+		return false;
+	    }
+	}
+</script>
 </head>
 <body>
-<header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>
-<section>
-	<div id="wrap">
-		<div class="container">
-			<div class="wrap-login">
-				<form action="comprobar_alta.php" method="post">
-					<span class="login-form-title">
-						Alta en Web de búsqueda de empresas
-					</span>
-					<div class="wrap-login2">						
-						<div class="wrap-input validate-input">
-							<span>Email</span>
-							<input class="input-class" type="text" name="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
-						</div>
-						
-						<div class="wrap-input rs1 validate-input">
-							<span>Nombre</span>
-							<input class="input-class" type="text" name="nombre" placeholder="Nombre" required>
-						</div>
-
-						<div class="wrap-input rs1 validate-input">
-							<span>Apellido1</span>
-							<input class="input-class" type="text" name="ape1" placeholder="Apellido1" required>
-						</div>
-						<div class="wrap-input rs1 validate-input">
-							<span>Apellido2</span>
-							<input class="input-class" type="text" name="ape2" placeholder="Apellido2">
-						</div>
-
-						<div class="wrap-input rs1 validate-input">
-							<span>Contraseña</span>	
-							<input class="input-class" type="password" name="pass" placeholder="Contraseña" required pattern=".{6,}" title="Al menos 6 caracteres">
-						</div>
-
-						<div class="wrap-input rs1 validate-input">
-							<span>Repita contraseña</span>
-							<input class="input-class" type="password" name="pass2" placeholder="Repita contraseña" required pattern=".{6,}" title="Al menos 6 caracteres">
-						</div>
-												
-						<div class="container-login-form-btn">
-							<button class="login-form-btn">
-								Aceptar
-							</button>
-						</div>
+<div id="wrap">
+	<header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>
+	<div class="container">
+		<div class="wrap-login">
+			<form action="comprobar_alta.php" method="post" onsubmit="return validar();" name="alta">
+				<span class="login-form-title">
+					Alta en Web de búsqueda de empresas
+				</span>
+				<div class="wrap-login2">						
+					<div class="wrap-input">
+						<span>Email</span>
+						<input class="input-class" type="text" name="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
 					</div>
-				</form>
-			</div>
+					
+					<div class="wrap-input rs1">
+						<span>Nombre</span>
+						<input class="input-class" type="text" name="nombre" placeholder="Nombre" required>
+					</div>
+
+					<div class="wrap-input rs1">
+						<span>Apellido1</span>
+						<input class="input-class" type="text" name="ape1" placeholder="Apellido1" required>
+					</div>
+					<div class="wrap-input rs1">
+						<span>Apellido2</span>
+						<input class="input-class" type="text" name="ape2" placeholder="Apellido2">
+					</div>
+
+					<div class="wrap-input rs1">
+						<span>Contraseña</span>	
+						<input class="input-class" type="password" name="pass" placeholder="Contraseña" required pattern=".{6,}" title="Al menos 6 caracteres">
+					</div>
+
+					<div class="wrap-input rs1">
+						<span>Repita contraseña</span>
+						<input class="input-class" type="password" name="pass2" placeholder="Repita contraseña" required pattern=".{6,}" title="Al menos 6 caracteres">
+					</div>
+											
+					<div class="container-login-form-btn">
+						<button class="login-form-btn">
+							Aceptar
+						</button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
-</section>	
+</div>	
 <footer>
 <p>©2018 LA SALLE OPEN UNIVERSITY</p>
 </footer>
+</div>
 </body>
 </html>

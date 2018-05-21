@@ -26,6 +26,10 @@
 						b - BLOB*/
 						$stmt->bind_param("ssssss", $_POST["email"], $_POST["email"],$_POST["nombre"], $_POST["ape1"], password_hash($_POST["pass"], PASSWORD_DEFAULT), $_POST["ape2"]);
 						$stmt->execute();
+						if($conn->insert_id === 0) {
+							$respuesta = "El usuario ya se encontraba registrado";
+						}
+						//$respuesta = . $respuesta . $conn->insert_id . $stmt->affected_rows;
 						$stmt->close();
 					} 
 					catch(Exception $e) {

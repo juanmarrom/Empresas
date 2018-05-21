@@ -82,6 +82,13 @@ button:hover {
   color: #4272d7;
 }
 
+.txt3 {
+  font-family: OpenSans-Regular;
+  font-size: 20px;
+  line-height: 1.4;
+  color:black;
+}
+
 .hov1:hover {
   text-decoration: underline;
 }
@@ -148,8 +155,7 @@ button:hover {
 }
 
 .input-class {
-  display: block;
-  width: 100%;
+  display: block; 
   background: transparent;
   font-family: OpenSans-Regular;
   font-size: 15px;
