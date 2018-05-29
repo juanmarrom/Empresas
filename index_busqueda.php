@@ -1,3 +1,26 @@
+<?php
+	session_start();	
+	if(isset($_SESSION["busqueda"])) {
+		require_once './clases/util.php';			
+		Util::iniciarConexion("./conf.txt");
+		$conn =  Util::getConexion();
+		$respuesta = "Algo ha ido mal (1)";
+		/*if($_SESSION["busqueda"] == session_id()) {
+			if(isset($_POST['search'])){
+				$search = $_POST['search'];
+				$query = "SELECT * FROM DISTRITO WHERE NOMBRE like'%".$search."%'";
+				$result = mysqli_query($conn,$query);
+		
+				$response = array();
+				while($row = mysqli_fetch_array($result) ){
+					$response[] = array("value"=>$row['ID_DISTRITO'],"label"=>$row['NOMBRE']);
+				}
+				echo json_encode($response);
+			}
+		}*/
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,161 +82,155 @@ $(function() {
 
 </head>
 <body>
+<div id="wrap">
 	<header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>
-	<section>
-		<div id="wrap">
-				<div class="container_web">
-					<div id="menu" class="menu">
-						<label for="">Filtros Avanzados:</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Su posición</span>
-							</div>
-							<input type="text" class="form-control">
-						</div>				
-						<div class="input-group" style="margin-top: 20px;">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">En un radio de:</span>
-							</div>
-							<input type="text" class="form-control">
-						</div>				
-						
-						<div class="input-group" style="margin-top: 20px;">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Sector:</span>
-							</div>
-							<input type="text" class="form-control">
-						</div>		
-											
-						<div class="input-group" style="margin-top: 20px;">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Grupo Actividad:</span>
-							</div>
-							<input type="text" class="form-control">
-						</div>		
-
-						<div class="input-group" style="margin-top: 20px;">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Actividad:</span>
-							</div>
-							<input type="text" class="form-control">
-						</div>		
-						
-						
-					</div>
-					<div id="resultado" class="panel">
-						<label for="">Búsqueda de Empresas:</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Empresa</span>
-							</div>
-							<input type="text" class="form-control">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">En</span>
-							</div>
-							<input type="text" class="form-control" id="id_pais">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Región</span>
-							</div>
-							<input type="text" class="form-control" id="id_region">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Provincia</span>
-							</div>
-							<input type="text" class="form-control" id="id_provincia">						
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Ciudad</span>
-							</div>
-							<input type="text" class="form-control" id="id_ciudad">												
-						</div>
-						
-						<div class="input-group" style="margin-top: 20px;">    					
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">En</span>
-							</div>
-							<input type="text" class="form-control" id="">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Región</span>
-							</div>
-							<input type="text" class="form-control" id="id_region">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Provincia</span>
-							</div>
-							<input type="text" class="form-control" id="id_provincia">						
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="">Ciudad</span>
-							</div>
-							<input type="text" class="form-control" id="id_ciudad">	
-							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="button">Buscar </button>
-							</div>						
-						</div>
-						
-						<div style="margin-top: 20px;">
-
-							<div id="id_lista_empresas" class="lista_empresas">
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>
-								LISTADO <br>															
-							</div>							
-							<div id="id_zona_maps" class="zona_maps">
-								MAPS
-							</div>					
-						</div>
-											
-					</div>	
+	<div class="container_web">
+		<div id="menu" class="menu">
+			<label for="">Filtros Avanzados:</label>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Su posición</span>
 				</div>
-							
+				<input type="text" class="form-control">
+			</div>				
+			<div class="input-group" style="margin-top: 20px;">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">En un radio de:</span>
+				</div>
+				<input type="text" class="form-control">
+			</div>				
+			
+			<div class="input-group" style="margin-top: 20px;">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Sector:</span>
+				</div>
+				<input type="text" class="form-control">
+			</div>		
+								
+			<div class="input-group" style="margin-top: 20px;">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Grupo Actividad:</span>
+				</div>
+				<input type="text" class="form-control">
+			</div>		
+
+			<div class="input-group" style="margin-top: 20px;">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Actividad:</span>
+				</div>
+				<input type="text" class="form-control">
+			</div>		
+			
+			
+		</div>
+		<div id="resultado" class="panel">
+			<label for="">Búsqueda de Empresas:</label>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Empresa</span>
+				</div>
+				<input type="text" class="form-control">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">En</span>
+				</div>
+				<input type="text" class="form-control" id="id_pais">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Región</span>
+				</div>
+				<input type="text" class="form-control" id="id_region">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Provincia</span>
+				</div>
+				<input type="text" class="form-control" id="id_provincia">						
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Ciudad</span>
+				</div>
+				<input type="text" class="form-control" id="id_ciudad">												
+			</div>
+			
+			<div class="input-group" style="margin-top: 20px;">    					
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">En</span>
+				</div>
+				<input type="text" class="form-control" id="">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Región</span>
+				</div>
+				<input type="text" class="form-control" id="id_region">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Provincia</span>
+				</div>
+				<input type="text" class="form-control" id="id_provincia">						
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="">Ciudad</span>
+				</div>
+				<input type="text" class="form-control" id="id_ciudad">	
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button">Buscar </button>
+				</div>						
+			</div>
+			
+			<div style="margin-top: 20px;">
+
+				<div id="id_lista_empresas" class="lista_empresas">
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>
+					LISTADO <br>															
+				</div>							
+				<div id="id_zona_maps" class="zona_maps">
+					MAPS
+				</div>					
+			</div>								
 		</div>	
-		
-	</section>
-	
-	<footer>
-	<p>©2018 LA SALLE OPEN UNIVERSITY</p>
-	</footer>
+	</div>
+</div>	
+<footer>
+<p>©2018 LA SALLE OPEN UNIVERSITY</p>
+</footer>
 </body>
 </html>
