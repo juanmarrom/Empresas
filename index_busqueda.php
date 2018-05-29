@@ -14,21 +14,35 @@
 <link rel="stylesheet" type="text/css" href="css/main_busqueda.css">
 
 <script>
-/*
+
 $(document).ready(function(){
-	  var availableTags = [
-		"ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++",
-		"Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran",
-		"Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl",
-		"PHP", "Python", "Ruby", "Scala", "Scheme"
-	  ];
-	  
 	  $("#id_pais").autocomplete({
-		source: availableTags
+		source: function( request, response ) {
+	   			// Fetch data
+				//alert(request.term);
+				$.ajax({
+				    url: "get_distrito.php",
+				    type: 'post',
+				    dataType: "json",
+				    data: {
+				    	search: request.term
+				    },
+				    success: function( data ) {
+				     	response( data );
+				    }
+	   			});
+  			},
+			select: function (event, ui) {
+			// Set selection
+			   $('#id_pais').val(ui.item.label); // display the selected text
+			   alert(ui.item.value); // save selected id to input
+			   return false;
+			}
 	  });
-});*/
+});
 
 
+/*
 $(function() {
   var availableTags = [
     "ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++",
@@ -40,7 +54,7 @@ $(function() {
   $("#id_pais").autocomplete({
     source: availableTags
   });
-});
+});*/
 </script>
 
 </head>
