@@ -257,9 +257,12 @@ $(document).ready(function(){
 		noneSelectedText: "Grupo Actividad",
 		selectedText:"# seleccionados",
 		checkAllText: 'Seleccionar todo',
-		uncheckAllText: 'Deseleccionar todo',		
+		uncheckAllText: 'Deseleccionar todo',
+		menuWidth:300
 		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
-		);	
+		);
+
+	$('#id_grupo_actividad_ms').css('width', '290px');	
 
 	$("#id_actividad").multiselect({
 		click: function(event, ui){
@@ -272,7 +275,9 @@ $(document).ready(function(){
 		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
 		);	
 
-	$("#id_sector").multiselect({
+	$('#id_actividad_ms').css('width', '220px');
+
+	/*$("#id_sector").multiselect({
 		click: function(event, ui){
 			alert(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
 		},
@@ -282,7 +287,7 @@ $(document).ready(function(){
 		checkAllText: 'Seleccionar todo',
 		uncheckAllText: 'Deseleccionar todo',		
 		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
-		);	
+		);	*/
 	
 });
 
@@ -393,7 +398,7 @@ $(document).ready(function(){
 				<div class="input-group">    					
 					<nav class="navbar navbar-light bg-light ancho-total">
 					  <div class="form-inline ancho-total">
-						<select id="id_grupo_actividad" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
+						<select id="id_grupo_actividad" title="Grupo Actividad" multiple="multiple" name="example-basic" size="5" style="display: none;">
 						<?php							
 							if(isset($_SESSION["idioma"])) {								
 								$query = "SELECT * FROM GRUPO_ACTIVIDAD WHERE ID_IDIOMA = ". $_SESSION["idioma"] . "";
@@ -407,7 +412,7 @@ $(document).ready(function(){
 						?>
 						</select>
 						<span>&nbsp;&nbsp;&nbsp;</span>
-						<select id="id_actividad" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
+						<select id="id_actividad" title="Actividad" multiple="multiple" name="example-basic" size="5" style="display: none;">
 						<?php							
 							if(isset($_SESSION["idioma"])) {								
 								$query = "SELECT * FROM ACTIVIDAD WHERE ID_IDIOMA = ". $_SESSION["idioma"] . "";
@@ -420,7 +425,7 @@ $(document).ready(function(){
 							}
 						?>
 						</select>
-						<span>&nbsp;&nbsp;&nbsp;</span>
+						<!---<span>&nbsp;&nbsp;&nbsp;</span>
 						<select id="id_sector" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
 						<?php							
 							if(isset($_SESSION["idioma"])) {								
@@ -433,7 +438,7 @@ $(document).ready(function(){
 								
 							}
 						?>
-						</select>	
+						</select>--->
 						<span>&nbsp;&nbsp;&nbsp;</span>						
 						<input class="form-control mr-sm-2" type="search" placeholder="Empresa" aria-label="Empresa" style="width:30%;">
 						<button class="btn btn-outline-secondary" type="submit">Buscar</button>
