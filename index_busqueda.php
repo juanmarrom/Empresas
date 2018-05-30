@@ -25,7 +25,6 @@
 <html>
 <head>
 <!---<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>--->
-
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -35,202 +34,349 @@
 <link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.structure.css">
 <link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.theme.css">
 <link rel="stylesheet" type="text/css" href="css/main_busqueda.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="css/jquery.multiselect.css">
+<script src="scripts/jquery.multiselect.js"></script>
+<link rel="stylesheet" href="css/jquery.multiselect.filter.css">
+<script src="scripts/jquery.multiselect.filter.js"></script>
 
 <script>
 
+/*
+var availableTags = [
+"ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++",
+"Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran",
+"Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl",
+"PHP", "Python", "Ruby", "Scala", "Scheme"
+];
+*/
+
 $(document).ready(function(){
+
 	  $("#id_pais").autocomplete({
 		source: function( request, response ) {
-	   			// Fetch data
-				//alert(request.term);
-				$.ajax({
-				    url: "get_distrito.php",
-				    type: 'post',
-				    dataType: "json",
-				    data: {
-				    	search: request.term
-				    },
-				    success: function( data ) {
-				     	response( data );
-				    }
-	   			});
-  			},
-			select: function (event, ui) {
-			// Set selection
-			   $('#id_pais').val(ui.item.label); // display the selected text
-			   alert(ui.item.value); // save selected id to input
-			   return false;
-			}
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_distrito.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+  		},
+		select: function (event, ui) {
+		// Set selection
+		   $('#id_pais').val(ui.item.label); // display the selected text
+		   alert(ui.item.value); // save selected id to input
+		   $('#id_region').prop("disabled", false); 
+		   return false;
+		}
 	  });
+
+
+	  /*$("#id_pais").autocomplete({
+		source: availableTags,
+		select: function (event, ui) {
+			alert (ui.item.value);
+			//Activar siguiente
+			$('#id_region').prop("disabled", false); 
+		}		
+	  });*/
+	  
+	  $("#id_pais").on('input', function () {
+		   var val=$('#id_pais').val();
+		   if (val == "") {
+				$('#id_region').prop("disabled", true); 
+		   }		   
+	  });
+	  
+	  
+	 //http://www.erichynds.com/blog/jquery-ui-multiselect-widget 
+	 //https://www.jqueryscript.net/form/jQuery-UI-Multiple-Select-Widget.html
+	$("#id_grupo_actividad").multiselect({
+		click: function(event, ui){
+			alert(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
+		},
+		noneSelectedText: "Grupo Actividad",
+		selectedText:"# seleccionados",
+		checkAllText: 'Seleccionar todo',
+		uncheckAllText: 'Deseleccionar todo',		
+		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
+		);	
+
+	$("#id_actividad").multiselect({
+		click: function(event, ui){
+			alert(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
+		},
+		noneSelectedText: "Actividad",
+		selectedText:"# seleccionados",
+		checkAllText: 'Seleccionar todo',
+		uncheckAllText: 'Deseleccionar todo',		
+		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
+		);	
+
+	$("#id_sector").multiselect({
+		click: function(event, ui){
+			alert(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
+		},
+		//header: "Grupo Actividad",	
+		noneSelectedText: "Sector",
+		selectedText:"# seleccionados",
+		checkAllText: 'Seleccionar todo',
+		uncheckAllText: 'Deseleccionar todo',		
+		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
+		);	
+	
 });
 
 
-/*
-$(function() {
-  var availableTags = [
-    "ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++",
-    "Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran",
-    "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl",
-    "PHP", "Python", "Ruby", "Scala", "Scheme"
-  ];
-  
-  $("#id_pais").autocomplete({
-    source: availableTags
-  });
-});*/
 </script>
 
 </head>
 <body>
-<div id="wrap">
-	<header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>
-	<div class="container_web">
-		<div id="menu" class="menu">
-			<label for="">Filtros Avanzados:</label>
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Su posición</span>
+	<div id="wrap">
+		<header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>
+		<div class="container_web">
+			<div id="menu" class="menu">
+				<label for="">Filtros Avanzados:</label>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta">Pais</span>
+					</div>
+					<input type="text" class="form-control" id="id_pais">
+				</div>				
+				<div class="input-group margen-inputs">					
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta">Región</span>
+					</div>
+					<input type="text" class="form-control" id="id_region" disabled>
+				</div>				
+				<div class="input-group margen-inputs">					
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta">Provincia</span>
+					</div>
+					<input type="text" class="form-control" id="id_provincia" disabled>
+				</div>				
+				<div class="input-group margen-inputs">					
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta">Ciudad</span>
+					</div>
+					<input type="text" class="form-control" id="id_ciudad" disabled>
+				</div>				
+				<div class="input-group margen-inputs">					
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta">Distrito</span>
+					</div>
+					<input type="text" class="form-control" id="id_distrito" disabled>												
+				</div>				
+				<div class="input-group margen-inputs">					
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta">Barrio</span>
+					</div>
+					<input type="text" class="form-control" id="id_barrio" disabled>												
+				</div>				
+				<div class="input-group margen-inputs">
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta">Calle</span>
+					</div>
+					<input type="text" class="form-control" id="id_calle" disabled>												
+				</div>				
+				<div class="input-group margen-inputs">
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta">Número</span>
+					</div>
+					<input type="text" class="form-control" id="id_numero" disabled>																	
 				</div>
-				<input type="text" class="form-control">
-			</div>				
-			<div class="input-group" style="margin-top: 20px;">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">En un radio de:</span>
+				<br>
+				<label for="">Extras:</label>		
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta-extra">Mercado</span>
+					</div>
+					<input type="text" class="form-control" id="id_mercado">																	
 				</div>
-				<input type="text" class="form-control">
-			</div>				
+				<div class="input-group margen-inputs">
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta-extra">C. Comercial</span>
+					</div>
+					<input type="text" class="form-control" id="id_ccomercial">																	
+				</div>
+				<div class="input-group margen-inputs">
+					<div class="input-group-prepend">
+						<span class="input-group-text etiqueta-extra">Galería</span>
+					</div>
+					<input type="text" class="form-control" id="id_galeria">																	
+				</div>
+				
+			</div>
 			
-			<div class="input-group" style="margin-top: 20px;">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Sector:</span>
+			<div id="resultado" class="panel">
+				<label for="">Búsqueda de Empresas:</label>
+	
+				<div class="input-group margen-inputs">    					
+					<nav class="navbar navbar-light bg-light ancho-total">
+					  <div class="form-inline ancho-total">
+						<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" >Su posición:</span>
+						</div>						
+						<input class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" aria-label="Posición" style="width:40%;">
+						<div class="input-group-prepend">
+							<span class="input-group-text" >En un radio de (en metros):</span>
+						</div>						
+						<input class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" aria-label="Radio" style="width:10%;">
+						<button class="btn btn-outline-secondary" type="submit">Caluclar</button>
+					  </div>
+					  </div>
+					  
+					</nav>					
 				</div>
-				<input type="text" class="form-control">
-			</div>		
-								
-			<div class="input-group" style="margin-top: 20px;">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Grupo Actividad:</span>
-				</div>
-				<input type="text" class="form-control">
-			</div>		
 
-			<div class="input-group" style="margin-top: 20px;">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Actividad:</span>
+		
+				<div class="input-group">    					
+					<nav class="navbar navbar-light bg-light ancho-total">
+					  <div class="form-inline ancho-total">
+						<select id="id_grupo_actividad" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
+							<option value="option1">Option 1</option>
+							<option value="option2">Option 2</option>
+							<option value="option3">Option 3</option>
+							<option value="option4">Option 4</option>
+							<option value="option5">Option 5</option>
+							<option value="option6">Option 6</option>
+							<option value="option7">Option 7</option>
+							<option value="option8">Option 8</option>
+							<option value="option9">Option 9</option>
+							<option value="option10">Option 10</option>
+							<option value="option11">Option 11</option>
+							<option value="option12">Option 12</option>
+						</select>
+						<span>&nbsp;&nbsp;&nbsp;</span>
+						<select id="id_actividad" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
+							<option value="option1">Option 1</option>
+							<option value="option2">Option 2</option>
+							<option value="option3">Option 3</option>
+							<option value="option4">Option 4</option>
+							<option value="option5">Option 5</option>
+							<option value="option6">Option 6</option>
+							<option value="option7">Option 7</option>
+							<option value="option8">Option 8</option>
+							<option value="option9">Option 9</option>
+							<option value="option10">Option 10</option>
+							<option value="option11">Option 11</option>
+							<option value="option12">Option 12</option>
+						</select>
+						<span>&nbsp;&nbsp;&nbsp;</span>
+						<select id="id_sector" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
+							<option value="option1">Option 1</option>
+							<option value="option2">Option 2</option>
+							<option value="option3">Option 3</option>
+							<option value="option4">Option 4</option>
+							<option value="option5">Option 5</option>
+							<option value="option6">Option 6</option>
+							<option value="option7">Option 7</option>
+							<option value="option8">Option 8</option>
+							<option value="option9">Option 9</option>
+							<option value="option10">Option 10</option>
+							<option value="option11">Option 11</option>
+							<option value="option12">Option 12</option>
+						</select>	
+						<span>&nbsp;&nbsp;&nbsp;</span>						
+						<input class="form-control mr-sm-2" type="search" placeholder="Empresa" aria-label="Empresa" style="width:30%;">
+						<button class="btn btn-outline-secondary" type="submit">Buscar</button>
+					  </div>
+					</nav>					
 				</div>
-				<input type="text" class="form-control">
-			</div>		
-			
-			
+				
+				<div class="margen-inputs">
+
+					<div id="id_lista_empresas" class="lista_empresas">
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>
+						LISTADO <br>													
+					</div>							
+					<div id="id_zona_maps" class="zona_maps">
+						MAPS
+					</div>					
+				</div>
+									
+			</div>	
 		</div>
-		<div id="resultado" class="panel">
-			<label for="">Búsqueda de Empresas:</label>
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Empresa</span>
-				</div>
-				<input type="text" class="form-control">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">En</span>
-				</div>
-				<input type="text" class="form-control" id="id_pais">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Región</span>
-				</div>
-				<input type="text" class="form-control" id="id_region">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Provincia</span>
-				</div>
-				<input type="text" class="form-control" id="id_provincia">						
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Ciudad</span>
-				</div>
-				<input type="text" class="form-control" id="id_ciudad">												
-			</div>
-			
-			<div class="input-group" style="margin-top: 20px;">    					
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">En</span>
-				</div>
-				<input type="text" class="form-control" id="">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Región</span>
-				</div>
-				<input type="text" class="form-control" id="id_region">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Provincia</span>
-				</div>
-				<input type="text" class="form-control" id="id_provincia">						
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="">Ciudad</span>
-				</div>
-				<input type="text" class="form-control" id="id_ciudad">	
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="button">Buscar </button>
-				</div>						
-			</div>
-			
-			<div style="margin-top: 20px;">
-
-				<div id="id_lista_empresas" class="lista_empresas">
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>
-					LISTADO <br>															
-				</div>							
-				<div id="id_zona_maps" class="zona_maps">
-					MAPS
-				</div>					
-			</div>								
-		</div>	
+					
 	</div>
-</div>	
-<footer>
-<p>©2018 LA SALLE OPEN UNIVERSITY</p>
-</footer>
+	<footer>
+	<p>©2018 LA SALLE OPEN UNIVERSITY</p>
+	</footer>
+	
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var mySelect = $('#first-disabled2');
+    $('#special').on('click', function () {
+      mySelect.find('option:selected').prop('disabled', true);
+      mySelect.selectpicker('refresh');
+    });
+    $('#special2').on('click', function () {
+      mySelect.find('option:disabled').prop('disabled', false);
+      mySelect.selectpicker('refresh');
+    });
+    $('#basic2').selectpicker({
+      liveSearch: true,
+      maxOptions: 1
+    });
+  });
+</script>	
+	
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?php
-	/*session_start();	
-	if(isset($_SESSION["busqueda"])) {*/
+	session_start();	
+	if(isset($_SESSION["busqueda"])) {
 		require_once './clases/util.php';			
 		Util::iniciarConexion("./conf.txt");
 		$conn =  Util::getConexion();
 		$respuesta = "Algo ha ido mal (1)";
-		/*if($_SESSION["busqueda"] == session_id()) {*/
+		if($_SESSION["busqueda"] == session_id()) {
 			if(isset($_POST['search'])){
 				$search = $_POST['search'];
 				$query = "SELECT * FROM DISTRITO WHERE NOMBRE like'%".$search."%'";
@@ -17,7 +17,7 @@
 				}
 				echo json_encode($response);
 			}
-	/*	}
-	}*/
+		}
+	}
 	exit;
 ?>

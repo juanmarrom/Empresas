@@ -99,5 +99,53 @@ section, article, aside, footer, header, nav, hgroup {
 	padding-right:20px;	
 }
 
+.etiqueta {
+	width: auto;
+	min-width:100px;
+}
 
+.etiqueta-extra {
+	width: auto;
+	min-width:120px;
+}
+
+.margen-inputs {
+	margin-top: 20px;
+}
+.margen-izq {
+	margin-left: 10px;
+}
+
+.margen-der {
+	padding-right: 10px!important;
+}
+
+.ancho-total {
+	width:100%;
+}
+
+.ancho-70 {
+	width:70%;
+}
+
+.ancho-60 {
+	width:60%;
+}
+
+.ancho-400-p {
+	width:400px;
+}
+
+.ancho-50-p {
+	width:50px;
+}
+
+
+.ancho-30 {
+	width:30%;	
+}
+
+.ancho-10 {
+	width:10%;
+}
 
