@@ -62,7 +62,7 @@ $(document).ready(function(){
 			// Fetch data
 			//alert(request.term);
 			$.ajax({
-				url: "get_distrito.php",
+				url: "get_pais.php",
 				type: 'post',
 				dataType: "json",
 				data: {
@@ -95,11 +95,159 @@ $(document).ready(function(){
 	  $("#id_pais").on('input', function () {
 		   var val=$('#id_pais').val();
 		   if (val == "") {
-				$('#id_region').prop("disabled", true); 
+			$('#id_region').prop("disabled", true); 
 		   }		   
 	  });
 	  
+	  $("#id_region").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_region.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+  		},
+		select: function (event, ui) {
+		// Set selection
+		   $('#id_region').val(ui.item.label); // display the selected text
+		   alert(ui.item.value); // save selected id to input
+		   $('#id_provincia').prop("disabled", false); 
+		   return false;
+		}
+	  });
+
+	  $("#id_provincia").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_provincia.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+  		},
+		select: function (event, ui) {
+		// Set selection
+		   $('#id_provincia').val(ui.item.label); // display the selected text
+		   alert(ui.item.value); // save selected id to input
+		   $('#id_ciudad').prop("disabled", false); 
+		   return false;
+		}
+	  });
+
+	  $("#id_ciudad").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_ciudad.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+  		},
+		select: function (event, ui) {
+		// Set selection
+		   $('#id_ciudad').val(ui.item.label); // display the selected text
+		   alert(ui.item.value); // save selected id to input
+		   $('#id_distrito').prop("disabled", false); 
+		   return false;
+		}
+	  });
+
+	  $("#id_distrito").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_distrito.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+  		},
+		select: function (event, ui) {
+		// Set selection
+		   $('#id_distrito').val(ui.item.label); // display the selected text
+		   alert(ui.item.value); // save selected id to input
+		   $('#id_barrio').prop("disabled", false); 
+		   return false;
+		}
+	  });
 	  
+	  $("#id_barrio").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_barrio.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+  		},
+		select: function (event, ui) {
+		// Set selection
+		   $('#id_barrio').val(ui.item.label); // display the selected text
+		   alert(ui.item.value); // save selected id to input
+		   $('#id_calle').prop("disabled", false); 
+		   return false;
+		}
+	  });
+
+	  $("#id_calle").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_calle.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+  		},
+		select: function (event, ui) {
+		// Set selection
+		   $('#id_calle').val(ui.item.label); // display the selected text
+		   alert(ui.item.value); // save selected id to input
+		   $('#id_numero').prop("disabled", false); 
+		   return false;
+		}
+	  });
 	 //http://www.erichynds.com/blog/jquery-ui-multiselect-widget 
 	 //https://www.jqueryscript.net/form/jQuery-UI-Multiple-Select-Widget.html
 	$("#id_grupo_actividad").multiselect({
