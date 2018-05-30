@@ -1,4 +1,5 @@
 <?php
+	$conn = "";
 	session_start();	
 	if(isset($_SESSION["busqueda"])) {
 		require_once './clases/util.php';			
@@ -245,48 +246,45 @@ $(document).ready(function(){
 					<nav class="navbar navbar-light bg-light ancho-total">
 					  <div class="form-inline ancho-total">
 						<select id="id_grupo_actividad" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
-							<option value="option4">Option 4</option>
-							<option value="option5">Option 5</option>
-							<option value="option6">Option 6</option>
-							<option value="option7">Option 7</option>
-							<option value="option8">Option 8</option>
-							<option value="option9">Option 9</option>
-							<option value="option10">Option 10</option>
-							<option value="option11">Option 11</option>
-							<option value="option12">Option 12</option>
+						<?php							
+							if(isset($_SESSION["idioma"])) {								
+								$query = "SELECT * FROM GRUPO_ACTIVIDAD WHERE ID_IDIOMA = ". $_SESSION["idioma"] . "";
+								$result = mysqli_query($conn,$query);	
+								$response = array();
+								while($row = mysqli_fetch_array($result) ){
+									echo '<option value="' . $row['ID_GRUPO_ACTIVIDAD'] . '">' .$row['NOMBRE'] . '</option>';
+								}
+								
+							}
+						?>
 						</select>
 						<span>&nbsp;&nbsp;&nbsp;</span>
 						<select id="id_actividad" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
-							<option value="option4">Option 4</option>
-							<option value="option5">Option 5</option>
-							<option value="option6">Option 6</option>
-							<option value="option7">Option 7</option>
-							<option value="option8">Option 8</option>
-							<option value="option9">Option 9</option>
-							<option value="option10">Option 10</option>
-							<option value="option11">Option 11</option>
-							<option value="option12">Option 12</option>
+						<?php							
+							if(isset($_SESSION["idioma"])) {								
+								$query = "SELECT * FROM ACTIVIDAD WHERE ID_IDIOMA = ". $_SESSION["idioma"] . "";
+								$result = mysqli_query($conn,$query);	
+								$response = array();
+								while($row = mysqli_fetch_array($result) ){
+									echo '<option value="' . $row['ID_ACTIVIDAD'] . '">' .$row['NOMBRE'] . '</option>';
+								}
+								
+							}
+						?>
 						</select>
 						<span>&nbsp;&nbsp;&nbsp;</span>
 						<select id="id_sector" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
-							<option value="option4">Option 4</option>
-							<option value="option5">Option 5</option>
-							<option value="option6">Option 6</option>
-							<option value="option7">Option 7</option>
-							<option value="option8">Option 8</option>
-							<option value="option9">Option 9</option>
-							<option value="option10">Option 10</option>
-							<option value="option11">Option 11</option>
-							<option value="option12">Option 12</option>
+						<?php							
+							if(isset($_SESSION["idioma"])) {								
+								$query = "SELECT * FROM SECTOR WHERE ID_IDIOMA = ". $_SESSION["idioma"] . "";
+								$result = mysqli_query($conn,$query);	
+								$response = array();
+								while($row = mysqli_fetch_array($result) ){
+									echo '<option value="' . $row['ID_SECTOR'] . '">' .$row['NOMBRE'] . '</option>';
+								}
+								
+							}
+						?>
 						</select>	
 						<span>&nbsp;&nbsp;&nbsp;</span>						
 						<input class="form-control mr-sm-2" type="search" placeholder="Empresa" aria-label="Empresa" style="width:30%;">
