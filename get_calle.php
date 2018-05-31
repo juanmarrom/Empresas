@@ -8,7 +8,8 @@
 		if($_SESSION["busqueda"] == session_id()) {
 			if(isset($_POST['search'])){
 				$search = $_POST['search'];
-				$query = "SELECT * FROM CALLE WHERE NOMBRE like'%".$search."%'";
+				$id_barrio = $_POST['id_barrio'];
+				$query = "SELECT * FROM CALLE WHERE NOMBRE like'%".$search."%'" . " AND ID_BARRIO = " . $id_barrio . "";
 				$result = mysqli_query($conn,$query);
 		
 				$response = array();

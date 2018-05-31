@@ -8,7 +8,8 @@
 		if($_SESSION["busqueda"] == session_id()) {
 			if(isset($_POST['search'])){
 				$search = $_POST['search'];
-				$query = "SELECT * FROM PROVINCIA WHERE NOMBRE like'%".$search."%' AND ID_IDIOMA = " . $_SESSION['idioma'] . "";
+				$id_region = $_POST['id_region'];
+				$query = "SELECT * FROM PROVINCIA WHERE NOMBRE like'%".$search."%' AND ID_IDIOMA = " . $_SESSION['idioma'] . " AND ID_REGION = " . $id_region . "";
 				$result = mysqli_query($conn,$query);
 		
 				$response = array();

@@ -57,7 +57,7 @@ var availableTags = [
 
 $(document).ready(function(){
 
-	  $("#id_pais").autocomplete({
+	$("#id_pais").autocomplete({
 		source: function( request, response ) {
 			// Fetch data
 			//alert(request.term);
@@ -72,34 +72,34 @@ $(document).ready(function(){
 					response( data );
 				}
 			});
-  		},
+		},
 		select: function (event, ui) {
-		// Set selection
-		   $('#id_pais').val(ui.item.label); // display the selected text
-		   alert(ui.item.value); // save selected id to input
-		   $('#id_region').prop("disabled", false); 
-		   return false;
-		}
-	  });
-
-
-	  /*$("#id_pais").autocomplete({
-		source: availableTags,
-		select: function (event, ui) {
-			alert (ui.item.value);
-			//Activar siguiente
+		    // Set selection		    
+		   // display the selected text
+		    //console.log ($("#id_pais_busqueda").val() + " / " + ui.item.value + " / " + ui.item.label);
+		    if ($("#id_pais_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+			$("#id_pais_busqueda").val(ui.item.value);
 			$('#id_region').prop("disabled", false); 
-		}		
-	  });*/
-	  
-	  $("#id_pais").on('input', function () {
-		   var val=$('#id_pais').val();
-		   if (val == "") {
-			$('#id_region').prop("disabled", true); 
-		   }		   
-	  });
-	  
-	  $("#id_region").autocomplete({
+		    }		   
+		    $('#id_pais').val(ui.item.label);
+		    return false;
+		},
+		open: function(){
+		    //console.log("open");
+		    $("#id_pais_busqueda").val(-1);
+		}
+	});
+	$("#id_pais").blur(function() {
+	    //console.log("blur");
+	    if ($("#id_pais_busqueda").val() == -1) {
+		alert ("Hay que seleccionar una de las opciones");
+		$("#id_pais").val("");
+		deshabilitar(0);
+	    }
+	});
+
+
+	$("#id_region").autocomplete({
 		source: function( request, response ) {
 			// Fetch data
 			//alert(request.term);
@@ -108,23 +108,37 @@ $(document).ready(function(){
 				type: 'post',
 				dataType: "json",
 				data: {
-					search: request.term
+					search: request.term,
+					id_pais: $("#id_pais_busqueda").val()
 				},
 				success: function( data ) {
 					response( data );
 				}
 			});
-  		},
+		},
 		select: function (event, ui) {
-		// Set selection
-		   $('#id_region').val(ui.item.label); // display the selected text
-		   alert(ui.item.value); // save selected id to input
-		   $('#id_provincia').prop("disabled", false); 
-		   return false;
+			// Set selection		 
+			if ($("#id_region_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_region_busqueda").val(ui.item.value);
+				$('#id_provincia').prop("disabled", false); 
+			}		   
+			$('#id_region').val(ui.item.label);
+			return false;
+		},
+		open: function(){
+		    $("#id_region_busqueda").val(-1);
 		}
-	  });
+	});
 
-	  $("#id_provincia").autocomplete({
+	$("#id_region").blur(function() {
+	    if ($("#id_region_busqueda").val() == -1) {
+		alert ("Hay que seleccionar una de las opciones");
+		$("#id_region").val("");
+		deshabilitar(1);
+	    }
+	});
+
+	$("#id_provincia").autocomplete({
 		source: function( request, response ) {
 			// Fetch data
 			//alert(request.term);
@@ -133,73 +147,114 @@ $(document).ready(function(){
 				type: 'post',
 				dataType: "json",
 				data: {
-					search: request.term
+					search: request.term,
+					id_region: $("#id_region_busqueda").val()
 				},
 				success: function( data ) {
 					response( data );
 				}
 			});
-  		},
+		},
 		select: function (event, ui) {
-		// Set selection
-		   $('#id_provincia').val(ui.item.label); // display the selected text
-		   alert(ui.item.value); // save selected id to input
-		   $('#id_ciudad').prop("disabled", false); 
-		   return false;
+			// Set selection		 
+			if ($("#id_provincia_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_provincia_busqueda").val(ui.item.value);
+				$('#id_ciudad').prop("disabled", false); 
+			}		   
+			$('#id_provincia').val(ui.item.label);	
+			return false;	
+		},
+		open: function(){
+		    $("#id_provincia_busqueda").val(-1);
 		}
-	  });
+	});
 
-	  $("#id_ciudad").autocomplete({
+	$("#id_provincia").blur(function() {
+	    if ($("#id_provincia_busqueda").val() == -1) {
+		alert ("Hay que seleccionar una de las opciones");
+		$("#id_provincia").val("");
+		deshabilitar(2);
+	    }
+	});
+
+
+	$("#id_ciudad").autocomplete({
 		source: function( request, response ) {
-			// Fetch data
-			//alert(request.term);
 			$.ajax({
 				url: "get_ciudad.php",
 				type: 'post',
 				dataType: "json",
-				data: {
-					search: request.term
+				data: {	
+					search: request.term,
+					id_provincia: $("#id_provincia_busqueda").val()
 				},
 				success: function( data ) {
 					response( data );
 				}
 			});
-  		},
+		},
 		select: function (event, ui) {
-		// Set selection
-		   $('#id_ciudad').val(ui.item.label); // display the selected text
-		   alert(ui.item.value); // save selected id to input
-		   $('#id_distrito').prop("disabled", false); 
-		   return false;
+			// Set selection
+			if ($("#id_ciudad_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_ciudad_busqueda").val(ui.item.value);
+				$('#id_distrito').prop("disabled", false); 
+			}
+			$('#id_ciudad').val(ui.item.label);
+		  	return false;
+		},        
+		open: function(){
+			$("#id_ciudad_busqueda").val(-1);
+		},
+	});
+	$("#id_ciudad").blur(function() {
+		if ($("#id_ciudad_busqueda").val() == -1) {
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_ciudad").val("");
+			deshabilitar(3);
 		}
-	  });
+	});
 
-	  $("#id_distrito").autocomplete({
+
+	$("#id_distrito").autocomplete({
 		source: function( request, response ) {
-			// Fetch data
-			//alert(request.term);
-			$.ajax({
-				url: "get_distrito.php",
-				type: 'post',
-				dataType: "json",
-				data: {
-					search: request.term
-				},
-				success: function( data ) {
-					response( data );
-				}
-			});
-  		},
+		// Fetch data
+		//alert(request.term);
+		$.ajax({
+			url: "get_distrito.php",
+			type: 'post',
+			dataType: "json",
+			data: {
+				search: request.term,
+				id_ciudad: $("#id_ciudad_busqueda").val()
+			},
+			success: function( data ) {
+				response( data );
+			}
+		});
+
+		},
 		select: function (event, ui) {
-		// Set selection
-		   $('#id_distrito').val(ui.item.label); // display the selected text
-		   alert(ui.item.value); // save selected id to input
-		   $('#id_barrio').prop("disabled", false); 
-		   return false;
+			if ($("#id_distrito_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_distrito_busqueda").val(ui.item.value);
+				$('#id_barrio').prop("disabled", false); 
+			}
+			$('#id_distrito').val(ui.item.label);
+			return false;			
+		},        
+		open: function(){
+			$("#id_distrito_busqueda").val(-1);
+		},
+	});
+	$("#id_distrito").blur(function() {
+		if ($("#id_distrito_busqueda").val() == -1) {
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_distrito").val("");
+			deshabilitar(4);
 		}
-	  });
-	  
-	  $("#id_barrio").autocomplete({
+	});
+
+		  
+	$("#id_barrio").autocomplete({
 		source: function( request, response ) {
 			// Fetch data
 			//alert(request.term);
@@ -208,23 +263,35 @@ $(document).ready(function(){
 				type: 'post',
 				dataType: "json",
 				data: {
-					search: request.term
+					search: request.term,
+					id_distrito: $("#id_distrito_busqueda").val()
 				},
 				success: function( data ) {
 					response( data );
 				}
 			});
-  		},
+		},
 		select: function (event, ui) {
-		// Set selection
-		   $('#id_barrio').val(ui.item.label); // display the selected text
-		   alert(ui.item.value); // save selected id to input
-		   $('#id_calle').prop("disabled", false); 
-		   return false;
+			if ($("#id_barrio_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_barrio_busqueda").val(ui.item.value);
+				$('#id_calle').prop("disabled", false); 
+			}
+			$('#id_barrio').val(ui.item.label);
+			return false;			
+		},
+		open: function(){
+			$("#id_barrio_busqueda").val(-1);
+		},
+	});
+	$("#id_barrio").blur(function() {
+		if ($("#id_barrio_busqueda").val() == -1) {
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_barrio").val("");
+			deshabilitar(5);
 		}
-	  });
+	});		
 
-	  $("#id_calle").autocomplete({
+	$("#id_calle").autocomplete({
 		source: function( request, response ) {
 			// Fetch data
 			//alert(request.term);
@@ -233,21 +300,110 @@ $(document).ready(function(){
 				type: 'post',
 				dataType: "json",
 				data: {
-					search: request.term
+					search: request.term,
+					id_barrio: $("#id_barrio_busqueda").val()
 				},
 				success: function( data ) {
 					response( data );
 				}
 			});
-  		},
+		},
 		select: function (event, ui) {
+			if ($("#id_calle_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_calle_busqueda").val(ui.item.value);
+				$('#id_numero').prop("disabled", false); 
+			}
+			$('#id_calle').val(ui.item.label);
+			return false;		
+		
+		
 		// Set selection
 		   $('#id_calle').val(ui.item.label); // display the selected text
 		   alert(ui.item.value); // save selected id to input
 		   $('#id_numero').prop("disabled", false); 
 		   return false;
+		},
+		open: function(){
+			$("#id_calle_busqueda").val(-1);
+		},
+
+	});
+	$("#id_calle").blur(function() {
+		if ($("#id_calle_busqueda").val() == -1) {
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_calle").val("");
+			deshabilitar(6);
 		}
-	  });
+	});	  
+
+	$("#id_numero").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_numero_calle.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term,
+					id_calle: $("#id_calle_busqueda").val()
+				},
+
+				success: function( data ) {
+					response( data );
+				}
+			});
+		},
+		select: function (event, ui) {
+			if ($("#id_numero_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_numero_busqueda").val(ui.item.value);					
+			}
+			$('#id_numero').val(ui.item.label);
+			return false;			
+		},
+		open: function(){
+			$("#id_numero_busqueda").val(-1);
+		},			
+	});
+	$("#id_numero").blur(function() {
+		if ($("#id_numero_busqueda").val() == -1) {
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_numero").val("");				
+		}
+	});	  
+
+	    //pais 0, region, 1, ciudad 2, distrito 3, barrio 4, calle 5, numero 6
+	    function deshabilitar(a_partir_de) {
+		if (a_partir_de == 0) {
+			$('#id_region').prop("disabled", true);
+			$('#id_region').val("");
+		}    
+		if (a_partir_de <= 1) {
+			$('#id_provincia').prop("disabled", true);
+			$('#id_provincia').val("");
+		}
+		if (a_partir_de <= 2) {
+			$('#id_ciudad').prop("disabled", true);
+			$('#id_ciudad').val("");
+		}
+		if (a_partir_de <= 3) {        
+			$('#id_distrito').prop("disabled", true);
+			$('#id_distrito').val("");
+		}
+		if (a_partir_de <= 4) {        
+			$('#id_barrio').prop("disabled", true);
+			$('#id_barrio').val("");
+		}    
+		if (a_partir_de <= 5) {        
+			$('#id_calle').prop("disabled", true);
+			$('#id_calle').val("");
+		}
+		if (a_partir_de <= 6) {        
+			$('#id_numero').prop("disabled", true);
+			$('#id_numero').val("");
+		}    
+	    }   
+
 	 //http://www.erichynds.com/blog/jquery-ui-multiselect-widget 
 	 //https://www.jqueryscript.net/form/jQuery-UI-Multiple-Select-Widget.html
 	$("#id_grupo_actividad").multiselect({
@@ -299,6 +455,14 @@ $(document).ready(function(){
 	<div id="wrap">
 		<header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>
 		<div class="container_web">
+			<input type="hidden" id="id_pais_busqueda" value="-1">
+			<input type="hidden" id="id_region_busqueda" value="-1">
+			<input type="hidden" id="id_provincia_busqueda" value="-1">
+			<input type="hidden" id="id_ciudad_busqueda" value="-1">
+			<input type="hidden" id="id_distrito_busqueda" value="-1">
+			<input type="hidden" id="id_barrio_busqueda" value="-1">
+			<input type="hidden" id="id_calle_busqueda" value="-1">
+			<input type="hidden" id="id_numero_busqueda" value="-1">
 			<div id="menu" class="menu">
 				<label for="">Filtros Avanzados:</label>
 				<div class="input-group">

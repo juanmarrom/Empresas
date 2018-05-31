@@ -8,12 +8,13 @@
 		if($_SESSION["busqueda"] == session_id()) {
 			if(isset($_POST['search'])){
 				$search = $_POST['search'];
-				$query = "SELECT * FROM DISTRITO WHERE NOMBRE like'%".$search."%'";
+				$id_calle = $_POST['id_calle'];
+				$query = "SELECT * FROM NUMERO_CALLE WHERE NOMBRE like'%".$search."%'" . " AND ID_CALLE = " . $id_calle . "";
 				$result = mysqli_query($conn,$query);
 		
 				$response = array();
 				while($row = mysqli_fetch_array($result) ){
-					$response[] = array("value"=>$row['ID_DISTRITO'],"label"=>$row['NOMBRE']);
+					$response[] = array("value"=>$row['ID'],"label"=>$row['NOMBRE']);
 				}
 				echo json_encode($response);
 			}
