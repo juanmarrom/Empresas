@@ -490,7 +490,7 @@ $(document).ready(function(){
 		uncheckAllText: 'Deseleccionar todo',		
 		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
 		);	*/
-	
+	tb_remove();
 });
 
 
