@@ -45,7 +45,7 @@
 <link rel="stylesheet" href="css/Thickbox.css">		
 <script src="scripts/jquery.multiselect.filter.js"></script>
 <script src="scripts/thickbox_neu.js"></script>
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <script>
 
 /*
@@ -420,34 +420,34 @@ $(document).ready(function(){
 
 	    //pais 0, region, 1, ciudad 2, distrito 3, barrio 4, calle 5, numero 6
 	    function deshabilitar(a_partir_de) {
-		if (a_partir_de == 0) {
-			$('#id_region').prop("disabled", true);
-			$('#id_region').val("");
-		}    
-		if (a_partir_de <= 1) {
-			$('#id_provincia').prop("disabled", true);
-			$('#id_provincia').val("");
-		}
-		if (a_partir_de <= 2) {
-			$('#id_ciudad').prop("disabled", true);
-			$('#id_ciudad').val("");
-		}
-		if (a_partir_de <= 3) {        
-			$('#id_distrito').prop("disabled", true);
-			$('#id_distrito').val("");
-		}
-		if (a_partir_de <= 4) {        
-			$('#id_barrio').prop("disabled", true);
-			$('#id_barrio').val("");
-		}    
-		if (a_partir_de <= 5) {        
-			$('#id_calle').prop("disabled", true);
-			$('#id_calle').val("");
-		}
-		if (a_partir_de <= 6) {        
-			$('#id_numero').prop("disabled", true);
-			$('#id_numero').val("");
-		}    
+			if (a_partir_de == 0) {
+				$('#id_region').prop("disabled", true);
+				$('#id_region').val("");
+			}    
+			if (a_partir_de <= 1) {
+				$('#id_provincia').prop("disabled", true);
+				$('#id_provincia').val("");
+			}
+			if (a_partir_de <= 2) {
+				$('#id_ciudad').prop("disabled", true);
+				$('#id_ciudad').val("");
+			}
+			if (a_partir_de <= 3) {        
+				$('#id_distrito').prop("disabled", true);
+				$('#id_distrito').val("");
+			}
+			if (a_partir_de <= 4) {        
+				$('#id_barrio').prop("disabled", true);
+				$('#id_barrio').val("");
+			}    
+			if (a_partir_de <= 5) {        
+				$('#id_calle').prop("disabled", true);
+				$('#id_calle').val("");
+			}
+			if (a_partir_de <= 6) {        
+				$('#id_numero').prop("disabled", true);
+				$('#id_numero').val("");
+			}    
 	    }   
 
 	 //http://www.erichynds.com/blog/jquery-ui-multiselect-widget 
@@ -490,6 +490,45 @@ $(document).ready(function(){
 		uncheckAllText: 'Deseleccionar todo',		
 		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
 		);	*/
+
+	$("#id_buscar").click(function() {
+		tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+		$.ajax({
+			url: "buscar.php",
+			type: 'post',
+			dataType: "html",
+			data: {
+				id_pais: $("#id_pais_busqueda").val(),
+				id_region: $("#id_region_busqueda").val(),
+				id_provincia: $("#id_provincia_busqueda").val(),
+				id_ciudad: $("#id_ciudad_busqueda").val(),
+				id_distrito: $("#id_distrito_busqueda").val(),
+				id_barrio: $("#id_barrio_busqueda").val(),
+				id_calle: $("#id_calle_busqueda").val(),
+				id_numero: $("#id_numero_busqueda").val(),
+				id_grupo_actividad: $("#id_grupo_actividad_busqueda").val(),
+				id_actividad: $("#id_actividad_busqueda").val(),
+				id_mercado: $("#id_mercado_busqueda").val(),
+				id_ccomercial: $("#id_ccomercial_busqueda").val(),
+				id_galeria: $("#id_galeria_busqueda").val(),
+				nombre_empresa: $("#id_nombre_empresa").val(),
+				latitud_user: $("#latitud").val(),
+				longitud_user: $("#longitud").val(),
+				direccion_user: $("#direccion").val()
+			},
+			success: function( data ) {
+				alert( data );
+				$("#id_lista_empresas").html(data);
+				tb_remove();
+			},
+   			error: function (request, status, error) {
+        		alert(request.responseText);	
+				tb_remove();
+    		}			
+		});
+		
+	});
+
 	tb_remove();
 });
 
@@ -508,7 +547,15 @@ $(document).ready(function(){
 			<input type="hidden" id="id_distrito_busqueda" value="-1">
 			<input type="hidden" id="id_barrio_busqueda" value="-1">
 			<input type="hidden" id="id_calle_busqueda" value="-1">
-			<input type="hidden" id="id_numero_busqueda" value="-1">
+			<input type="hidden" id="id_numero_busqueda" value="-1">		
+			<input type="hidden" id="id_grupo_actividad_busqueda" value="-1">
+			<input type="hidden" id="id_actividad_busqueda" value="-1">
+			<input type="hidden" id="id_mercado_busqueda" value="-1">
+			<input type="hidden" id="id_galeria_busqueda" value="-1">
+			<input type="hidden" id="id_ccomercial_busqueda" value="-1">
+			<input type="hidden" id="latitud" value="0">
+			<input type="hidden" id="longitud" value="0">
+			<input type="hidden" id="direccion" value="">
 			<div id="menu" class="menu">
 				<label for="">Filtros Avanzados:</label>
 				<div class="input-group">
@@ -635,23 +682,9 @@ $(document).ready(function(){
 							}
 						?>
 						</select>
-						<!---<span>&nbsp;&nbsp;&nbsp;</span>
-						<select id="id_sector" title="Basic example" multiple="multiple" name="example-basic" size="5" style="display: none;">
-						<?php							
-							if(isset($_SESSION["idioma"])) {								
-								$query = "SELECT * FROM SECTOR WHERE ID_IDIOMA = ". $_SESSION["idioma"] . "";
-								$result = mysqli_query($conn,$query);	
-								$response = array();
-								while($row = mysqli_fetch_array($result) ){
-									echo '<option value="' . $row['ID_SECTOR'] . '">' .$row['NOMBRE'] . '</option>';
-								}
-								
-							}
-						?>
-						</select>--->
 						<span>&nbsp;&nbsp;&nbsp;</span>						
-						<input class="form-control mr-sm-2" type="search" placeholder="Empresa" aria-label="Empresa" style="width:30%;">
-						<button class="btn btn-outline-secondary" type="submit">Buscar</button>
+						<input id="id_nombre_empresa" class="form-control mr-sm-2" type="search" placeholder="Empresa" aria-label="Empresa" style="width:30%;">
+						<button id="id_buscar" class="btn btn-outline-secondary">Buscar</button>
 					  </div>
 					</nav>					
 				</div>

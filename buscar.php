@@ -8,7 +8,7 @@
 		if($_SESSION["busqueda"] == session_id()) {
 			$id_pais = $_POST['id_pais'];
 			$id_region =  $_POST['id_region'];
-			id_provincia =  $_POST['id_provincia'];
+			$id_provincia =  $_POST['id_provincia'];
 			$id_ciudad =  $_POST['id_ciudad'];
 			$id_distrito =  $_POST['id_distrito'];
 			$id_barrio =  $_POST['id_barrio'];
@@ -27,40 +27,40 @@
 			$tiempo_inicio = microtime(true);
 			///INSERTAR AUDITORIA
 			try {
-				$condiciones = " WHERE 1=1 AND "
+				$condiciones = " WHERE 1=1 AND ";
 				if (is_numeric($id_pais) && $id_pais != -1) {
-					$condiciones = " ID_PAIS = $id_pais";
+					$condiciones = $condiciones . " ID_PAIS = $id_pais";
 				}
 				if (is_numeric($id_region) && $id_region != -1) {
-					$condiciones = " ID_REGION = $id_region";
+					$condiciones = $condiciones .  " ID_REGION = $id_region";
 				}
 				if (is_numeric($id_provincia) && $id_provincia != -1) {
-					$condiciones = " ID_PROVINCIA = $id_provincia";
+					$condiciones = $condiciones .  " ID_PROVINCIA = $id_provincia";
 				}
 				if (is_numeric($id_ciudad) && $id_ciudad != -1) {
-					$condiciones = " ID_CIUDAD = $id_ciudad";
+					$condiciones = $condiciones .  " ID_CIUDAD = $id_ciudad";
 				}
 				if (is_numeric($id_distrito) && $id_distrito != -1) {
-					$condiciones = " ID_DISTRITO = $id_distrito";
+					$condiciones = $condiciones . " ID_DISTRITO = $id_distrito";
 				}
 				if (is_numeric($id_barrio) && $id_barrio != -1) {
-					$condiciones = " ID_BARRIO = $id_barrio";
+					$condiciones = $condiciones .  " ID_BARRIO = $id_barrio";
 				}
 				if (is_numeric($id_calle) && $id_calle != -1) {
-					$condiciones = " ID_CALLE = $id_calle";
+					$condiciones = $condiciones .  " ID_CALLE = $id_calle";
 				}
 				if (is_numeric($id_numero) && $id_numero != -1) {
-					$condiciones = " ID_NUMERO_CALLE = $id_numero";
+					$condiciones = $condiciones . " ID_NUMERO_CALLE = $id_numero";
 				}
 				
 				if (is_numeric($id_mercado) && $id_mercado != -1) {
-					$condiciones = " ID_MERCADO = $id_mercado";
+					$condiciones = $condiciones . " ID_MERCADO = $id_mercado";
 				}
 				if (is_numeric($id_ccomercial) && $id_ccomercial != -1) {
-					$condiciones = " ID_CENTRO_COMERCIAL = $id_ccomercial";
+					$condiciones = $condiciones . " ID_CENTRO_COMERCIAL = $id_ccomercial";
 				}
 				if (is_numeric($id_galeria) && $id_galeria != -1) {
-					$condiciones = " ID_GALERIA = $id_galeria";
+					$condiciones = $condiciones .  " ID_GALERIA = $id_galeria";
 				}				
 				
 				if (is_numeric($id_grupo_actividad) && $id_grupo_actividad != -1) {
@@ -76,27 +76,32 @@
 				if (is_numeric($longitud_user) && $longitud_user != 0) {
 					$condiciones = $condiciones . " LONGITUD = $longitud_user";
 				}
-				
-				$sql = "SELECT * FROM EMPRESAS $condiciones ";
+				$stmt = "";
+				$sql = "SELECT * FROM EMPRESA $condiciones ";
 				$nombre_empresa = trim($nombre_empresa);
 				if (!empty($nombre_empresa)) {
-					$sql = $sql . "AND NOMBRE LIKE %?% AND ACTIVO IS TRUE LIMIT 10";
-					$stmt->bind_param("i", $nombre_empresa);
+					$sql = $sql . "AND NOMBRE LIKE ? AND ACTIVA IS TRUE LIMIT 10";
+					$nombre_empresa = '%' . $nombre_empresa . "%";
+					$stmt = $conn->prepare("$sql");				
+					$stmt->bind_param("s", $nombre_empresa);
+				}
+				else {
+					$stmt = $conn->prepare("$sql");
 				}
 				$stmt->execute();
 				$result = $stmt->get_result();
-				$número_filas = mysql_num_rows($result);
+				$número_filas = $result->num_rows;
 				//echo "número_filas - $número_filas\n";
 				$html = "";
 				$id_resultado = array();
 				while ($row = $result->fetch_assoc()) {
 					$id_resultado[] = $row['ID'];
-					$html = "<div id='id_box_resultado' class='box-resultado'>						
+					$html .= "<div id='id_box_resultado' class='box-resultado'>						
 						<div class='box-empresa'>
 							<div>
 								<div class='contenedor_empresa'>     		
 									  <span class='texto_empresa' onclick='' lang='es'>
-										$row['NOMBRE'] <i class='fas fa-globe clase_iconos'></i>
+										" . $row['NOMBRE'] . "<i class='fas fa-globe clase_iconos'></i>
 									</span>				
 								</div>
 								<div class='contenedor_datos_empresa'>
@@ -118,7 +123,7 @@
 					</div>";	
 				}						
 				
-				
+				/*
 				$resultado = 0;
 				$tiempo_fin=microtime(true)
 				$tiempo = $tiempo_fin-$tiempo_inicio;
@@ -151,8 +156,9 @@
 				}
 				else {
 					
-				}	
+				}	*/
 				echo $html;
+				exit;
 			} 
 			catch(Exception $e) { // ERROR
 				echo "$e";			

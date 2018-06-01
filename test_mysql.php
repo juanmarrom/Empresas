@@ -9,7 +9,7 @@
 			$nom = "%zara%";
 			$stmt->bind_param("s", $nom);
 			$stmt->execute();
-			$stmt->bind_result($id, $nombre);
+			//$stmt->bind_result($id, $nombre);
 			
 			$result = $stmt->get_result();
 			$numero_filas =  $result->num_rows;
@@ -17,8 +17,8 @@
 			while ($row = $result->fetch_assoc()){
 				$stmt2 = $conn->prepare("$sql_insert");
 				$num1 = 1;
-				$num2 = 10;
-				$num3 = 5;
+				$num2 = 30;
+				$num3 = 20;
 				$stmt2->bind_param("iii", $num1, $num2, $num3);
 				$stmt2->execute();
 				$stmt2->close();
