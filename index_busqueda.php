@@ -42,7 +42,9 @@
 <link rel="stylesheet" href="css/jquery.multiselect.css">
 <script src="scripts/jquery.multiselect.js"></script>
 <link rel="stylesheet" href="css/jquery.multiselect.filter.css">
+<link rel="stylesheet" href="css/Thickbox.css">		
 <script src="scripts/jquery.multiselect.filter.js"></script>
+<script src="scripts/jquery.thickbox_neu.js"></script>
 
 <script>
 
@@ -56,6 +58,8 @@ var availableTags = [
 */
 
 $(document).ready(function(){
+	tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+	
 	var valor_pais = "";
 	var valor_region = "";
 	var valor_provincia = "";
