@@ -7,7 +7,7 @@
 		  
 //var tb_pathToImage = "images/loadingAnimation.gif";
 
-var tb_pathToImage = "../images/pixel.png";
+var tb_pathToImage = "images/pixel.png";
 
 /*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
 
