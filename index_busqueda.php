@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="css/jquery.multiselect.filter.css">
 <link rel="stylesheet" href="css/Thickbox.css">		
 <script src="scripts/jquery.multiselect.filter.js"></script>
-<script src="scripts/jquery.thickbox_neu.js"></script>
+<script src="scripts/thickbox_neu.js"></script>
 
 <script>
 
