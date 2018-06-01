@@ -151,3 +151,90 @@ section, article, aside, footer, header, nav, hgroup {
 	width:10%;
 }
 
+.box-resultado {	
+	border-style:solid;
+	border-width:0 1px 1px 1px;
+	border-color:#dbdbdb;
+	background-color:white;
+	position:relative;
+	display:inline-block;
+    box-sizing: border-box;
+    width:100%;
+}
+
+.box-resultado:hover {
+	background-color:#f8f8f8;
+}
+
+
+.box-empresa {
+	/*display:table-cell;*/
+    vertical-align: bottom;
+	min-width: 100%;
+	width: 100%;
+}
+
+.contenedor_empresa {
+    /*display: table-row;*/
+    width:100%;
+}
+
+.texto_empresa {
+	font-family: "Verdana";
+	font-weight: bold;
+	padding-top:3px;
+    width:98%;
+    font-size:18px;
+    float:left;
+    cursor:pointer;
+	line-height: 20px;
+	color:#004d66;
+}
+
+.contenedor_datos_empresa {
+    display: table-cell;
+}
+
+.clr{clear:both;}
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.box-direccion{
+	margin-top: 5px;
+	margin-bottom: -1px;
+	/*font-weight:700;
+	font-size:14px;*/
+}
+
+.box-actividad {
+    padding-top:0px; 
+    font-size:12px;
+}
+
+.text-estandar {
+	font-family:"Helvetica";
+	color:#585858;	
+	font-size: 16px;
+	line-height:20px;
+	font-weight: 500;
+}
+
+.clase_iconos {
+    font-family: FontAwesome;
+    font-size: 15px;
+    color: #444;
+    margin-left: 5px;
+    vertical-align: top;
+    padding-top: 3px;
+    cursor: pointer;
+}
