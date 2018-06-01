@@ -56,7 +56,41 @@ var availableTags = [
 */
 
 $(document).ready(function(){
+	var valor_pais = "";
+	var valor_region = "";
+	var valor_provincia = "";
+	var valor_ciudad = "";
+	var valor_distrito = "";
+	var valor_barrio = "";
+	var valor_calle = "";
+	var valor_numero = "";
 
+	$("#id_pais").click(function() {
+		valor_pais = $("#id_pais").val();
+	});		
+	$("#id_region").click(function() {
+		valor_region = $("#id_region").val();
+	});		
+	$("#id_provincia").click(function() {
+		valor_provincia = $("#id_provincia").val();
+	});		
+	$("#id_ciudad").click(function() {
+		valor_ciudad = $("#id_ciudad").val();
+	});		
+	$("#id_distrito").click(function() {
+		valor_distrito = $("#id_distrito").val();
+	});		
+	$("#id_barrio").click(function() {
+		valor_barrio = $("#id_barrio").val();
+	});		
+	$("#id_calle").click(function() {
+		valor_calle = $("#id_calle").val();
+	});		
+	$("#id_numero").click(function() {
+		valor_numero = $("#id_numero").val();
+	});	
+	
+	
 	$("#id_pais").autocomplete({
 		source: function( request, response ) {
 			// Fetch data
@@ -80,7 +114,8 @@ $(document).ready(function(){
 		    if ($("#id_pais_busqueda").val() != ui.item.value && ui.item.value != -1) {            
 			$("#id_pais_busqueda").val(ui.item.value);
 			$('#id_region').prop("disabled", false); 
-		    }		   
+		    }
+		    valor_pais = ui.item.label;
 		    $('#id_pais').val(ui.item.label);
 		    return false;
 		},
@@ -91,7 +126,7 @@ $(document).ready(function(){
 	});
 	$("#id_pais").blur(function() {
 	    //console.log("blur");
-	    if ($("#id_pais_busqueda").val() == -1) {
+	    if ($("#id_pais_busqueda").val() == -1 || valor_pais != $("#id_pais").val()) {
 		alert ("Hay que seleccionar una de las opciones");
 		$("#id_pais").val("");
 		deshabilitar(0);
@@ -121,7 +156,8 @@ $(document).ready(function(){
 			if ($("#id_region_busqueda").val() != ui.item.value && ui.item.value != -1) {            
 				$("#id_region_busqueda").val(ui.item.value);
 				$('#id_provincia').prop("disabled", false); 
-			}		   
+			}
+			valor_region = ui.item.label;
 			$('#id_region').val(ui.item.label);
 			return false;
 		},
@@ -131,7 +167,7 @@ $(document).ready(function(){
 	});
 
 	$("#id_region").blur(function() {
-	    if ($("#id_region_busqueda").val() == -1) {
+	    if ($("#id_region_busqueda").val() == -1 || valor_region != $("#id_region").val()) {
 		alert ("Hay que seleccionar una de las opciones");
 		$("#id_region").val("");
 		deshabilitar(1);
@@ -160,7 +196,8 @@ $(document).ready(function(){
 			if ($("#id_provincia_busqueda").val() != ui.item.value && ui.item.value != -1) {            
 				$("#id_provincia_busqueda").val(ui.item.value);
 				$('#id_ciudad').prop("disabled", false); 
-			}		   
+			}
+			valor_provincia = ui.item.label;
 			$('#id_provincia').val(ui.item.label);	
 			return false;	
 		},
@@ -170,7 +207,7 @@ $(document).ready(function(){
 	});
 
 	$("#id_provincia").blur(function() {
-	    if ($("#id_provincia_busqueda").val() == -1) {
+	    if ($("#id_provincia_busqueda").val() == -1 || valor_provincia != $("#id_provincia").val()) {
 		alert ("Hay que seleccionar una de las opciones");
 		$("#id_provincia").val("");
 		deshabilitar(2);
@@ -199,6 +236,7 @@ $(document).ready(function(){
 				$("#id_ciudad_busqueda").val(ui.item.value);
 				$('#id_distrito').prop("disabled", false); 
 			}
+			valor_ciudad = ui.item.label;
 			$('#id_ciudad').val(ui.item.label);
 		  	return false;
 		},        
@@ -207,7 +245,7 @@ $(document).ready(function(){
 		},
 	});
 	$("#id_ciudad").blur(function() {
-		if ($("#id_ciudad_busqueda").val() == -1) {
+		if ($("#id_ciudad_busqueda").val() == -1 || valor_ciudad != $("#id_ciudad").val()) {
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_ciudad").val("");
 			deshabilitar(3);
@@ -238,6 +276,7 @@ $(document).ready(function(){
 				$("#id_distrito_busqueda").val(ui.item.value);
 				$('#id_barrio').prop("disabled", false); 
 			}
+			valor_distrito = ui.item.label;
 			$('#id_distrito').val(ui.item.label);
 			return false;			
 		},        
@@ -246,7 +285,7 @@ $(document).ready(function(){
 		},
 	});
 	$("#id_distrito").blur(function() {
-		if ($("#id_distrito_busqueda").val() == -1) {
+		if ($("#id_distrito_busqueda").val() == -1 || valor_distrito != $("#id_distrito").val()) {
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_distrito").val("");
 			deshabilitar(4);
@@ -276,6 +315,7 @@ $(document).ready(function(){
 				$("#id_barrio_busqueda").val(ui.item.value);
 				$('#id_calle').prop("disabled", false); 
 			}
+			valor_barrio = ui.item.label;
 			$('#id_barrio').val(ui.item.label);
 			return false;			
 		},
@@ -284,7 +324,7 @@ $(document).ready(function(){
 		},
 	});
 	$("#id_barrio").blur(function() {
-		if ($("#id_barrio_busqueda").val() == -1) {
+		if ($("#id_barrio_busqueda").val() == -1 || valor_barrio != $("#id_barrio").val()) {
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_barrio").val("");
 			deshabilitar(5);
@@ -313,6 +353,7 @@ $(document).ready(function(){
 				$("#id_calle_busqueda").val(ui.item.value);
 				$('#id_numero').prop("disabled", false); 
 			}
+			valor_calle = ui.item.label;
 			$('#id_calle').val(ui.item.label);
 			return false;		
 		
@@ -329,7 +370,7 @@ $(document).ready(function(){
 
 	});
 	$("#id_calle").blur(function() {
-		if ($("#id_calle_busqueda").val() == -1) {
+		if ($("#id_calle_busqueda").val() == -1 || valor_calle != $("#id_calle").val()) {
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_calle").val("");
 			deshabilitar(6);
@@ -358,6 +399,7 @@ $(document).ready(function(){
 			if ($("#id_numero_busqueda").val() != ui.item.value && ui.item.value != -1) {            
 				$("#id_numero_busqueda").val(ui.item.value);					
 			}
+			valor_numero = ui.item.label;
 			$('#id_numero').val(ui.item.label);
 			return false;			
 		},
@@ -366,7 +408,7 @@ $(document).ready(function(){
 		},			
 	});
 	$("#id_numero").blur(function() {
-		if ($("#id_numero_busqueda").val() == -1) {
+		if ($("#id_numero_busqueda").val() == -1 || valor_numero != $("#id_numero").val()) {
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_numero").val("");				
 		}
