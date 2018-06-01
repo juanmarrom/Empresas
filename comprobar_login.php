@@ -29,6 +29,7 @@
 					$_SESSION['apellido_1'] = $apellido_1;
 					$_SESSION['apellido_2'] = $apellido_2;
 					$_SESSION['login'] = $_POST["email"];
+					$_SESSION['id_usuario'] = $id;
 				}
    				
 			}
