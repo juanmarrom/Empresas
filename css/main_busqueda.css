@@ -64,7 +64,9 @@ section, article, aside, footer, header, nav, hgroup {
 	padding:20px;
 	padding-left:20px;
 	padding-right:20px;
-	border-right: 3px #009FDB dashed;
+	border-radius: 15px 15px 15px 15px;
+	border: 3px #6c757d outset;	
+	margin: 5px;
 }
 
 .panel {
