@@ -517,12 +517,12 @@ $(document).ready(function(){
 				direccion_user: $("#direccion").val()
 			},
 			success: function( data ) {
-				alert( data );
+				//alert( data );
 				$("#id_lista_empresas").html(data);
 				tb_remove();
 			},
    			error: function (request, status, error) {
-        		alert(request.responseText);	
+        		//alert(request.responseText);	
 				tb_remove();
     		}			
 		});

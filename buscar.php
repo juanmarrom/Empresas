@@ -76,8 +76,18 @@
 				if (is_numeric($longitud_user) && $longitud_user != 0) {
 					$condiciones = $condiciones . " LONGITUD = $longitud_user";
 				}
+				$idioma = $_SESSION['idioma'];
 				$stmt = "";
-				$sql = "SELECT * FROM EMPRESA $condiciones ";
+				$sql = "SELECT ID, NOMBRE, LATITUD, LONGITUD,
+(SELECT NOMBRE FROM PAIS WHERE PAIS.ID_PAIS = EMPRESA.ID_PAIS AND ID_IDIOMA=$idioma) as PAIS,
+(SELECT NOMBRE FROM REGION WHERE REGION.ID_REGION = EMPRESA.ID_REGION AND ID_IDIOMA=$idioma) as REGION,
+(SELECT NOMBRE FROM PROVINCIA WHERE PROVINCIA.ID_PROVINCIA = EMPRESA.ID_PROVINCIA AND ID_IDIOMA=$idioma) as PROVINCIA,
+(SELECT NOMBRE FROM CIUDAD WHERE CIUDAD.ID_CIUDAD = EMPRESA.ID_CIUDAD AND ID_IDIOMA=$idioma) as CIUDAD,
+(SELECT NOMBRE FROM DISTRITO WHERE DISTRITO.ID_DISTRITO = EMPRESA.ID_DISTRITO AND ID_IDIOMA=$idioma) as DISTRITO,
+(SELECT NOMBRE FROM BARRIO WHERE BARRIO.ID_BARRIO = EMPRESA.ID_BARRIO AND ID_IDIOMA=$idioma) as BARRIO,
+(SELECT NOMBRE FROM CALLE WHERE CALLE.ID = EMPRESA.ID_CALLE) as CALLE,
+(SELECT NOMBRE FROM NUMERO_CALLE WHERE NUMERO_CALLE.ID = EMPRESA.ID_NUMERO_CALLE) as NUMERO_CALLE,
+(SELECT NOMBRE FROM ACTIVIDAD WHERE ACTIVIDAD.ID_ACTIVIDAD = EMPRESA.ID_ACTIVIDAD AND ID_IDIOMA=$idioma) as ACTIVIDAD FROM EMPRESA $condiciones ";
 				$nombre_empresa = trim($nombre_empresa);
 				if (!empty($nombre_empresa)) {
 					$sql = $sql . "AND NOMBRE LIKE ? AND ACTIVA IS TRUE LIMIT 10";
@@ -101,20 +111,24 @@
 							<div>
 								<div class='contenedor_empresa'>     		
 									  <span class='texto_empresa' onclick='' lang='es'>
-										" . $row['NOMBRE'] . "<i class='fas fa-globe clase_iconos'></i>
+										" . $row['NOMBRE'] . "
+										<a href='https://www.google.de/search?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
+											<i class='fas fa-globe clase_iconos'></i>
+										</a>
 									</span>				
 								</div>
 								<div class='contenedor_datos_empresa'>
 									<div class='clr'></div>
 									<div class='box-direccion'>
-										<span class='text-estandar'>Direccion: Calle pepe el de los palotes 30
+										<span class='text-estandar'>
+										Direccion:" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "
 										</span>							
-											<a>
+											<a href='https://www.google.com/maps?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
 												<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
 											</a>							
 									</div>
 									<div class='box-actividad'>							
-										<span class='text-estandar'>Actividad: LA QUE QUIERA QUE SEA</span>							
+										<span class='text-estandar'>Actividad: " . $row['ACTIVIDAD'] . "</span>							
 										
 									</div>   
 								 </div>
