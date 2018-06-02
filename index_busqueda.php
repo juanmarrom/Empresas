@@ -59,6 +59,10 @@ var availableTags = [
 */
 var map;
 var marcadores_empresas = [];
+var latitud_bcn = "41.3879";
+var longitud_bcn = "2.16992";
+
+
 /*
 function init_map() {
 	var latitud = "41.3879";
@@ -95,23 +99,37 @@ function init_map() {
 }*/
 
 function init_map() {
+	var centro_bcn = false;
+	var marker = "";
+	if (document.getElementById("latitud").value == 0) {
+		document.getElementById("latitud").value = latitud_bcn;
+		document.getElementById("longitud").value = longitud_bcn;
+		centro_bcn = true;
+	}
+
     var myOptions = {
         zoom: 14,
         center: new google.maps.LatLng(document.getElementById("latitud").value,document.getElementById("longitud").value),
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);
-    var marker = new google.maps.Marker({
-        map: map,
-        position: new google.maps.LatLng(document.getElementById("latitud").value, document.getElementById("longitud").value)
-    });
     infowindow = new google.maps.InfoWindow({
         content: document.getElementById("direccion").value
-    });
-    google.maps.event.addListener(marker, "click", function () {
-        infowindow.open(map, marker);
-    });
+    });    
+	if (!centro_bcn) {
+	    marker = new google.maps.Marker({
+	        map: map,
+	        position: new google.maps.LatLng(document.getElementById("latitud").value, document.getElementById("longitud").value)
+	    });
+	    google.maps.event.addListener(marker, "click", function () {
+	        infowindow.open(map, marker);
+	    });
+	}
     infowindow.open(map, marker);
+	if (centro_bcn) {
+		document.getElementById("latitud").value = 0;
+		document.getElementById("longitud").value = 0;
+	}    
 }	
 
 var beaches = [
@@ -625,7 +643,7 @@ $(document).ready(function(){
 				radio: $("#id_radio").val()
 			},
 			success: function( data ) {
-				alert( data );
+				//alert( data );
 				$("#id_lista_empresas").html(data);
 				//google.maps.event.addDomListener(window, 'load', init_map);
 				var j = 0;

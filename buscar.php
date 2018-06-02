@@ -107,86 +107,92 @@ FROM EMPRESA $condiciones ";
 				}
 				$stmt->execute();
 				$result = $stmt->get_result();
-				$número_filas = $result->num_rows;
-				//echo "número_filas - $número_filas\n";
-				$html = "";
-				$javascript = "";
-				$id_resultado = array();
-				$mostrar = 0;
-				$marca = 10;
-				while ($row = $result->fetch_assoc()) {
-					$mostrar++;
-					$id_resultado[] = $row['ID'];
-					$html .= "<div id='id_box_resultado' class='box-resultado'>						
-						<div class='box-empresa'>
-							<div>
-								<div class='contenedor_empresa'>     		
-									  <span class='texto_empresa' onclick='' lang='es'>
-										" . $row['NOMBRE'] . "
-										<a href='https://www.google.de/search?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
-											<i class='fas fa-globe clase_iconos'></i>
-										</a>
-									</span>				
-								</div>
-								<div class='contenedor_datos_empresa'>
-									<div class='clr'></div>
-									<div class='box-direccion'>
-										<span class='text-estandar'>
-										Direccion:" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "
-										</span>							
-											<a href='https://www.google.com/maps?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
-												<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
-											</a>
-											<input type='hidden' id='id_latitud_result_" . $mostrar .  "' value='" . $row['LATITUD'] .  "'>
-											<input type='hidden' id='id_longitud_result_" . $mostrar .  "' value='" . $row['LONGITUD'] .  "'>
-											<input type='hidden' id='id_empresa_result_" . $mostrar .  "' value='" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "'>
-																
-									</div>
-									<div class='box-actividad'>							
-										<span class='text-estandar'>Actividad: " . $row['ACTIVIDAD'] . "</span>							
-										
-									</div>   
-								 </div>
-							</div>					
-						</div>
-					</div>";
-				}						
-				
+				$numero_filas = $result->num_rows;
 
-				/*
-				$resultado = 0;
-				$tiempo_fin=microtime(true)
+				//AUDITORIA
+
+				$tiempo_fin=microtime(true);
 				$tiempo = $tiempo_fin-$tiempo_inicio;
-				$_SESSION['id_usuario']
-				$sql_insert = "INSERT INTO AUDITORIA_BUSQUEDA (ID_USUARIO, TIEMPO, RESULTADO VALUES (?,?,?);";						
+				$sql_insert = "INSERT INTO AUDITORIA_BUSQUEDA (ID_USUARIO, TIEMPO, RESULTADO) VALUES (?,?,?);";						
 				$stmt2 = $conn->prepare("$sql_insert");
-				$stmt2->bind_param("iii", $_SESSION['id_usuario'], $tiempo,$resultado);
+				$stmt2->bind_param("iii", $_SESSION['id_usuario'], $tiempo,$numero_filas);
 				$stmt2->execute();
 				$insert_id = $conn->insert_id;
 				$stmt2->close();
-				if($insert_id === 0) {
+				if($insert_id != 0) {
 					foreach($_POST as $nombre_campo => $valor){ 
-						//$asignacion = "\$" . $nombre_campo . "='" . $valor . "';"; 
-						//eval($asignacion); 
-						$sql_insert = "INSERT INTO AUDITORIA_BUSQUEDA_DETALLE (ID_AUDITORIA_BUSQUEDA, CAMPO, VALOR) VALUES (?,?,?);";						
+						$sql_insert = "INSERT INTO AUDITORIA_BUSQUEDA_DETALLE (ID_AUDITORIA_BUSQUEDA, CAMPO, VALOR) VALUES (?,?,?);";
 						$stmt2 = $conn->prepare("$sql_insert");
-						$stmt2->bind_param("iss", $_SESSION['id_usuario'], $nombre_campo, $valor);
+						$stmt2->bind_param("iss", $insert_id, $nombre_campo, $valor);
 						$stmt2->execute();
 						$insert_id = $conn->insert_id;
 						$stmt2->close();																
-					}			
-					foreach ($id_resultado as $id_auditoria) {
-						$sql_insert = "INSERT INTO AUDITORIA_RESULTADO_BUSQUEDA (ID_AUDITORIA_BUSQUEDA, ID_EMPRESA) VALUES (?,?);";
-						$stmt2 = $conn->prepare("$sql_insert");
-						$stmt2->bind_param("iss", $_SESSION['id_usuario'], $id_auditoria);
-						$stmt2->execute();
-						$insert_id = $conn->insert_id;
-						$stmt2->close();																
-					}					
+					}
 				}
-				else {
-					
-				}	*/
+				//echo "numero_filas - $numero_filas\n";
+				$numero_paginas = ceil ($numero_filas / 10);
+				$html = "<div id='id_box_resultado' class='box-resultado' style='text-align: center;'>Se han encontado " . $numero_filas . " empresas</div>";
+				$javascript = "";
+				$mostrar = 0;
+				$marca = 10;
+				$paginas = "";
+				for ($i = 1; $i <= $numero_paginas; $i++) {
+    				$paginas .= "<span class='text-estandar'>  " . $i . "  </span>";
+				}
+				$paginas = "<div id='id_box_resultado' class='box-resultado' style='text-align: center;'>Pagina" . $paginas . "</div>";
+				$html .= $paginas;
+				$sql_insert = "INSERT INTO AUDITORIA_RESULTADO_BUSQUEDA (ID_AUDITORIA_BUSQUEDA, ID_EMPRESA) VALUES (?,?);";
+				while ($row = $result->fetch_assoc()) {					
+					$mostrar++;
+					if ($mostrar < 10) {
+						$id_resultado[] = $row['ID'];
+						$html .= "<div id='id_box_resultado' class='box-resultado'>						
+							<div class='box-empresa'>
+								<div>
+									<div class='contenedor_empresa'>     		
+										  <span class='texto_empresa' onclick='' lang='es'>
+											" . $row['NOMBRE'] . "
+											<a href='https://www.google.de/search?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
+												<i class='fas fa-globe clase_iconos'></i>
+											</a>
+										</span>				
+									</div>
+									<div class='contenedor_datos_empresa'>
+										<div class='clr'></div>
+										<div class='box-direccion'>
+											<span class='text-estandar'>
+											Direccion:" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "
+											</span>							
+												<a href='https://www.google.com/maps?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
+													<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
+												</a>
+												<input type='hidden' id='id_latitud_result_" . $mostrar .  "' value='" . $row['LATITUD'] .  "'>
+												<input type='hidden' id='id_longitud_result_" . $mostrar .  "' value='" . $row['LONGITUD'] .  "'>
+												<input type='hidden' id='id_empresa_result_" . $mostrar .  "' value='" .  $row['NOMBRE'] . "'>
+																	
+										</div>
+										<div class='box-actividad'>							
+											<span class='text-estandar'>Actividad: " . $row['ACTIVIDAD'] . "</span>							
+											
+										</div>   
+									 </div>
+								</div>					
+							</div>
+						</div>";
+					}
+					$sql_insert = "INSERT INTO AUDITORIA_RESULTADO_BUSQUEDA (ID_AUDITORIA_BUSQUEDA, ID_EMPRESA) VALUES (?,?);";
+					$stmt2 = $conn->prepare("$sql_insert");
+					$stmt2->bind_param("ii", $insert_id, $row['ID']);
+					$stmt2->execute();
+					$stmt2->close();					
+				}						
+				
+				$paginas = "";
+				for ($i = 1; $i <= $numero_paginas; $i++) {
+    				$paginas .= "<span class='text-estandar'>  " . $i . "  </span>";
+				}
+				$paginas = "<div id='id_box_resultado' class='box-resultado' style='text-align: center;'>Pagina" . $paginas . "</div>";
+				$html .= $paginas;
 				echo $html;
 				exit;
 			} 
@@ -201,7 +207,5 @@ FROM EMPRESA $condiciones ";
 	}	
 	else { //SESSION ERRONEA
 		echo "Session Fallo 2";
-	}	
-	
-	
+	}
 ?>
