@@ -19,24 +19,45 @@ function geocode($address) {
             return $data_arr;             
         }
         else{
-            return false;
+            return null;
         }         
     } 
     else{
-        echo "ERROR";
-        return false;
+        return null;
     }
 }
 ?>
 
 <?php
-if($_POST) {
-  // get latitude, longitude and formatted address
-  $data_arr = geocode($_POST['address']);
-	$myObj->latitude = $data_arr[0];
-	$myObj->longitude = $data_arr[1];
-	$myObj->formatted_address = $data_arr[2];
-	$myJSON = json_encode($myObj);
-	echo $myJSON;
+session_start();    
+if(isset($_SESSION["busqueda"])) {
+    require_once './clases/util.php';           
+    /*Util::iniciarConexion("./conf.txt");
+    $conn =  Util::getConexion();
+    $respuesta = "Algo ha ido mal (1)";*/
+    if($_SESSION["busqueda"] == session_id()) {
+        if($_POST) {
+            // get latitude, longitude and formatted address
+            $data_arr = geocode($_POST['address']);
+            if (empty($data_arr)) {
+                $myObj->latitude = null;
+                $myObj->longitude = null;
+                $myObj->formatted_address = null;
+            }
+            else {
+                $myObj->latitude = $data_arr[0];
+                $myObj->longitude = $data_arr[1];
+                $myObj->formatted_address = $data_arr[2];
+            }    
+            $myJSON = json_encode($myObj);
+            echo $myJSON;
+        }
+    }
+    else {
+        echo "Error 1" . $_POST['address'];
+    }   
 }
+else {
+    echo "Error 2" . $_POST['address'];
+}     
 ?>

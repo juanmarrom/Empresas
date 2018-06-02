@@ -514,7 +514,8 @@ $(document).ready(function(){
 				nombre_empresa: $("#id_nombre_empresa").val(),
 				latitud_user: $("#latitud").val(),
 				longitud_user: $("#longitud").val(),
-				direccion_user: $("#direccion").val()
+				direccion_user: $("#direccion").val(),
+				radio: $("#id_radio").val()
 			},
 			success: function( data ) {
 				//alert( data );
@@ -528,6 +529,37 @@ $(document).ready(function(){
 		});
 		
 	});
+
+	$("#id_calcular").click(function() {
+		tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+		$.ajax({
+			url: "get_coordenadas.php",
+			type: 'post',
+			data: { address: $("#id_posicion").val()  },
+				success: function(response){
+					//alert (response);
+					var myObj = JSON.parse(response);
+					if (myObj.latitude != "" && myObj.latitude != null && myObj.latitude != "undefined") {
+						$("#latitud").val(myObj.latitude);
+						$("#longitud").val(myObj.longitude);
+						$("#direccion").val(myObj.formatted_address);
+						$("#id_enlace_posicion").attr("href", "https://www.google.com/maps?q=" + myObj.formatted_address);
+						$("#id_enlace_posicion").css("display", "block");
+					}
+					else {
+						alert("No se ha podido determinar su posición");
+					}
+					tb_remove();				
+				},				
+   				error: function (request, status, error) {
+        			//alert(request.responseText);
+        			alert("Error");
+					tb_remove();
+    		}			
+		});
+		
+	});
+
 
 	tb_remove();
 });
@@ -556,6 +588,7 @@ $(document).ready(function(){
 			<input type="hidden" id="latitud" value="0">
 			<input type="hidden" id="longitud" value="0">
 			<input type="hidden" id="direccion" value="">
+			<input type="hidden" id="radio" value="0">
 			<div id="menu" class="menu">
 				<label for="">Filtros Avanzados:</label>
 				<div class="input-group">
@@ -639,12 +672,15 @@ $(document).ready(function(){
 						<div class="input-group-prepend">
 							<span class="input-group-text" >Su posición:</span>
 						</div>						
-						<input class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" aria-label="Posición" style="width:40%;">
+						<input id="id_posicion" class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" aria-label="Posición" style="width:40%;">
 						<div class="input-group-prepend">
 							<span class="input-group-text" >En un radio de (en metros):</span>
 						</div>						
-						<input class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" aria-label="Radio" style="width:10%;">
-						<button class="btn btn-outline-secondary" type="submit">Caluclar</button>
+						<input id="id_radio" class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" aria-label="Radio" style="width:10%;">
+						<button id="id_calcular" class="btn btn-outline-secondary" >Calcular</button>
+						<a id="id_enlace_posicion" style="display:none;" target='_blank'>
+							<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
+						</a>
 					  </div>
 					  </div>
 					  
