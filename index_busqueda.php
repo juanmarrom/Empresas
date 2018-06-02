@@ -46,6 +46,7 @@
 <script src="scripts/jquery.multiselect.filter.js"></script>
 <script src="scripts/thickbox_neu.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCEUxuelm-ruuX7STQP7iDdk-KpoRedKCY"></script>
 <script>
 
 /*
@@ -56,10 +57,113 @@ var availableTags = [
 "PHP", "Python", "Ruby", "Scala", "Scheme"
 ];
 */
+var map;
+var marcadores_empresas = [];
+/*
+function init_map() {
+	var latitud = "41.3879";
+	var longitud = "2.16992";
+	var direccion = "Barcelona";
+	if (document.getElementById("latitud").value != 0) {
+		alert("OK");
+		latitud = document.getElementById("latitud").value;
+		longitud = document.getElementById("longitud").value;
+		direccion = document.getElementById("direccion").value;
+		alert(latitud + " / " + longitud + "/" + direccion);
+	}
+
+	
+    var myOptions = {
+        zoom: 14,
+        center: new google.maps.LatLng(latitud,longitud),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);
+    var marker = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(latitud,longitud)
+    });	        
+
+    map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);
+    infowindow = new google.maps.InfoWindow({
+        content: direccion
+    });
+    google.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+    });
+    infowindow.open(map, marker);
+}*/
+
+function init_map() {
+    var myOptions = {
+        zoom: 14,
+        center: new google.maps.LatLng(document.getElementById("latitud").value,document.getElementById("longitud").value),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);
+    var marker = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(document.getElementById("latitud").value, document.getElementById("longitud").value)
+    });
+    infowindow = new google.maps.InfoWindow({
+        content: document.getElementById("direccion").value
+    });
+    google.maps.event.addListener(marker, "click", function () {
+        infowindow.open(map, marker);
+    });
+    infowindow.open(map, marker);
+}	
+
+var beaches = [
+  ['Bondi Beach', -33.890542, 151.274856, 4],
+  ['Coogee Beach', -33.923036, 151.259052, 5],
+  ['Cronulla Beach', -34.028249, 151.157507, 3],
+  ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+  ['Maroubra Beach', -33.950198, 151.259302, 1]
+];
+
+function setMarkers(map) {
+  // Adds markers to the map.
+
+  // Marker sizes are expressed as a Size of X,Y where the origin of the image
+  // (0,0) is located in the top left of the image.
+
+  // Origins, anchor positions and coordinates of the marker increase in the X
+  // direction to the right and in the Y direction down.
+  var image = {
+    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+    // This marker is 20 pixels wide by 32 pixels high.
+    size: new google.maps.Size(20, 32),
+    // The origin for this image is (0, 0).
+    origin: new google.maps.Point(0, 0),
+    // The anchor for this image is the base of the flagpole at (0, 32).
+    anchor: new google.maps.Point(0, 32)
+  };
+  // Shapes define the clickable region of the icon. The type defines an HTML
+  // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+  // The final coordinate closes the poly by connecting to the first coordinate.
+  var shape = {
+    coords: [1, 1, 1, 20, 18, 20, 18, 1],
+    type: 'poly'
+  };
+  for (var i = 0; i < marcadores_empresas.length; i++) {
+    var beach = marcadores_empresas[i];
+    var marker = new google.maps.Marker({
+      position: {lat: beach[1], lng: beach[2]},
+      map: map,
+      icon: image,
+      shape: shape,
+      title: beach[0],
+      zIndex: beach[3]
+    });
+  }
+}	
 
 $(document).ready(function(){
 	tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
 	
+	
+
 	var valor_pais = "";
 	var valor_region = "";
 	var valor_provincia = "";
@@ -68,6 +172,9 @@ $(document).ready(function(){
 	var valor_barrio = "";
 	var valor_calle = "";
 	var valor_numero = "";
+
+
+
 
 	$("#id_pais").click(function() {
 		valor_pais = $("#id_pais").val();
@@ -518,8 +625,20 @@ $(document).ready(function(){
 				radio: $("#id_radio").val()
 			},
 			success: function( data ) {
-				//alert( data );
+				alert( data );
 				$("#id_lista_empresas").html(data);
+				//google.maps.event.addDomListener(window, 'load', init_map);
+				var j = 0;
+				marcadores_empresas = [];
+				for (var i=10; i > 0; i--) {
+					if ( $("#id_empresa_result_" + i) ) {
+  						var marca = new Array($("#id_empresa_result_" + i).val(), parseFloat($("#id_latitud_result_" + i).val()), parseFloat($("#id_longitud_result_" + i).val()), j);
+  						marcadores_empresas.push(marca);
+  						j++;
+					}
+				}
+				init_map();
+				setMarkers(map);
 				tb_remove();
 			},
    			error: function (request, status, error) {
@@ -544,7 +663,7 @@ $(document).ready(function(){
 						$("#longitud").val(myObj.longitude);
 						$("#direccion").val(myObj.formatted_address);
 						$("#id_enlace_posicion").attr("href", "https://www.google.com/maps?q=" + myObj.formatted_address);
-						$("#id_enlace_posicion").css("display", "block");
+						$("#id_enlace_posicion").css("visibility", "visible");
 					}
 					else {
 						alert("No se ha podido determinar su posición");
@@ -678,7 +797,7 @@ $(document).ready(function(){
 						</div>						
 						<input id="id_radio" class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" aria-label="Radio" style="width:10%;">
 						<button id="id_calcular" class="btn btn-outline-secondary" >Calcular</button>
-						<a id="id_enlace_posicion" style="display:none;" target='_blank'>
+						<a id="id_enlace_posicion" style="visibility:hidden;" target='_blank'>
 							<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
 						</a>
 					  </div>
@@ -728,57 +847,11 @@ $(document).ready(function(){
 				<div class="margen-inputs">
 
 					<div id="id_lista_empresas" class="lista_empresas">
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>
-						LISTADO <br>													
+												
 					</div>							
 					<div id="id_zona_maps" class="zona_maps">
-						MAPS
+						<div id="gmap_canvas">Loading map...</div>
+						<div id='map-label'>Map shows approximate location.</div>
 					</div>					
 				</div>
 									

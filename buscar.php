@@ -94,7 +94,7 @@ $busqueda_radial
 FROM EMPRESA $condiciones ";
 				$nombre_empresa = trim($nombre_empresa);
 				if (!empty($nombre_empresa)) {
-					$sql = $sql . "AND NOMBRE LIKE ? AND ACTIVA IS TRUE $order_by LIMIT 10";
+					$sql = $sql . "AND NOMBRE LIKE ? AND ACTIVA IS TRUE $order_by ";
 					$nombre_empresa = '%' . $nombre_empresa . "%";
 					//echo $sql;
 					//exit;
@@ -102,7 +102,7 @@ FROM EMPRESA $condiciones ";
 					$stmt->bind_param("s", $nombre_empresa);
 				}
 				else {
-					$sql = $sql . " AND ACTIVA IS TRUE $order_by LIMIT 10";
+					$sql = $sql . " AND ACTIVA IS TRUE $order_by ";
 					$stmt = $conn->prepare("$sql");
 				}
 				$stmt->execute();
@@ -110,8 +110,12 @@ FROM EMPRESA $condiciones ";
 				$número_filas = $result->num_rows;
 				//echo "número_filas - $número_filas\n";
 				$html = "";
+				$javascript = "";
 				$id_resultado = array();
+				$mostrar = 0;
+				$marca = 10;
 				while ($row = $result->fetch_assoc()) {
+					$mostrar++;
 					$id_resultado[] = $row['ID'];
 					$html .= "<div id='id_box_resultado' class='box-resultado'>						
 						<div class='box-empresa'>
@@ -132,7 +136,11 @@ FROM EMPRESA $condiciones ";
 										</span>							
 											<a href='https://www.google.com/maps?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
 												<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
-											</a>							
+											</a>
+											<input type='hidden' id='id_latitud_result_" . $mostrar .  "' value='" . $row['LATITUD'] .  "'>
+											<input type='hidden' id='id_longitud_result_" . $mostrar .  "' value='" . $row['LONGITUD'] .  "'>
+											<input type='hidden' id='id_empresa_result_" . $mostrar .  "' value='" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "'>
+																
 									</div>
 									<div class='box-actividad'>							
 										<span class='text-estandar'>Actividad: " . $row['ACTIVIDAD'] . "</span>							
@@ -141,9 +149,10 @@ FROM EMPRESA $condiciones ";
 								 </div>
 							</div>					
 						</div>
-					</div>";	
+					</div>";
 				}						
 				
+
 				/*
 				$resultado = 0;
 				$tiempo_fin=microtime(true)
