@@ -162,6 +162,30 @@ section, article, aside, footer, header, nav, hgroup {
     width:100%;
 }
 
+.box-resultado-empresa {	
+	border-style:solid;
+	border-width:1px 1px 1px 1px;
+	border-color:#dbdbdb;
+	background-color:white;
+	position:relative;
+	display:inline-block;
+    box-sizing: border-box;
+    width:100%;
+    text-align: center;
+}
+
+.box-resultado-pagina{	
+	border-style:solid;
+	border-width:0 1px 1px 1px;
+	border-color:#dbdbdb;
+	background-color:white;
+	position:relative;
+	display:inline-block;
+    box-sizing: border-box;
+    width:100%;
+    text-align: center;
+}
+
 .box-resultado:hover {
 	background-color:#f8f8f8;
 }
@@ -227,6 +251,25 @@ section, article, aside, footer, header, nav, hgroup {
 	font-size: 16px;
 	line-height:20px;
 	font-weight: 500;
+}
+
+.text-estandar-pagina {
+	font-family:"Helvetica";
+	color:#585858;	
+	font-size: 18px;
+	line-height:20px;
+	font-weight: 500;
+	color: black;
+	cursor: pointer;
+}
+
+.text-estandar-empresa {
+	font-family:"Helvetica";
+	color:#585858;	
+	font-size: 20px;
+	line-height:20px;
+	font-weight: 500;
+	color: #004d66;
 }
 
 .clase_iconos {

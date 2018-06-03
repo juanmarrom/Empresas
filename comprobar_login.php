@@ -30,6 +30,7 @@
 					$_SESSION['apellido_2'] = $apellido_2;
 					$_SESSION['login'] = $_POST["email"];
 					$_SESSION['id_usuario'] = $id;
+					$_SESSION['id_usuario'] = $sql_busqueda;
 				}
    				
 			}
@@ -56,6 +57,7 @@
 			header("$ret");
 		} 
 		catch(Exception $e) {
+			session_destroy();
 			header("location:index.php?error=catch"); 
 		
 		}					

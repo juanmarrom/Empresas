@@ -49,54 +49,14 @@
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCEUxuelm-ruuX7STQP7iDdk-KpoRedKCY"></script>
 <script>
 
-/*
-var availableTags = [
-"ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++",
-"Clojure", "COBOL", "ColdFusion", "Erlang", "Fortran",
-"Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl",
-"PHP", "Python", "Ruby", "Scala", "Scheme"
-];
-*/
 var map;
 var marcadores_empresas = [];
 var latitud_bcn = "41.3879";
 var longitud_bcn = "2.16992";
 
 
-/*
-function init_map() {
-	var latitud = "41.3879";
-	var longitud = "2.16992";
-	var direccion = "Barcelona";
-	if (document.getElementById("latitud").value != 0) {
-		alert("OK");
-		latitud = document.getElementById("latitud").value;
-		longitud = document.getElementById("longitud").value;
-		direccion = document.getElementById("direccion").value;
-		alert(latitud + " / " + longitud + "/" + direccion);
-	}
-
-	
-    var myOptions = {
-        zoom: 14,
-        center: new google.maps.LatLng(latitud,longitud),
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);
-    var marker = new google.maps.Marker({
-        map: map,
-        position: new google.maps.LatLng(latitud,longitud)
-    });	        
-
-    map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);
-    infowindow = new google.maps.InfoWindow({
-        content: direccion
-    });
-    google.maps.event.addListener(marker, "click", function () {
-        infowindow.open(map, marker);
-    });
-    infowindow.open(map, marker);
-}*/
+var directionsService = new google.maps.DirectionsService;
+var directionsDisplay = new google.maps.DirectionsRenderer;
 
 function init_map() {
 	var centro_bcn = false;
@@ -106,6 +66,7 @@ function init_map() {
 		document.getElementById("longitud").value = longitud_bcn;
 		centro_bcn = true;
 	}
+
 
     var myOptions = {
         zoom: 14,
@@ -125,11 +86,12 @@ function init_map() {
 	        infowindow.open(map, marker);
 	    });
 	}
+	directionsDisplay.setMap(map);
     infowindow.open(map, marker);
 	if (centro_bcn) {
 		document.getElementById("latitud").value = 0;
 		document.getElementById("longitud").value = 0;
-	}    
+	} 
 }	
 
 var beaches = [
@@ -164,8 +126,19 @@ function setMarkers(map) {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
     type: 'poly'
   };
+  var marker0 = "";
+  var marker2 = "";
+  var marker3 = "";
+  var marker4 = "";
+  var marker5 = "";
+  var marker6 = "";
+  var marker7 = "";
+  var marker8 = "";
+  var marker9 = "";
+
   for (var i = 0; i < marcadores_empresas.length; i++) {
     var beach = marcadores_empresas[i];
+
     var marker = new google.maps.Marker({
       position: {lat: beach[1], lng: beach[2]},
       map: map,
@@ -174,8 +147,54 @@ function setMarkers(map) {
       title: beach[0],
       zIndex: beach[3]
     });
-  }
+    eval("var marker" + i + " = marker;");
+    var id_distancia = "id_distancia_result_" + (i + 1);
+    var distancia = document.getElementById(id_distancia).value;
+    /*google.maps.event.addListener(eval("marker" + i) , "click", function() { 
+    	alert(beach[0]); 
+    	//calculateAndDisplayRoute(directionsService, directionsDisplay, beach[1], beach[2], distancia); 
+    });*/
+    var nombre = beach[0];
+    var lati = beach[1];
+    var longi = beach[2];
+	google.maps.event.addListener(marker,'click', (function(marker, nombre, lati, longi, distancia){ 
+	    return function() {
+	        //alert(nombre);
+	        calculateAndDisplayRoute(directionsService, directionsDisplay, lati, longi, distancia); 
+	        //window.open("https://www.google.com/maps/embed/v1/directions?key=AIzaSyCEUxuelm-ruuX7STQP7iDdk-KpoRedKCY&origin=" + document.getElementById("longitud").value + "&destination=nombre", "Ruta de su posicion a " + nombre, "width=300, height=200")
+	    };
+	})(marker,nombre, lati, longi, distancia));      
+
+	  }
 }	
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay, lat, long, distancia) {
+	var origin_lat = parseFloat(document.getElementById("latitud").value);
+	var origin_long = parseFloat(document.getElementById("longitud").value);
+	var travelMode = 'DRIVING';
+	if (distancia < 300) {
+		travelMode = 'WALKING';
+	}
+	directionsService.route({
+	origin: {lat: origin_lat, lng: origin_long},  // Haight.
+	destination: {lat: lat, lng: long},  // Ocean Beach.
+	// Note that Javascript allows us to access the constant
+	// using square brackets and a string value as its
+	// "property."
+	travelMode: travelMode
+	}, function(response, status) {
+		if (status == 'OK') {
+			directionsDisplay.setDirections(response);
+		} 
+		else {
+			alert('Directions request failed due to ' + status);
+		}
+	});
+}	
+
+function pasar_pagina(pagina) {
+	alert(pagina);
+}
 
 $(document).ready(function(){
 	tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
