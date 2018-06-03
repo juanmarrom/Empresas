@@ -89,7 +89,7 @@ function init_map() {
 	        infowindow.open(map, marker);
 	    });
 	}
-	if (document.getElementById("latitud").value == 0) {
+	if (document.getElementById("latitud").value != 0) {
 		directionsDisplay.setMap(map);
 	}
     infowindow.open(map, marker);
@@ -157,9 +157,9 @@ function setMarkers(map) {
 	google.maps.event.addListener(marker,'click', (function(marker, nombre, lati, longi, distancia){ 
 	    return function() {
 	        //alert(nombre);
-	        if (document.getElementById("latitud").value != 0) {
-	        	calculateAndDisplayRoute(directionsService, directionsDisplay, lati, longi, distancia); 
-	        }
+	        
+	        calculateAndDisplayRoute(directionsService, directionsDisplay, lati, longi, distancia); 
+	        
 
  			var contentString = "<b>" + nombre + "</b><br/>";
 
@@ -180,21 +180,23 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, lat, lon
 	if (distancia < 300) {
 		travelMode = 'WALKING';
 	}
-	directionsService.route({
-	origin: {lat: origin_lat, lng: origin_long},  // Haight.
-	destination: {lat: lat, lng: long},  // Ocean Beach.
-	// Note that Javascript allows us to access the constant
-	// using square brackets and a string value as its
-	// "property."
-	travelMode: travelMode
-	}, function(response, status) {
-		if (status == 'OK') {
-			directionsDisplay.setDirections(response);
-		} 
-		else {
-			alert('Directions request failed due to ' + status);
-		}
-	});
+		if (origin_lat != 0) {
+		directionsService.route({
+		origin: {lat: origin_lat, lng: origin_long},  // Haight.
+		destination: {lat: lat, lng: long},  // Ocean Beach.
+		// Note that Javascript allows us to access the constant
+		// using square brackets and a string value as its
+		// "property."
+		travelMode: travelMode
+		}, function(response, status) {
+			if (status == 'OK') {
+				directionsDisplay.setDirections(response);
+			} 
+			else {
+				alert('Directions request failed due to ' + status);
+			}
+		});
+	}
 }	
 
 function pasar_pagina(pagina) {
