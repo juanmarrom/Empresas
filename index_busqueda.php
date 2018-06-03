@@ -58,18 +58,21 @@ var longitud_bcn = "2.16992";
 var directionsService = new google.maps.DirectionsService;
 var directionsDisplay = new google.maps.DirectionsRenderer;
 
+
 function init_map() {
 	var centro_bcn = false;
+	var zoom = 15;
 	var marker = "";
 	if (document.getElementById("latitud").value == 0) {
 		document.getElementById("latitud").value = latitud_bcn;
 		document.getElementById("longitud").value = longitud_bcn;
 		centro_bcn = true;
+		zoom = 10;
 	}
 
 
     var myOptions = {
-        zoom: 14,
+        zoom: zoom,
         center: new google.maps.LatLng(document.getElementById("latitud").value,document.getElementById("longitud").value),
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -86,7 +89,9 @@ function init_map() {
 	        infowindow.open(map, marker);
 	    });
 	}
-	directionsDisplay.setMap(map);
+	if (document.getElementById("latitud").value == 0) {
+		directionsDisplay.setMap(map);
+	}
     infowindow.open(map, marker);
 	if (centro_bcn) {
 		document.getElementById("latitud").value = 0;
@@ -126,15 +131,6 @@ function setMarkers(map) {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
     type: 'poly'
   };
-  var marker0 = "";
-  var marker2 = "";
-  var marker3 = "";
-  var marker4 = "";
-  var marker5 = "";
-  var marker6 = "";
-  var marker7 = "";
-  var marker8 = "";
-  var marker9 = "";
 
   for (var i = 0; i < marcadores_empresas.length; i++) {
     var beach = marcadores_empresas[i];
@@ -147,21 +143,28 @@ function setMarkers(map) {
       title: beach[0],
       zIndex: beach[3]
     });
-    eval("var marker" + i + " = marker;");
     var id_distancia = "id_distancia_result_" + (i + 1);
-    var distancia = document.getElementById(id_distancia).value;
-    /*google.maps.event.addListener(eval("marker" + i) , "click", function() { 
-    	alert(beach[0]); 
-    	//calculateAndDisplayRoute(directionsService, directionsDisplay, beach[1], beach[2], distancia); 
-    });*/
+    var distancia = 0;
+    if (document.getElementById(id_distancia)) {
+    	distancia = document.getElementById(id_distancia).value;
+    }
+
     var nombre = beach[0];
     var lati = beach[1];
     var longi = beach[2];
 	google.maps.event.addListener(marker,'click', (function(marker, nombre, lati, longi, distancia){ 
 	    return function() {
 	        //alert(nombre);
-	        calculateAndDisplayRoute(directionsService, directionsDisplay, lati, longi, distancia); 
-	        //window.open("https://www.google.com/maps/embed/v1/directions?key=AIzaSyCEUxuelm-ruuX7STQP7iDdk-KpoRedKCY&origin=" + document.getElementById("longitud").value + "&destination=nombre", "Ruta de su posicion a " + nombre, "width=300, height=200")
+	        if (document.getElementById("latitud").value != 0) {
+	        	calculateAndDisplayRoute(directionsService, directionsDisplay, lati, longi, distancia); 
+	        }
+
+ 			var contentString = "<b>" + nombre + "</b><br/>";
+
+        	var infowindow = new google.maps.InfoWindow({
+          		content: contentString
+        	});	        
+	        infowindow.open(map, marker);
 	    };
 	})(marker,nombre, lati, longi, distancia));      
 
@@ -202,7 +205,7 @@ function pasar_pagina(pagina) {
 			pagina: pagina,
 		},
 		success: function( data ) {
-			alert( data );
+			//alert( data );
 			$("#id_lista_empresas").html(data);
 			//tb_remove();
 			//return;

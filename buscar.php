@@ -115,6 +115,7 @@ FROM EMPRESA $condiciones ";
 				$stmt->execute();
 				$result = $stmt->get_result();
 				$numero_filas = $result->num_rows;
+				$_SESSION['resultado'] = $numero_filas;
 
 				//AUDITORIA
 

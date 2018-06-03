@@ -8,20 +8,20 @@
 		if($_SESSION["busqueda"] == session_id()) {
 			try {
 				$pagina_actual =  $_POST['pagina'];
-				$offset =  $pagina_actual * 10;
+				$offset =  ($pagina_actual - 1) * 10;
 				$sql = $_SESSION['sql_busqueda'] . " LIMIT 10 OFFSET $offset;";
 				//echo $sql;
 				//exit;
 				$stmt = $conn->prepare("$sql");			
 				$stmt->execute();
 				$result = $stmt->get_result();
-				$numero_filas = $result->num_rows;
+				$numero_filas = $_SESSION['resultado'];
 				$numero_paginas = ceil ($numero_filas / 10);
 				$html = "<div id='id_box_resultado_empresa' class='box-resultado-empresa'><span class='text-estandar-empresa'>Se han encontado " . $numero_filas . " empresas</span></div>";				
 				$mostrar = 0;
 				$marca = 10;
 				$paginas = "";
-				$paginas .= "<span class='text-estandar-pagina' onclick='pasar_pagina('1')'>  1...  </span>";
+				$paginas .= "<span class='text-estandar-pagina' onclick='pasar_pagina(1)'>  1...  </span>";
 				for ($i = $pagina_actual; $i <= $numero_paginas; $i++) {
 					if ($i <= $pagina_actual + 9) {
     					$paginas .= "<span class='text-estandar-pagina' onclick='pasar_pagina(" . $i . ")'>  " . $i . "  </span>";
