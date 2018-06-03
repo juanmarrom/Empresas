@@ -169,7 +169,7 @@ FROM EMPRESA $condiciones ";
 										  <span class='texto_empresa' onclick='' lang='es'>
 											" . $row['NOMBRE'] . "
 											<a href='https://www.google.de/search?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
-												<i class='fas fa-globe clase_iconos'></i><img src='images/marker" . $bandera . ".png' alt='Maker$bandera' height='50'>
+												<i class='fas fa-globe clase_iconos'></i><img src='images/marker" . $bandera . ".png' alt='Maker$bandera'>
 											</a>
 										</span>				
 									</div>
