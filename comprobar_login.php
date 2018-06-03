@@ -30,7 +30,7 @@
 					$_SESSION['apellido_2'] = $apellido_2;
 					$_SESSION['login'] = $_POST["email"];
 					$_SESSION['id_usuario'] = $id;
-					$_SESSION['id_usuario'] = $sql_busqueda;
+					$_SESSION['sql_busqueda'] = "";
 				}
    				
 			}

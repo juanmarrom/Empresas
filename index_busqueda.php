@@ -193,7 +193,38 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, lat, lon
 }	
 
 function pasar_pagina(pagina) {
-	alert(pagina);
+	tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+	$.ajax({
+		url: "pagina.php",
+		type: 'post',
+		dataType: "html",
+		data: {
+			pagina: pagina,
+		},
+		success: function( data ) {
+			alert( data );
+			$("#id_lista_empresas").html(data);
+			//tb_remove();
+			//return;
+			//google.maps.event.addDomListener(window, 'load', init_map);
+			var j = 0;
+			marcadores_empresas = [];
+			for (var i=10; i > 0; i--) {
+				if ( $("#id_empresa_result_" + i) ) {
+						var marca = new Array($("#id_empresa_result_" + i).val(), parseFloat($("#id_latitud_result_" + i).val()), parseFloat($("#id_longitud_result_" + i).val()), j);
+						marcadores_empresas.push(marca);
+						j++;
+				}
+			}
+			init_map();
+			setMarkers(map);
+			tb_remove();
+		},
+		error: function (request, status, error) {
+		//alert(request.responseText);	
+		tb_remove();
+		}			
+	});
 }
 
 $(document).ready(function(){

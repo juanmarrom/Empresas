@@ -95,8 +95,10 @@
 (SELECT NOMBRE FROM ACTIVIDAD WHERE ACTIVIDAD.ID_ACTIVIDAD = EMPRESA.ID_ACTIVIDAD AND ID_IDIOMA=$idioma) as ACTIVIDAD 
 $busqueda_radial
 FROM EMPRESA $condiciones ";
+				$sql_paginar = "";
 				$nombre_empresa = trim($nombre_empresa);
 				if (!empty($nombre_empresa)) {
+					$sql_paginar =  $sql . "AND NOMBRE LIKE '%" . $nombre_empresa . "%' AND ACTIVA IS TRUE $order_by ";
 					$sql = $sql . "AND NOMBRE LIKE ? AND ACTIVA IS TRUE $order_by ";
 					$nombre_empresa = '%' . $nombre_empresa . "%";
 					//echo $sql;
@@ -106,8 +108,10 @@ FROM EMPRESA $condiciones ";
 				}
 				else {
 					$sql = $sql . " AND ACTIVA IS TRUE $order_by ";
+					$sql_paginar = $sql;
 					$stmt = $conn->prepare("$sql");
 				}
+				$_SESSION['sql_busqueda'] = $sql_paginar;
 				$stmt->execute();
 				$result = $stmt->get_result();
 				$numero_filas = $result->num_rows;
