@@ -156,9 +156,11 @@ FROM EMPRESA $condiciones ";
 				$paginas = "<div id='id_box_resultado_pagina' class='box-resultado-pagina' >Pagina" . $paginas . "</div>";
 				$html .= $paginas;
 				$sql_insert = "INSERT INTO AUDITORIA_RESULTADO_BUSQUEDA (ID_AUDITORIA_BUSQUEDA, ID_EMPRESA) VALUES (?,?);";
+				$bandera = 10;
 				while ($row = $result->fetch_assoc()) {					
 					$mostrar++;
 					if ($mostrar <= 10) {
+
 						$id_resultado[] = $row['ID'];
 						$html .= "<div id='id_box_resultado' class='box-resultado'>						
 							<div class='box-empresa'>
@@ -167,7 +169,7 @@ FROM EMPRESA $condiciones ";
 										  <span class='texto_empresa' onclick='' lang='es'>
 											" . $row['NOMBRE'] . "
 											<a href='https://www.google.de/search?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
-												<i class='fas fa-globe clase_iconos'></i>
+												<i class='fas fa-globe clase_iconos'></i><img src='images/marker" . $bandera . ".png' alt='Maker$bandera' height='50'>
 											</a>
 										</span>				
 									</div>
@@ -194,6 +196,7 @@ FROM EMPRESA $condiciones ";
 								</div>					
 							</div>
 						</div>";
+						$bandera--;
 					}
 					$sql_insert = "INSERT INTO AUDITORIA_RESULTADO_BUSQUEDA (ID_AUDITORIA_BUSQUEDA, ID_EMPRESA) VALUES (?,?);";
 					$stmt2 = $conn->prepare("$sql_insert");

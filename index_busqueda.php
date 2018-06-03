@@ -115,15 +115,7 @@ function setMarkers(map) {
 
   // Origins, anchor positions and coordinates of the marker increase in the X
   // direction to the right and in the Y direction down.
-  var image = {
-    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-    // This marker is 20 pixels wide by 32 pixels high.
-    size: new google.maps.Size(20, 32),
-    // The origin for this image is (0, 0).
-    origin: new google.maps.Point(0, 0),
-    // The anchor for this image is the base of the flagpole at (0, 32).
-    anchor: new google.maps.Point(0, 32)
-  };
+ 
   // Shapes define the clickable region of the icon. The type defines an HTML
   // <area> element 'poly' which traces out a polygon as a series of X,Y points.
   // The final coordinate closes the poly by connecting to the first coordinate.
@@ -133,6 +125,16 @@ function setMarkers(map) {
   };
 
   for (var i = 0; i < marcadores_empresas.length; i++) {
+	 var image = {
+	    url: 'images/marker' + (i + 1) + '.png',
+	    // This marker is 20 pixels wide by 32 pixels high.
+	    size: new google.maps.Size(20, 23),
+	    // The origin for this image is (0, 0).
+	    origin: new google.maps.Point(0, 0),
+	    // The anchor for this image is the base of the flagpole at (0, 32).
+	    anchor: new google.maps.Point(0, 23)
+	  };
+
     var beach = marcadores_empresas[i];
 
     var marker = new google.maps.Marker({
