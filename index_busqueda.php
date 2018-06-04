@@ -1146,8 +1146,8 @@ $(document).ready(function(){
 												
 					</div>							
 					<div id="id_zona_maps" class="zona_maps">
-						<div id="gmap_canvas">Loading map...</div>
-						<div id='map-label'>Map shows approximate location.</div>
+						<div id="gmap_canvas"></div>
+						<div id='map-label'></div>
 					</div>					
 				</div>
 									
