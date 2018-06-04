@@ -994,13 +994,16 @@ $(document).ready(function(){
 			<?php							
 				if(isset($_SESSION["admin"])) {
 					echo '<span style="padding-right: 30px;">
-						<button class="btn btn-outline-secondary btn-header">Usuarios</button>
+						<button class="btn btn-outline-secondary btn-header" onclick="window.open(\'index_usuario.php\', \'_blank\');">Usuarios</button>
 					</span>			
 					<span style="padding-right: 30px;">
-						<button class="btn btn-outline-secondary btn-header">Empresa</button>
+						<button class="btn btn-outline-secondary btn-header" onclick="window.open(\'index_crear.php\', \'_blank\');">Empresa</button>
 					</span>
 					<span style="padding-right: 30px;">
-						<button class="btn btn-outline-secondary btn-header">Logs</button>
+						<button class="btn btn-outline-secondary btn-header" onclick="window.open(\'index_logs.php\', \'_blank\');"   >Logs</button>
+					</span>
+					<span style="padding-right: 30px;">
+						<button class="btn btn-outline-secondary btn-header" onclick="window.open(\'index_idioma.php\', \'_blank\');">Textos</button>
 					</span>';
 				}
 			?>
