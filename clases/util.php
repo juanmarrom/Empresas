@@ -175,40 +175,42 @@
 		return $paginas;
     } 
 
- 	public static function getCuerpoBusqueda($ruta_fichero) {
-		$numero_linea = 1;
-		$fp = fopen($ruta_fichero, "r");
-		$url = "localhost";
-		$login = "root";
-		$password = "";
-		$base_datos = "BD_EMPRESAS";
-
-		while(!feof($fp)) {
-			$linea = fgets($fp);
-			//echo $linea . "\n";
-			if ($numero_linea < 5) {
-				list($variable, $valor) = explode('=', $linea);
-				$valor = trim($valor);
-				//echo "Variable: $variable; Valor: '$valor'\n";
-				if ($numero_linea == 1) {
-					$url = $valor;
-				}
-				if ($numero_linea == 2) {
-					$login = $valor;
-				}
-				if ($numero_linea == 3) {
-					$password = $valor;
-				}
-				if ($numero_linea == 4) {
-					$base_datos = $valor;
-				}
-				$numero_linea++;
-			}
-		}
-		fclose($fp);
-		self::$conn = new mysqli("$url", "$login", "$password", "$base_datos");
-		self::$conn->query("SET NAMES utf8");
-		return self::$conn;
+ 	public static function getCuerpoBusqueda($row, $mostrar, $bandera) {
+		$html = "<div id='id_box_resultado' class='box-resultado'>						
+				<div class='box-empresa'>
+					<div>
+						<div class='contenedor_empresa'>     		
+							  <span class='texto_empresa' onclick='' lang='es'>
+								" . $row['NOMBRE'] . "
+								<a href='https://www.google.de/search?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
+									<i class='fas fa-globe clase_iconos'></i><img src='images/marker" . $bandera . ".png' alt='Maker$bandera'>
+								</a>
+							</span>				
+						</div>
+						<div class='contenedor_datos_empresa'>
+							<div class='clr'></div>
+							<div class='box-direccion'>
+								<span class='text-estandar'>
+								Direccion:" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "
+								</span>							
+									<a href='https://www.google.com/maps?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
+										<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
+									</a>
+									<input type='hidden' id='id_latitud_result_" . $mostrar .  "' value='" . $row['LATITUD'] .  "'>
+									<input type='hidden' id='id_longitud_result_" . $mostrar .  "' value='" . $row['LONGITUD'] .  "'>
+									<input type='hidden' id='id_empresa_result_" . $mostrar .  "' value='" .  $row['NOMBRE'] . "'>
+									<input type='hidden' id='id_distancia_result_" . $mostrar .  "' value='" .  $row['DISTANCIA'] . "'>
+														
+							</div>
+							<div class='box-actividad'>							
+								<span class='text-estandar'>Actividad: " . $row['ACTIVIDAD'] . "</span>							
+								
+							</div>   
+						 </div>
+					</div>					
+				</div>
+			</div>";
+		return $html;
     } 
 
 
