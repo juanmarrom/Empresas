@@ -21,7 +21,8 @@
 				$mostrar = 0;
 				$marca = 10;
 				$paginas = "";
-				$paginas .= "<span class='text-estandar-pagina' onclick='pasar_pagina(1)'>  1...  </span>";
+				$paginas =  Util::getPaginacionBusqueda($pagina_actual, $numero_paginas) ;
+				/*$paginas .= "<span class='text-estandar-pagina' onclick='pasar_pagina(1)'>  1...  </span>";
 				for ($i = $pagina_actual; $i <= $numero_paginas; $i++) {
 					if ($i <= $pagina_actual + 9) {
     					$paginas .= "<span class='text-estandar-pagina' onclick='pasar_pagina(" . $i . ")'>  " . $i . "  </span>";
@@ -31,7 +32,7 @@
     					break;
     				}
 				}
-				$paginas = "<div id='id_box_resultado_pagina' class='box-resultado-pagina' >Pagina" . $paginas . "</div>";
+				$paginas = "<div id='id_box_resultado_pagina' class='box-resultado-pagina' >Pagina" . $paginas . "</div>";*/
 				$html .= $paginas;
 				while ($row = $result->fetch_assoc()) {					
 					$mostrar++;

@@ -255,12 +255,19 @@ section, article, aside, footer, header, nav, hgroup {
 
 .text-estandar-pagina {
 	font-family:"Helvetica";
-	color:#585858;	
 	font-size: 18px;
 	line-height:20px;
 	font-weight: 500;
 	color: black;
 	cursor: pointer;
+}
+
+.text-estandar-pagina-sel {
+	font-family:"Helvetica";
+	color:#004d66;	
+	font-size: 19px;
+	line-height:20px;
+	font-weight: bold;
 }
 
 .text-estandar-empresa {

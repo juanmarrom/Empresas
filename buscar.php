@@ -149,12 +149,12 @@ FROM EMPRESA $condiciones ";
 				}
 				//echo "numero_filas - $numero_filas\n";
 				$numero_paginas = ceil ($numero_filas / 10);
-				$html = "<div id='id_box_resultado_empresa' class='box-resultado-empresa'><span class='text-estandar-empresa'>$sql  Se han encontado " . $numero_filas . " empresas</span></div>";
+				$html = Util::getCabeceraBusqueda($numero_filas);
 				$javascript = "";
 				$mostrar = 0;
 				$marca = 10;
-				$paginas = "";
-				for ($i = 1; $i <= $numero_paginas; $i++) {
+				$paginas = Util::getPaginacionBusqueda(1, $numero_paginas) ;
+				/*for ($i = 1; $i <= $numero_paginas; $i++) {
 					if ($i <= 9) {
     					$paginas .= "<span class='text-estandar-pagina' onclick='pasar_pagina(" . $i . ")'>  " . $i . "  </span>";
     				}
@@ -163,7 +163,7 @@ FROM EMPRESA $condiciones ";
     					break;
     				}
 				}
-				$paginas = "<div id='id_box_resultado_pagina' class='box-resultado-pagina' >Pagina" . $paginas . "</div>";
+				$paginas = "<div id='id_box_resultado_pagina' class='box-resultado-pagina' >Pagina" . $paginas . "</div>";*/
 				$html .= $paginas;
 				$sql_insert = "INSERT INTO AUDITORIA_RESULTADO_BUSQUEDA (ID_AUDITORIA_BUSQUEDA, ID_EMPRESA) VALUES (?,?);";
 				$bandera = 10;
@@ -214,12 +214,6 @@ FROM EMPRESA $condiciones ";
 					$stmt2->execute();
 					$stmt2->close();					
 				}						
-				
-				/*$paginas = "";
-				for ($i = 1; $i <= $numero_paginas; $i++) {
-    				$paginas .= "<span class='text-estandar'>  " . $i . "  </span>";
-				}
-				$paginas = "<div id='id_box_resultado' class='box-resultado' style='text-align: center;'>Pagina" . $paginas . "</div>";*/
 				$html .= $paginas;
 				echo $html;
 				exit;
