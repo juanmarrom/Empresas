@@ -248,6 +248,10 @@ $(document).ready(function(){
 	var valor_calle = "";
 	var valor_numero = "";
 
+	var valor_mercado = "";
+	var valor_ccomercial = "";
+	var valor_galeria = "";
+
 
 
 
@@ -275,7 +279,158 @@ $(document).ready(function(){
 	$("#id_numero").click(function() {
 		valor_numero = $("#id_numero").val();
 	});	
+
+	$("#id_mercado").click(function() {
+		valor_mercado = $("#id_mercado").val();
+	});
+	$("#id_ccomercial").click(function() {
+		valor_ccomercial = $("#id_ccomercial").val();
+	});
+	$("#id_galeria").click(function() {
+		valor_galeria = $("#id_galeria").val();
+	});				
 	
+
+				//id_actividad: $("#id_actividad_busqueda").val(),
+				//id_mercado: $("#id_mercado_busqueda").val(),
+				//id_ccomercial: $("#id_ccomercial_busqueda").val(),
+	$("#id_galeria").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_galeria.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					id_ciudad: $("#id_ciudad_busqueda").val(),
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+		},
+		select: function (event, ui) {
+		    if ($("#id_galeria_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_galeria_busqueda").val(ui.item.value); 
+				$('#id_mercado').prop("disabled", true); 
+				$('#id_ccomercial').prop("disabled", true); 
+				$("#id_id_mercado_busqueda").val(-1); 
+				$("#id_ccomercial_busqueda").val(-1); 
+		    }
+		    valor_mercado = ui.item.label;
+		    $('#id_galeria').val(ui.item.label);
+		    return false;
+		},
+		open: function(){
+		    //console.log("open");
+		    $("#id_galeria_busqueda").val(-1);
+		}
+	});
+	$("#id_galeria").blur(function() {
+	    //console.log("blur");
+	    if ($("#id_galeria").val() == -1 || valor_mercado != $("#id_galeria").val()) {
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_galeria").val("");
+			$('#id_mercado').prop("disabled", false); 
+			$('#id_ccomercial').prop("disabled", false); 					
+	    }
+	});
+
+
+
+
+
+	$("#id_ccomercial").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_ccomercial.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					id_ciudad: $("#id_ciudad_busqueda").val(),
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+		},
+		select: function (event, ui) {
+		    if ($("#id_ccomercial_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_ccomercial_busqueda").val(ui.item.value); 
+				$('#id_mercado').prop("disabled", true); 
+				$('#id_galeria').prop("disabled", true); 
+				$("#id_id_mercado_busqueda").val(-1); 
+				$("#id_galeria_busqueda").val(-1); 
+		    }
+		    valor_mercado = ui.item.label;
+		    $('#id_ccomercial').val(ui.item.label);
+		    return false;
+		},
+		open: function(){
+		    //console.log("open");
+		    $("#id_ccomercial_busqueda").val(-1);
+		}
+	});
+	$("#id_ccomercial").blur(function() {
+	    //console.log("blur");
+	    if ($("#id_ccomercial").val() == -1 || valor_mercado != $("#id_ccomercial").val()) {
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_ccomercial").val("");
+			$('#id_mercado').prop("disabled", false); 
+			$('#id_galeria').prop("disabled", false); 					
+	    }
+	});
+
+
+	$("#id_mercado").autocomplete({
+		source: function( request, response ) {
+			// Fetch data
+			//alert(request.term);
+			$.ajax({
+				url: "get_mercado.php",
+				type: 'post',
+				dataType: "json",
+				data: {
+					id_ciudad: $("#id_ciudad_busqueda").val(),
+					search: request.term
+				},
+				success: function( data ) {
+					response( data );
+				}
+			});
+		},
+		select: function (event, ui) {
+		    if ($("#id_mercado_busqueda").val() != ui.item.value && ui.item.value != -1) {            
+				$("#id_mercado_busqueda").val(ui.item.value); 
+				$('#id_ccomercial').prop("disabled", true); 
+				$('#id_galeria').prop("disabled", true); 
+				$("#id_ccomercial_busqueda").val(-1); 
+				$("#id_galeria_busqueda").val(-1); 
+		    }
+		    valor_mercado = ui.item.label;
+		    $('#id_mercado').val(ui.item.label);
+		    return false;
+		},
+		open: function(){
+		    //console.log("open");
+		    $("#id_mercado_busqueda").val(-1);
+		}
+	});
+	$("#id_mercado").blur(function() {
+	    //console.log("blur");
+	    if ($("#id_mercado_busqueda").val() == -1 || valor_mercado != $("#id_mercado").val()) {
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_mercado").val("");
+			$('#id_ccomercial').prop("disabled", false); 
+			$('#id_galeria').prop("disabled", false); 				
+	    }
+	});
+
 	
 	$("#id_pais").autocomplete({
 		source: function( request, response ) {
@@ -298,8 +453,8 @@ $(document).ready(function(){
 		   // display the selected text
 		    //console.log ($("#id_pais_busqueda").val() + " / " + ui.item.value + " / " + ui.item.label);
 		    if ($("#id_pais_busqueda").val() != ui.item.value && ui.item.value != -1) {            
-			$("#id_pais_busqueda").val(ui.item.value);
-			$('#id_region').prop("disabled", false); 
+				$("#id_pais_busqueda").val(ui.item.value);
+				$('#id_region').prop("disabled", false); 
 		    }
 		    valor_pais = ui.item.label;
 		    $('#id_pais').val(ui.item.label);
@@ -313,9 +468,9 @@ $(document).ready(function(){
 	$("#id_pais").blur(function() {
 	    //console.log("blur");
 	    if ($("#id_pais_busqueda").val() == -1 || valor_pais != $("#id_pais").val()) {
-		alert ("Hay que seleccionar una de las opciones");
-		$("#id_pais").val("");
-		deshabilitar(0);
+			alert ("Hay que seleccionar una de las opciones");
+			$("#id_pais").val("");
+			deshabilitar(0);
 	    }
 	});
 
@@ -421,6 +576,9 @@ $(document).ready(function(){
 			if ($("#id_ciudad_busqueda").val() != ui.item.value && ui.item.value != -1) {            
 				$("#id_ciudad_busqueda").val(ui.item.value);
 				$('#id_distrito').prop("disabled", false); 
+				$('#id_mercado').prop("disabled", false); 
+				$('#id_galeria').prop("disabled", false); 
+				$('#id_ccomercial').prop("disabled", false); 
 			}
 			valor_ciudad = ui.item.label;
 			$('#id_ciudad').val(ui.item.label);
@@ -475,6 +633,10 @@ $(document).ready(function(){
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_distrito").val("");
 			deshabilitar(4);
+			habilitar_extras();
+		}
+		else {
+			limpiar_extras();
 		}
 	});
 
@@ -600,37 +762,77 @@ $(document).ready(function(){
 		}
 	});	  
 
-	    //pais 0, region, 1, ciudad 2, distrito 3, barrio 4, calle 5, numero 6
-	    function deshabilitar(a_partir_de) {
-			if (a_partir_de == 0) {
-				$('#id_region').prop("disabled", true);
-				$('#id_region').val("");
-			}    
-			if (a_partir_de <= 1) {
-				$('#id_provincia').prop("disabled", true);
-				$('#id_provincia').val("");
-			}
-			if (a_partir_de <= 2) {
-				$('#id_ciudad').prop("disabled", true);
-				$('#id_ciudad').val("");
-			}
-			if (a_partir_de <= 3) {        
-				$('#id_distrito').prop("disabled", true);
-				$('#id_distrito').val("");
-			}
-			if (a_partir_de <= 4) {        
-				$('#id_barrio').prop("disabled", true);
-				$('#id_barrio').val("");
-			}    
-			if (a_partir_de <= 5) {        
-				$('#id_calle').prop("disabled", true);
-				$('#id_calle').val("");
-			}
-			if (a_partir_de <= 6) {        
-				$('#id_numero').prop("disabled", true);
-				$('#id_numero').val("");
-			}    
-	    }   
+
+	function limpiar_extras() {
+		$('#id_mercado').prop("disabled", true);
+		$('#id_ccomercial').prop("disabled", true);
+		$('#id_galeria').prop("disabled", true);
+		
+		$('#id_mercado').val("");
+		$('#id_ccomercial').val("");
+		$('#id_galeria').val("");
+
+		$("#iid_mercado_busqueda").val(-1);
+		$("#id_ccomercial_busqueda").val(-1);
+		$("#id_galeria_busqueda").val(-1);		
+	}
+
+	function habilitar_extras() {
+		$('#id_mercado').prop("disabled", false);
+		$('#id_ccomercial').prop("disabled", false);
+		$('#id_galeria').prop("disabled", false);
+		
+		$('#id_mercado').val("");
+		$('#id_ccomercial').val("");
+		$('#id_galeria').val("");
+
+		$("#iid_mercado_busqueda").val(-1);
+		$("#id_ccomercial_busqueda").val(-1);
+		$("#id_galeria_busqueda").val(-1);		
+	}
+
+    //pais 0, region, 1, ciudad 2, distrito 3, barrio 4, calle 5, numero 6
+    function deshabilitar(a_partir_de) {
+		if (a_partir_de == 0) {
+			$('#id_region').prop("disabled", true);
+			$('#id_region').val("");
+			$("#id_region_busqueda").val(-1);
+		}    
+		if (a_partir_de <= 1) {
+			$('#id_provincia').prop("disabled", true);
+			$('#id_provincia').val("");
+			$("#id_provincia_busqueda").val(-1);
+		}
+		if (a_partir_de <= 2) {
+			$('#id_ciudad').prop("disabled", true);
+			$('#id_ciudad').val("");
+			$("#id_ciudad_busqueda").val(-1);
+		}
+		if (a_partir_de <= 3) {        
+			$('#id_distrito').prop("disabled", true);
+			$('#id_distrito').val("");
+			$("#id_distrito_busqueda").val(-1);
+		}
+		if (a_partir_de <= 4) {        
+			$('#id_barrio').prop("disabled", true);
+			$('#id_barrio').val("");
+			$("#id_barrio_busqueda").val(-1);
+		}    
+		if (a_partir_de <= 5) {        
+			$('#id_calle').prop("disabled", true);
+			$('#id_calle').val("");
+			$("#id_calle_busqueda").val(-1);
+		}
+		if (a_partir_de <= 6) {        
+			$('#id_numero').prop("disabled", true);
+			$('#id_numero').val("");
+			$("#id_numero_busqueda").val(-1);
+		}    
+
+		if (a_partir_de != 3) { 
+			limpiar_extras();
+		}
+    }   
 
 	 //http://www.erichynds.com/blog/jquery-ui-multiselect-widget 
 	 //https://www.jqueryscript.net/form/jQuery-UI-Multiple-Select-Widget.html
@@ -839,19 +1041,19 @@ $(document).ready(function(){
 					<div class="input-group-prepend">
 						<span class="input-group-text etiqueta-extra">Mercado</span>
 					</div>
-					<input type="text" class="form-control" id="id_mercado">																	
+					<input type="text" class="form-control" id="id_mercado" disabled>																	
 				</div>
 				<div class="input-group margen-inputs">
 					<div class="input-group-prepend">
 						<span class="input-group-text etiqueta-extra">C. Comercial</span>
 					</div>
-					<input type="text" class="form-control" id="id_ccomercial">																	
+					<input type="text" class="form-control" id="id_ccomercial" disabled>																	
 				</div>
 				<div class="input-group margen-inputs">
 					<div class="input-group-prepend">
 						<span class="input-group-text etiqueta-extra">Galería</span>
 					</div>
-					<input type="text" class="form-control" id="id_galeria">																	
+					<input type="text" class="form-control" id="id_galeria" disabled>																	
 				</div>
 				
 			</div>

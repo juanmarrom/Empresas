@@ -100,7 +100,7 @@ FROM EMPRESA $condiciones ";
 				if (!empty($nombre_empresa)) {
 					$sql_paginar =  $sql . "AND NOMBRE LIKE '%" . $nombre_empresa . "%' AND ACTIVA IS TRUE $order_by ";
 					$sql = $sql . "AND NOMBRE LIKE ? AND ACTIVA IS TRUE $order_by ";
-					$nombre_empresa = '%' . $nombre_empresa . "%";
+					$nombre_empresa = "%" . $nombre_empresa . "%";
 					//echo $sql;
 					//exit;
 					$stmt = $conn->prepare("$sql");				
