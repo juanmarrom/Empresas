@@ -175,7 +175,7 @@
 		return $paginas;
     } 
 
- 	public static function getCuerpoBusqueda($row, $mostrar, $bandera) {
+ 	public static function getCuerpoBusqueda($row, $mostrar, $bandera, $admin) {
 		$html = "<div id='id_box_resultado' class='box-resultado'>						
 				<div class='box-empresa'>
 					<div>
@@ -205,9 +205,14 @@
 							<div class='box-actividad'>							
 								<span class='text-estandar'>Actividad: " . $row['ACTIVIDAD'] . "</span>							
 								
-							</div>   
-						 </div>
-					</div>					
+							</div> 	 
+						</div>";
+						if ($admin) {
+							$html .= "<div style='text-align:right;'>
+									Modificar
+							</div>";
+						}
+					$html .= "</div>					
 				</div>
 			</div>";
 		return $html;

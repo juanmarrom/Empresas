@@ -985,7 +985,30 @@ $(document).ready(function(){
 </head>
 <body>
 	<div id="wrap">
-		<header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>
+		<header>
+			<div class="div-header-1">
+				<img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png">
+			</div>	
+			<div class="div-header-2">
+			
+			<?php							
+				if(isset($_SESSION["admin"])) {
+					echo '<span style="padding-right: 30px;">
+						<button class="btn btn-outline-secondary btn-header">Usuarios</button>
+					</span>			
+					<span style="padding-right: 30px;">
+						<button class="btn btn-outline-secondary btn-header">Empresa</button>
+					</span>
+					<span style="padding-right: 30px;">
+						<button class="btn btn-outline-secondary btn-header">Logs</button>
+					</span>';
+				}
+			?>
+				<span>
+					<button id="id_salir" class="btn btn-outline-secondary btn-header" onclick="location.href ='salir.php';">Salir</button>
+				</span>						
+			</div>
+		</header>
 		<div class="container_web">
 			<input type="hidden" id="id_pais_busqueda" value="-1">
 			<input type="hidden" id="id_region_busqueda" value="-1">
@@ -1143,7 +1166,9 @@ $(document).ready(function(){
 				<div class="margen-inputs">
 
 					<div id="id_lista_empresas" class="lista_empresas">
-												
+						<?php
+						echo "<span class='text-estandar-empresa'>&nbsp;&nbsp;&nbsp;Bienvenido " . $_SESSION['nombre'] . " " . $_SESSION['apellido_1'] . " " . $_SESSION['apellido_2'] . "</span>";	
+						?>					
 					</div>							
 					<div id="id_zona_maps" class="zona_maps">
 						<div id="gmap_canvas"></div>
