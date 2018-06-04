@@ -55,20 +55,30 @@
 				}
 				
 				if (is_numeric($id_mercado) && $id_mercado != -1) {
-					$condiciones = $condiciones . " AND ID_MERCADO = $id_mercado";
+					$condiciones = $condiciones . " AND ID_MERCADO IN ( SELECT ID FROM MERCADO WHERE NOMBRE IN (SELECT NOMBRE FROM MERCADO WHERE ID = $id_mercado AND ID_CIUDAD = $id_ciudad) AND ID_CIUDAD = $id_ciudad )";
 				}
 				if (is_numeric($id_ccomercial) && $id_ccomercial != -1) {
-					$condiciones = $condiciones . " AND ID_CENTRO_COMERCIAL = $id_ccomercial";
+					$condiciones = $condiciones . " AND ID_CENTRO_COMERCIAL IN ( SELECT ID FROM CENTRO_COMERCIAL WHERE NOMBRE IN (SELECT NOMBRE FROM CENTRO_COMERCIAL WHERE ID = $id_ccomercial AND ID_CIUDAD = $id_ciudad) AND ID_CIUDAD = $id_ciudad )";
 				}
 				if (is_numeric($id_galeria) && $id_galeria != -1) {
-					$condiciones = $condiciones .  " AND ID_GALERIA = $id_galeria";
+					$condiciones = $condiciones .  " AND ID_GALERIA IN ( SELECT ID FROM GALERIA WHERE NOMBRE IN (SELECT NOMBRE FROM GALERIA WHERE ID = $id_galeria AND ID_CIUDAD = $id_ciudad) AND ID_CIUDAD = $id_ciudad )";
 				}				
 				
-				if (is_numeric($id_grupo_actividad) && $id_grupo_actividad != -1) {
-					$condiciones = $condiciones . " AND ID_GRUPO_ACTIVIDAD = $id_grupo_actividad";
+
+				if ( (preg_match("/^[0-9]*$/", $id_grupo_actividad) == 1 || preg_match("/^[0-9,]*$/", $id_grupo_actividad) == 1)  && $id_grupo_actividad != -1) {
+					$condiciones = $condiciones . " AND ( ID_GRUPO_ACTIVIDAD IN ($id_grupo_actividad)";
 				}
-				if (is_numeric($id_actividad) && $id_actividad != -1) {
-					$condiciones = $condiciones . " AND ID_ACTIVIDAD = $id_actividad";
+
+				if ( (preg_match("/^[0-9]*$/", $id_actividad) == 1 || preg_match("/^[0-9,]*$/", $id_actividad) == 1)  && $id_actividad != -1) {
+					if ($id_grupo_actividad != -1) {
+						$condiciones = $condiciones . " OR ID_ACTIVIDAD IN ($id_actividad)";
+					}
+					else {
+						$condiciones = $condiciones . " AND ID_ACTIVIDAD IN ($id_actividad)";
+					} 
+				}
+				if ($id_grupo_actividad != -1) {
+					$condiciones = $condiciones . " )";
 				}
 				$order_by = " ORDER BY NOMBRE";
 				$busqueda_radial = "";
@@ -139,7 +149,7 @@ FROM EMPRESA $condiciones ";
 				}
 				//echo "numero_filas - $numero_filas\n";
 				$numero_paginas = ceil ($numero_filas / 10);
-				$html = "<div id='id_box_resultado_empresa' class='box-resultado-empresa'><span class='text-estandar-empresa'>Se han encontado " . $numero_filas . " empresas</span></div>";
+				$html = "<div id='id_box_resultado_empresa' class='box-resultado-empresa'><span class='text-estandar-empresa'>$sql  Se han encontado " . $numero_filas . " empresas</span></div>";
 				$javascript = "";
 				$mostrar = 0;
 				$marca = 10;

@@ -330,9 +330,10 @@ $(document).ready(function(){
 	});
 	$("#id_galeria").blur(function() {
 	    //console.log("blur");
-	    if ($("#id_galeria").val() == -1 || valor_mercado != $("#id_galeria").val()) {
+	    if ($("#id_galeria_busqueda").val() == -1 || valor_mercado != $("#id_galeria").val()) {
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_galeria").val("");
+			$("#id_galeria_busqueda").val(-1);
 			$('#id_mercado').prop("disabled", false); 
 			$('#id_ccomercial').prop("disabled", false); 					
 	    }
@@ -378,9 +379,10 @@ $(document).ready(function(){
 	});
 	$("#id_ccomercial").blur(function() {
 	    //console.log("blur");
-	    if ($("#id_ccomercial").val() == -1 || valor_mercado != $("#id_ccomercial").val()) {
+	    if ($("#id_ccomercial_busqueda").val() == -1 || valor_mercado != $("#id_ccomercial").val()) {
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_ccomercial").val("");
+			$("#id_ccomercial_busqueda").val(-1);
 			$('#id_mercado').prop("disabled", false); 
 			$('#id_galeria').prop("disabled", false); 					
 	    }
@@ -426,6 +428,7 @@ $(document).ready(function(){
 	    if ($("#id_mercado_busqueda").val() == -1 || valor_mercado != $("#id_mercado").val()) {
 			alert ("Hay que seleccionar una de las opciones");
 			$("#id_mercado").val("");
+			$("#id_mercado_busqueda").val(-1);
 			$('#id_ccomercial').prop("disabled", false); 
 			$('#id_galeria').prop("disabled", false); 				
 	    }
@@ -838,7 +841,7 @@ $(document).ready(function(){
 	 //https://www.jqueryscript.net/form/jQuery-UI-Multiple-Select-Widget.html
 	$("#id_grupo_actividad").multiselect({
 		click: function(event, ui){
-			alert(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
+			//alert(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
 		},
 		noneSelectedText: "Grupo Actividad",
 		selectedText:"# seleccionados",
@@ -852,14 +855,14 @@ $(document).ready(function(){
 
 	$("#id_actividad").multiselect({
 		click: function(event, ui){
-			alert(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );
+			//alert(ui.value + ' ' + (ui.checked ? 'checked' : 'unchecked') );			
 		},
 		noneSelectedText: "Actividad",
 		selectedText:"# seleccionados",
 		checkAllText: 'Seleccionar todo',
 		uncheckAllText: 'Deseleccionar todo',		
 		}).multiselectfilter({label: 'Buscar:',placeholder: 'Texto'}
-		);	
+	);	
 
 	$('#id_actividad_ms').css('width', '220px');
 
@@ -877,6 +880,21 @@ $(document).ready(function(){
 
 	$("#id_buscar").click(function() {
 		tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+		
+		if ($('#id_actividad').val() == null) {
+			$("#id_actividad_busqueda").val(-1);
+		}
+		else {
+			$("#id_actividad_busqueda").val($('#id_actividad').val());
+		}
+
+		if ($('#id_grupo_actividad').val() == null) {
+			$("#id_grupo_actividad_busqueda").val(-1);
+		}
+		else {
+			$("#id_grupo_actividad_busqueda").val($('#id_grupo_actividad').val());
+		}		
+
 		$.ajax({
 			url: "buscar.php",
 			type: 'post',
