@@ -54,8 +54,8 @@ var latitud_bcn = "41.3879";
 var longitud_bcn = "2.16992";
 
 
-var directionsService = new google.maps.DirectionsService;
-var directionsDisplay = new google.maps.DirectionsRenderer;
+var directionsService = "";
+var directionsDisplay = "";
 
 
 function init_map() {
@@ -69,6 +69,8 @@ function init_map() {
 		zoom = 10;
 	}
 
+	directionsService = new google.maps.DirectionsService;
+	directionsDisplay = new google.maps.DirectionsRenderer;
 
     var myOptions = {
         zoom: zoom,
