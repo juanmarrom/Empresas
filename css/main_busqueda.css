@@ -47,6 +47,12 @@ input {
 	font-size: 1px;
 }
 
+
+input::-webkit-input-placeholder { color: #C8C7C7;}
+input:-moz-placeholder { color: #C8C7C7;}
+input::-moz-placeholder { color: #C8C7C7;}
+input:-ms-input-placeholder { color: #C8C7C7;}
+
 section, article, aside, footer, header, nav, hgroup {
   display:block;
 }

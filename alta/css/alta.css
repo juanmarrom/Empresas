@@ -68,10 +68,10 @@ input {
 	border: none;
 }
 
-input::-webkit-input-placeholder { color: #D0D3D4;}
-input:-moz-placeholder { color: #D0D3D4;}
-input::-moz-placeholder { color: #D0D3D4;}
-input:-ms-input-placeholder { color: #D0D3D4;}
+input::-webkit-input-placeholder { color: #C8C7C7;}
+input:-moz-placeholder { color: #C8C7C7;}
+input::-moz-placeholder { color: #C8C7C7;}
+input:-ms-input-placeholder { color: #C8C7C7;}
 
 
 button {
@@ -178,6 +178,7 @@ input.input-class {
 	height: 48px;
   	padding: 0 25px 0 25px;
 	cursor: pointer;
+	width: 85%;
 }
 
 .container-login-form-btn {

@@ -992,7 +992,7 @@ $(document).ready(function(){
 			<div class="div-header-2">
 			
 			<?php							
-				if(isset($_SESSION["admin"])) {
+				if($_SESSION["admin"]) {
 					echo '<span style="padding-right: 30px;">
 						<button class="btn btn-outline-secondary btn-header" onclick="window.open(\'index_usuario.php\', \'_blank\');">Usuarios</button>
 					</span>			
@@ -1110,11 +1110,11 @@ $(document).ready(function(){
 						<div class="input-group-prepend">
 							<span class="input-group-text" >Su posición:</span>
 						</div>						
-						<input id="id_posicion" class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" aria-label="Posición" style="width:40%;">
+						<input id="id_posicion" class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" style="width:40%;">
 						<div class="input-group-prepend">
 							<span class="input-group-text" >En un radio de (en metros):</span>
 						</div>						
-						<input id="id_radio" class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" aria-label="Radio" style="width:10%;">
+						<input id="id_radio" class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" style="width:10%;">
 						<button id="id_calcular" class="btn btn-outline-secondary" >Calcular</button>
 						<a id="id_enlace_posicion" style="visibility:hidden;" target='_blank'>
 							<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
