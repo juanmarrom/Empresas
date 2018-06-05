@@ -97,7 +97,7 @@
 				
 				$idioma = $_SESSION['idioma'];
 				$stmt = "";
-				$sql = "SELECT ID, NOMBRE, LATITUD, LONGITUD,
+				$sql = "SELECT ID, NOMBRE, LATITUD, LONGITUD,ACTIVA,
 (SELECT NOMBRE FROM PAIS WHERE PAIS.ID_PAIS = EMPRESA.ID_PAIS AND ID_IDIOMA=$idioma) as PAIS,
 (SELECT NOMBRE FROM REGION WHERE REGION.ID_REGION = EMPRESA.ID_REGION AND ID_IDIOMA=$idioma) as REGION,
 (SELECT NOMBRE FROM PROVINCIA WHERE PROVINCIA.ID_PROVINCIA = EMPRESA.ID_PROVINCIA AND ID_IDIOMA=$idioma) as PROVINCIA,
@@ -111,9 +111,15 @@ $busqueda_radial
 FROM EMPRESA $condiciones ";
 				$sql_paginar = "";
 				$nombre_empresa = trim($nombre_empresa);
+
+				$condicion_activa = " AND ACTIVA IS TRUE ";
+				if ($_SESSION['admin']) {
+					$condicion_activa = "";
+				}
+
 				if (!empty($nombre_empresa)) {
 					$sql_paginar =  $sql . "AND NOMBRE LIKE '%" . str_replace("'", "''", $nombre_empresa) . "%' AND ACTIVA IS TRUE $order_by ";
-					$sql = $sql . "AND NOMBRE LIKE ? AND ACTIVA IS TRUE $order_by ";
+					$sql = $sql . "AND NOMBRE LIKE ? $condicion_activa $order_by ";
 					$nombre_empresa = "%" . $nombre_empresa . "%";
 					//echo $sql;
 					//exit;
@@ -121,7 +127,7 @@ FROM EMPRESA $condiciones ";
 					$stmt->bind_param("s", $nombre_empresa);
 				}
 				else {
-					$sql = $sql . " AND ACTIVA IS TRUE $order_by ";
+					$sql = $sql . " $condicion_activa $order_by ";
 					$sql_paginar = $sql;
 					$stmt = $conn->prepare("$sql");
 				}

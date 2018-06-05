@@ -185,11 +185,16 @@
  			$distancia = "";
  		}
 
+		$clase_empresa = "texto_empresa";		
+		if ($row['ACTIVA'] == 0) {
+			$clase_empresa = "texto_empresa-inactiva";
+		}
+
 		$html = "<div id='id_box_resultado' class='box-resultado'>						
 				<div class='box-empresa'>
 					<div>
 						<div class='contenedor_empresa'>     		
-							  <span class='texto_empresa' onclick='' lang='es'>
+							  <span class='" . $clase_empresa . "' onclick='' lang='es'>
 								" . $row['NOMBRE'] . "
 								<a href='https://www.google.de/search?q=" . str_replace("'", "%27", $row['NOMBRE']) . " " . str_replace("'", "%27", $row['CALLE'])  . " " . $row['NUMERO_CALLE']  . " " . str_replace("'", "%27", $row['CIUDAD'])  . " " . str_replace("'", "%27", $row['REGION']) . "' target='_blank'>
 									<i class='fas fa-globe clase_iconos'></i>

@@ -997,9 +997,6 @@ $(document).ready(function(){
 						<button class="btn btn-outline-secondary btn-header" onclick="window.open(\'index_usuario.php\', \'_blank\');">Usuarios</button>
 					</span>			
 					<span style="padding-right: 30px;">
-						<button class="btn btn-outline-secondary btn-header" onclick="window.open(\'index_crear.php\', \'_blank\');">Empresa</button>
-					</span>
-					<span style="padding-right: 30px;">
 						<button class="btn btn-outline-secondary btn-header" onclick="window.open(\'index_logs.php\', \'_blank\');"   >Logs</button>
 					</span>
 					<span style="padding-right: 30px;">
