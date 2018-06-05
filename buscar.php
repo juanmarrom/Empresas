@@ -82,14 +82,18 @@
 				}
 				$order_by = " ORDER BY NOMBRE";
 				$busqueda_radial = "";
-				if ( ( (is_numeric($latitud_user) && $latitud_user != 0) || (is_numeric($longitud_user) && $longitud_user != 0) ) && 
-					is_numeric($radio) && $radio >= 0) {
+				if ( ( (is_numeric($latitud_user) && $latitud_user != 0) || (is_numeric($longitud_user) && $longitud_user != 0) ) ) {
 					$busqueda_radial = ",( 6371 * acos(cos(radians($latitud_user)) * cos(radians(LATITUD)) * cos(radians(LONGITUD) - radians($longitud_user)) + sin(radians($latitud_user)) * sin(radians(LATITUD)))) AS DISTANCIA";
-					$order_by = " HAVING DISTANCIA < $radio/1000 ORDER BY DISTANCIA";
+					$order_by = " ORDER BY DISTANCIA";
 				}
 				else {
 					$busqueda_radial = ",0 AS DISTANCIA";
+					$direccion_user = "";
 				}
+				if ( ( (is_numeric($latitud_user) && $latitud_user != 0) || (is_numeric($longitud_user) && $longitud_user != 0) ) && 
+					is_numeric($radio) && $radio >= 0) {
+					$order_by = " HAVING DISTANCIA < $radio/1000 ORDER BY DISTANCIA";
+				}				
 				
 				$idioma = $_SESSION['idioma'];
 				$stmt = "";
@@ -108,7 +112,7 @@ FROM EMPRESA $condiciones ";
 				$sql_paginar = "";
 				$nombre_empresa = trim($nombre_empresa);
 				if (!empty($nombre_empresa)) {
-					$sql_paginar =  $sql . "AND NOMBRE LIKE '%" . $nombre_empresa . "%' AND ACTIVA IS TRUE $order_by ";
+					$sql_paginar =  $sql . "AND NOMBRE LIKE '%" . str_replace("'", "''", $nombre_empresa) . "%' AND ACTIVA IS TRUE $order_by ";
 					$sql = $sql . "AND NOMBRE LIKE ? AND ACTIVA IS TRUE $order_by ";
 					$nombre_empresa = "%" . $nombre_empresa . "%";
 					//echo $sql;
@@ -126,6 +130,7 @@ FROM EMPRESA $condiciones ";
 				$result = $stmt->get_result();
 				$numero_filas = $result->num_rows;
 				$_SESSION['resultado'] = $numero_filas;
+				$_SESSION['direccion_user'] = $direccion_user;
 
 				//AUDITORIA
 
@@ -133,7 +138,7 @@ FROM EMPRESA $condiciones ";
 				$tiempo = $tiempo_fin-$tiempo_inicio;
 				$sql_insert = "INSERT INTO AUDITORIA_BUSQUEDA (ID_USUARIO, TIEMPO, RESULTADO) VALUES (?,?,?);";						
 				$stmt2 = $conn->prepare("$sql_insert");
-				$stmt2->bind_param("iii", $_SESSION['id_usuario'], $tiempo,$numero_filas);
+				$stmt2->bind_param("idi", $_SESSION['id_usuario'], $tiempo,$numero_filas);
 				$stmt2->execute();
 				$insert_id = $conn->insert_id;
 				$stmt2->close();
@@ -143,7 +148,6 @@ FROM EMPRESA $condiciones ";
 						$stmt2 = $conn->prepare("$sql_insert");
 						$stmt2->bind_param("iss", $insert_id, $nombre_campo, $valor);
 						$stmt2->execute();
-						$insert_id = $conn->insert_id;
 						$stmt2->close();																
 					}
 				}
@@ -160,7 +164,7 @@ FROM EMPRESA $condiciones ";
 				while ($row = $result->fetch_assoc()) {					
 					$mostrar++;
 					if ($mostrar <= 10) {
-						$html .= Util::getCuerpoBusqueda($row, $mostrar, $bandera, $_SESSION['admin']);
+						$html .= Util::getCuerpoBusqueda($row, $mostrar, $bandera, $_SESSION['admin'], $direccion_user);
 						$bandera--;
 					}
 					$sql_insert = "INSERT INTO AUDITORIA_RESULTADO_BUSQUEDA (ID_AUDITORIA_BUSQUEDA, ID_EMPRESA) VALUES (?,?);";

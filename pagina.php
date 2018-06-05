@@ -27,7 +27,7 @@
 				while ($row = $result->fetch_assoc()) {					
 					$mostrar++;
 					if ($mostrar <= 10) {
-						$html .= Util::getCuerpoBusqueda($row, $mostrar, $bandera, $_SESSION['admin']);
+						$html .= Util::getCuerpoBusqueda($row, $mostrar, $bandera, $_SESSION['admin'], $_SESSION['direccion_user']);
 						$bandera--;
 					}				
 				}						

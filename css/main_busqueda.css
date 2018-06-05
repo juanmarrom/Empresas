@@ -230,7 +230,6 @@ section, article, aside, footer, header, nav, hgroup {
     width:98%;
     font-size:16px;
     float:left;
-    cursor:pointer;
 	line-height: 20px;
 	color:#004d66;
 }
@@ -297,6 +296,10 @@ section, article, aside, footer, header, nav, hgroup {
 	line-height:20px;
 	font-weight: 500;
 	color: #004d66;
+}
+
+.text-bold {
+	font-weight: bold;
 }
 
 .clase_iconos {

@@ -175,17 +175,35 @@
 		return $paginas;
     } 
 
- 	public static function getCuerpoBusqueda($row, $mostrar, $bandera, $admin) {
+ 	public static function getCuerpoBusqueda($row, $mostrar, $bandera, $admin, $direccion_user) {
+ 		$distancia = round($row['DISTANCIA'], 3);
+ 		$distancia = str_replace(".", ",", $distancia);
+ 		if ($row['DISTANCIA'] > 0) {
+ 			$distancia = "<br><span class='text-estandar'>Distancia $distancia KM</span>";
+ 		}
+ 		else {
+ 			$distancia = "";
+ 		}
+
 		$html = "<div id='id_box_resultado' class='box-resultado'>						
 				<div class='box-empresa'>
 					<div>
 						<div class='contenedor_empresa'>     		
 							  <span class='texto_empresa' onclick='' lang='es'>
 								" . $row['NOMBRE'] . "
-								<a href='https://www.google.de/search?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
-									<i class='fas fa-globe clase_iconos'></i><img src='images/marker" . $bandera . ".png' alt='Maker$bandera'>
-								</a>
-							</span>				
+								<a href='https://www.google.de/search?q=" . str_replace("'", "%27", $row['NOMBRE']) . " " . str_replace("'", "%27", $row['CALLE'])  . " " . $row['NUMERO_CALLE']  . " " . str_replace("'", "%27", $row['CIUDAD'])  . " " . str_replace("'", "%27", $row['REGION']) . "' target='_blank'>
+									<i class='fas fa-globe clase_iconos'></i>
+								</a>";
+		if (!empty($direccion_user)) {
+			$html .= "
+								<a href='https://www.google.com/maps/dir/?api=1&origin=$direccion_user&destination=" . str_replace("'", "%27", $row['NOMBRE']) . " " . str_replace("'", "%27", $row['CALLE'])  . " " . $row['NUMERO_CALLE']  . " " . str_replace("'", "%27", $row['CIUDAD'])  . " " . str_replace("'", "%27", $row['REGION']) . "' target='_blank'>	
+									<img src='images/marker" . $bandera . ".png' alt='Maker$bandera' witdh='25' height='19'>
+								</a>";
+		}
+		else {
+			$html .= "<img src='images/marker" . $bandera . ".png' alt='Maker$bandera' witdh='25' height='19'>";
+		}
+		$html .= "			</span>				
 						</div>
 						<div class='contenedor_datos_empresa'>
 							<div class='clr'></div>
@@ -193,14 +211,14 @@
 								<span class='text-estandar'>
 								Direccion:" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "
 								</span>							
-									<a href='https://www.google.com/maps?q=" . $row['NOMBRE'] . " " . $row['CALLE']  . " " . $row['NUMERO_CALLE']  . " " . $row['CIUDAD']  . " " . $row['REGION'] . "' target='_blank'>
+									<a href='https://www.google.com/maps?q=" . str_replace("'", "%27", $row['NOMBRE']) . " " . str_replace("'", "%27", $row['CALLE'])  . " " . $row['NUMERO_CALLE']  . " " . str_replace("'", "%27", $row['CIUDAD'])  . " " . str_replace("'", "%27", $row['REGION']) . "' target='_blank'>
 										<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
 									</a>
 									<input type='hidden' id='id_latitud_result_" . $mostrar .  "' value='" . $row['LATITUD'] .  "'>
 									<input type='hidden' id='id_longitud_result_" . $mostrar .  "' value='" . $row['LONGITUD'] .  "'>
 									<input type='hidden' id='id_empresa_result_" . $mostrar .  "' value='" .  $row['NOMBRE'] . "'>
 									<input type='hidden' id='id_distancia_result_" . $mostrar .  "' value='" .  $row['DISTANCIA'] . "'>
-														
+								$distancia						
 							</div>
 							<div class='box-actividad'>							
 								<span class='text-estandar'>Actividad: " . $row['ACTIVIDAD'] . "</span>							

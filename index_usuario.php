@@ -54,6 +54,28 @@
 
 </script>
 
+<style>
+.table td {
+    border: 1px solid black;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th {
+    height: 50px;
+    border: 1px solid black;
+}
+
+.div-tabla {
+    padding: 50px;
+    width: 100%;
+}
+
+</style>
+
 </head>
 <body>
 	<div id="wrap">
@@ -61,8 +83,28 @@
 			<img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png">
 		</header>
 		<div class="container_web">
-			
-			
+			<div class="div-tabla">
+			<?php 
+				$tabla = "<table class='table'><thead><tr>";
+				$query = "SELECT ID, CONCAT(NOMBRE, ' ', APELLIDO_1 ,' ', APELLIDO_2) as NOMBRE, EMAIL, ES_ADMIN, TELEFONO, ACTIVO FROM USUARIO;";
+				$tabla .= "<td>NOMBRE</td><td>USUARIO</td><td>ADMIN</td><td>ACTIVO</td><td>MODIFICAR</td></tr></thead>";
+				$stmt = $conn->prepare("$query");
+				$stmt->execute();
+				$result = $stmt->get_result();				
+				$response = array();
+				while ($row = $result->fetch_assoc()) {		
+					$text = "Desactivar";
+					if ($row['ACTIVO'] == 0) {
+						$text = "Activar";
+					}				
+					$tabla .= "<tr><td>" . $row['NOMBRE'] . "</td><td>" . $row['EMAIL'] . "</td><td>" . $row['ES_ADMIN'] . "</td><td>" . $row['ACTIVO'] . "</td><td><button class='btn btn-outline-secondary' onclick='activar(" . $row['ID'] . ", " . $row['ACTIVO'] . ")' >$text</button></tr>";
+				}
+				$tabla .= "</table>";
+				$stmt->close();
+				echo $tabla;
+
+			?>
+			</div>
 		</div>
 					
 	</div>

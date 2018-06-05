@@ -32,9 +32,8 @@ function geocode($address) {
 session_start();    
 if(isset($_SESSION["busqueda"])) {
     require_once './clases/util.php';           
-    /*Util::iniciarConexion("./conf.txt");
+    Util::iniciarConexion("./conf.txt");
     $conn =  Util::getConexion();
-    $respuesta = "Algo ha ido mal (1)";*/
     if($_SESSION["busqueda"] == session_id()) {
         if($_POST) {
             // get latitude, longitude and formatted address
@@ -48,6 +47,11 @@ if(isset($_SESSION["busqueda"])) {
                 $myObj->latitude = $data_arr[0];
                 $myObj->longitude = $data_arr[1];
                 $myObj->formatted_address = $data_arr[2];
+                $sql_insert = "INSERT INTO AUDITORIA_POSICION (ID_USUARIO, POSICION, LATITUD, LONGITUD) VALUES (?,?,?,?);";
+                $stmt2 = $conn->prepare("$sql_insert");
+                $stmt2->bind_param("isdd", $_SESSION['id_usuario'], $_POST['address'], $data_arr[0], $data_arr[1]);
+                $stmt2->execute();
+                $stmt2->close();                
             }    
             $myJSON = json_encode($myObj);
             echo $myJSON;

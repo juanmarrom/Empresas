@@ -52,8 +52,50 @@
 
 <script>
 
-</script>
+$(document).ready(function(){
+	tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+	$("#id_mostrar").click(function() {
+		//alert($('select[id=id_tipo]').val());
+		//alert($('select[id=id_user]').val());
+		
+		tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+		$.ajax({
+			url: "get_logs.php",
+			type: 'post',
+			data: { tipo: $('select[id=id_tipo]').val(), user: $('select[id=id_user]').val()  },
+				success: function(response){
+					alert(response);
+					$("#resultado").html(response);
+					tb_remove();				
+				},				
+   				error: function (request, status, error) {
+        			//alert(request.responseText);
+        			alert("Error");
+					tb_remove();
+    		}			
+		});
+		
+	});
 
+	tb_remove();
+});
+	
+</script>
+<style>
+.table td {
+    border: 1px solid black;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th {
+    height: 50px;
+    border: 1px solid black;
+}
+</style>
 </head>
 <body>
 	<div id="wrap">
@@ -62,19 +104,30 @@
 		</header>
 		<div class="container_web">
 			<div id="menu" class="menu">
-				<label for="">Seleccione el usuario:</label>
-				<select>
-					<option>aaaaaaaaaaaaaaaaaaaaaaaaaaaa</option>
-					<option>aaaaaa</option>
-					<option>aaaaaa</option>
-					<option>aaaaaa</option>
-					<option>aaaaaa</option>
-					<option>aaaaaa</option>
-					<option>aaaaaa</option>
-				<select>
+				<label class='text-bold' for="">Seleccione el usuario:</label>
+				<select id="id_user">
+					<option value="0">Todos</option>
+					<?php 
+					  $result = $conn -> query ("SELECT * FROM USUARIO");
+					  while ($valores = mysqli_fetch_array($result)) {
+					  	echo '<option value="'. $valores['ID'] .'">' . $valores['LOGIN'] . '</option>';
+					  }
+					?>
+				</select>
+				<br>
+				<br>
+
+				<label class='text-bold' for="" class='text-bold'>Seleccione el tipo de Log:</label>
+				<select id="id_tipo">
+					<option value="0">Login</option>
+					<option value="1">Busqueda</option>
+				</select>
+			    <br><br>
+			    <button id="id_mostrar" class="btn btn-outline-secondary">Mostrar</button>
+			     		
 			</div>
 			<div id="resultado" class="panel">
-				<label for="">Logs:</label>
+				<label for="" class='text-bold'>Logs:</label>
 				<table>
 					<thead>
 					<tr>
