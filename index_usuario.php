@@ -52,6 +52,28 @@
 
 <script>
 
+function activar(id, estado) {		
+	var activo = 0;
+	if ( estado == 0 ) {
+		activo = 1;
+	}
+	tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+	$.ajax({
+		url: "desactivar_usuario.php",
+		type: 'post',
+		data: { activo: activo, id: id },
+			success: function(response){
+				tb_remove();
+				location.reload();			
+			},				
+				error: function (request, status, error) {
+    			//alert(request.responseText);
+    			alert("Error");
+				tb_remove();
+		}			
+	});	
+}
+
 </script>
 
 <style>

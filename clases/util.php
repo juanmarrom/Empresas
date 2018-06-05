@@ -227,7 +227,7 @@
 						</div>";
 						if ($admin) {
 							$html .= "<div style='text-align:right;'>
-									<button class='btn btn-outline-secondary btn-header' onclick='window.open(\"index_modificar.php\", \"_blank\");'>Modificar</button>
+									<button class='btn btn-outline-secondary btn-header' onclick='window.open(\"index_modificar.php?id=" . $row['ID'] . "\", \"_blank\");'>Modificar</button>
 							</div>";
 						}
 					$html .= "</div>					

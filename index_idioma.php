@@ -184,8 +184,6 @@ function actualizar_text(id, id_idioma) {
 			</div>
 			
 		</div>			
-			
-		</div>
 					
 	</div>
 	<footer>

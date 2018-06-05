@@ -64,7 +64,6 @@ $(document).ready(function(){
 			type: 'post',
 			data: { tipo: $('select[id=id_tipo]').val(), user: $('select[id=id_user]').val()  },
 				success: function(response){
-					alert(response);
 					$("#resultado").html(response);
 					tb_remove();				
 				},				
@@ -128,30 +127,6 @@ $(document).ready(function(){
 			</div>
 			<div id="resultado" class="panel">
 				<label for="" class='text-bold'>Logs:</label>
-				<table>
-					<thead>
-					<tr>
-						<td>Cabecera 1</td>
-						<td>Cabecera 2</td>
-						<td>Cabecera 3</td>
-					</tr>
-					</thead>
-					<tr>
-						<td>Celda 1.1</td>
-						<td>Celda 1.2</td>
-						<td>Celda 1.3</td>
-					</tr>
-					<tr>
-						<td>Celda 2.1</td>
-						<td>Celda 2.2</td>
-						<td>Celda 2.3</td>
-					</tr>
-					<tr>
-						<td>Celda 3.1</td>
-						<td>Celda 3.2</td>
-						<td>Celda 3.3</td>
-					</tr>
-				</table>
 			</div>
 			
 		</div>
