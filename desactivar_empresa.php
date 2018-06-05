@@ -18,6 +18,18 @@
 						$stmt2->execute();
 						$stmt2->close();
 
+						$viejo = 0;
+						$campo = 'ACTIVA';
+						if ($activa == 0) {
+							$viejo = 1;
+						} 
+
+						$sql_insert = "INSERT INTO AUDITORIA_CAMBIO_EMPRESA (ID_EMPRESA, CAMPO, VIEJO, NUEVO) VALUES (?,?,?,?);";
+						$stmt2 = $conn->prepare("$sql_insert");
+						$stmt2->bind_param("isss", $id, $campo, $viejo, $activa);
+						$stmt2->execute();
+						$stmt2->close();						
+
 					}
 					else {
 						session_destroy();

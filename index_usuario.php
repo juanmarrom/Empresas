@@ -102,7 +102,14 @@ function activar(id, estado) {
 <body>
 	<div id="wrap">
 		<header>
-			<img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png">
+			<div class="div-header-1">
+				<img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png">
+			</div>	
+			<div class="div-header-2">
+				<span>
+					<button id="id_cerrar" class="btn btn-outline-secondary btn-header" onclick="window.close();">Cerrar</button>
+				</span>						
+			</div>
 		</header>
 		<div class="container_web">
 			<div class="div-tabla">

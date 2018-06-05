@@ -134,14 +134,16 @@ $(document).ready(function(){
 	});
 
 	$("#id_guardar").click(function() {		
-		var variable = $("#id_variable").val();
+		var variable = $("#id_nombre").val();
+		var id = <?php echo $id; ?>;
 		if (variable.trim() != "") {
 			tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
 			$.ajax({
-				url: "set_variable.php",
+				url: "modificar_empresa.php",
 				type: 'post',
-				data: { app: $('select[id=id_app-2]').val(), variable: variable  },
-					success: function(response){						
+				data: { id: id, nombre: $("#id_nombre").val().trim(), id_grupo_actividad: $('select[id=id_grupo_act]').val(), id_actividad: $('select[id=id_act]').val()  },
+					success: function(response){
+						location.reload();						
 						tb_remove();				
 					},				
 	   				error: function (request, status, error) {
@@ -152,7 +154,7 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			alert ("Se ha de introducir una variable");
+			alert ("El nombreno puede estar vacio");
 		}	
 		
 	});	
@@ -160,28 +162,8 @@ $(document).ready(function(){
 	tb_remove();
 });
 
-function actualizar_text(id, id_idioma) {
-	if ( id !=0 ) {
-		tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
-		$.ajax({
-			url: "set_texto.php",
-			type: 'post',
-			data: { id: id, texto: document.getElementById("id_text_" + id).value, id_idioma: id_idioma },
-				success: function(response){
-					tb_remove();				
-				},				
-   				error: function (request, status, error) {
-        			alert("Error");
-					tb_remove();
-    		}			
-		});
-	}
-	else {
-		alert ("Seleccione Texto");
-	}	
-}
-
 </script>
+
 <style>
 .table td {
     border: 1px solid black;
@@ -202,7 +184,14 @@ function actualizar_text(id, id_idioma) {
 <body>
 	<div id="wrap">
 		<header>
-			<img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png">
+			<div class="div-header-1">
+				<img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png">
+			</div>	
+			<div class="div-header-2">
+				<span>
+					<button id="id_cerrar" class="btn btn-outline-secondary btn-header" onclick="window.close();">Cerrar</button>
+				</span>						
+			</div>
 		</header>
 		<div class="container_web">
 			<div id="resultado" class="panel">
@@ -258,7 +247,7 @@ function actualizar_text(id, id_idioma) {
 				</select>
 				<br><br>
 
-				<span>Nombre:</span><input type="text" class="form-control" id="id_variable" value = "<?php echo $empresa['NOMBRE']; ?>">
+				<span>Nombre:</span><input type="text" class="form-control" id="id_nombre" value = "<?php echo $empresa['NOMBRE']; ?>">
 			    <br>
 			    <button id="id_guardar" class="btn btn-outline-secondary">Guardar cambios</button>
 			</div>

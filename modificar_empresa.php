@@ -10,15 +10,35 @@
 			if($_SESSION['admin']) {
 				try {
 					$id = $_POST['id'];
-					$texto = $_POST['texto'];
-					$id_idioma = $_POST['id_idioma'];
 					if (is_numeric($id)) {
-						$sql_update = "UPDATE TEXTO SET TEXTO = ? WHERE ID = ?;";						
+						$empresa;
+						$sql = "SELECT ID, NOMBRE, ID_ACTIVIDAD, ID_GRUPO_ACTIVIDAD FROM EMPRESA WHERE ID = ?";	
+						$stmt = $conn->prepare("$sql");
+						$stmt->bind_param("i", $id);
+						$stmt->execute();
+						$result = $stmt->get_result();	
+						while ($row = $result->fetch_assoc()){
+							$empresa = $row;
+						}
+
+						$sql_update = "UPDATE EMPRESA SET NOMBRE = ?, ID_ACTIVIDAD = ?, ID_GRUPO_ACTIVIDAD = ? WHERE ID = ?;";		
 						$stmt2 = $conn->prepare("$sql_update");
-						$stmt2->bind_param("si", $texto,$id);
+						$stmt2->bind_param("siii", $_POST['nombre'], $_POST['id_actividad'], $_POST['id_grupo_actividad'], $id);
 						$stmt2->execute();
 						$stmt2->close();
 
+						foreach($_POST as $nombre_campo => $valor){ 
+							if ($nombre_campo != "id") {
+								if ($empresa[strtoupper($nombre_campo)] != $valor) {
+									$sql_insert = "INSERT INTO AUDITORIA_CAMBIO_EMPRESA (ID_EMPRESA, CAMPO, VIEJO, NUEVO) VALUES (?,?,?,?);";
+									$stmt2 = $conn->prepare("$sql_insert");
+									$stmt2->bind_param("isss", $id, $nombre_campo, $empresa[$nombre_campo], $valor);
+									$stmt2->execute();
+									$stmt2->close();
+								}		
+
+							}
+						}	
 					}
 					else {
 						session_destroy();
