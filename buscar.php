@@ -124,7 +124,7 @@ FROM EMPRESA $condiciones ";
 
 				if (!empty($nombre_empresa)) {
 					$sql_paginar =  $sql . "AND NOMBRE LIKE '%" . str_replace("'", "''", $nombre_empresa) . "%' AND ACTIVA IS TRUE $order_by ";
-					$sql = $sql . "AND NOMBRE LIKE ? $condicion_activa $order_by ";
+					$sql = $sql . "AND NOMBRE LIKE ? $condicion_activa $order_by LIMIT 5000";
 					$nombre_empresa = "%" . $nombre_empresa . "%";
 					//echo $sql;
 					//exit;
@@ -132,7 +132,7 @@ FROM EMPRESA $condiciones ";
 					$stmt->bind_param("s", $nombre_empresa);
 				}
 				else {
-					$sql = $sql . " $condicion_activa $order_by ";
+					$sql = $sql . " $condicion_activa $order_by LIMIT 5000";
 					$sql_paginar = $sql;
 					$stmt = $conn->prepare("$sql");
 				}

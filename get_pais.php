@@ -8,16 +8,25 @@
 		if($_SESSION["busqueda"] == session_id()) {
 			if(isset($_POST['search'])){
 				$search = $_POST['search'];
-				$query = "SELECT * FROM PAIS WHERE NOMBRE like'%".$search."%' AND ID_IDIOMA = " . $_SESSION['idioma'] . "";
-				$result = mysqli_query($conn,$query);
-		
+				$query = "SELECT * FROM PAIS WHERE NOMBRE like ? AND ID_IDIOMA = " . $_SESSION['idioma'] . "";
+				$stmt = $conn->prepare("$query");
+				$nom = "%" . $search . "%";
+				$stmt->bind_param("s", $nom);
+				$stmt->execute();	
+				$result = $stmt->get_result();			
 				$response = array();
-				while($row = mysqli_fetch_array($result) ){
+				while ($row = $result->fetch_assoc()) {
 					$response[] = array("value"=>$row['ID_PAIS'],"label"=>$row['NOMBRE']);
-				}
+				}	
+				$stmt->close();	
 				echo json_encode($response);
 			}
 		}
+		else {
+			echo "Session Fallo 1";
+		}		
 	}
-	exit;
+	else {
+		echo "Session Fallo 2";
+	}
 ?>

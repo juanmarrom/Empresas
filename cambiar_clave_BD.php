@@ -1,60 +1,73 @@
 <?php
 	session_start();	
-	if(isset($_SESSION["gestionar_alta"])) {
+	if(isset($_SESSION["busqueda"])) {
+		require_once './clases/util.php';			
+		Util::iniciarConexion("./conf.txt");
+		$conn =  Util::getConexion();
 		$respuesta = "Algo ha ido mal (1)";
-		if($_SESSION["gestionar_alta"] == session_id()) {
-			$respuesta = "Algo ha ido mal (2)";
-			require_once '../clases/util.php';			
-			Util::iniciarConexion("../conf.txt");
-			$conn =  Util::getConexion();
-
-			if(isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST["ape1"]) && isset($_POST["pass"]) && isset($_POST["pass2"])) {				$respuesta = "Algo ha ido mal (3)";
-				if ($_POST["pass"] == $_POST["pass2"]) {
-					$respuesta = "El usuario se ha podido añadir con éxito";
-					if (isset($_POST["ape2"])) {						
-					}
-					else {
-						$_POST["ape2"] = "";
-					}
-					$sql = "insert into USUARIO (EMAIL, LOGIN, NOMBRE, APELLIDO_1, ES_ADMIN, ACTIVO, PASSWORD, ID_IDIOMA, APELLIDO_2)";
-					$sql = $sql . " VALUES (?, ?, ?, ?, false, true, ?, 1, ?)";
-					try {
-						$stmt = $conn->prepare("$sql");
-						/*i - integer
-						d - double
-						s - string
-						b - BLOB*/
-						$stmt->bind_param("ssssss", $_POST["email"], $_POST["email"],$_POST["nombre"], $_POST["ape1"], password_hash($_POST["pass"], PASSWORD_DEFAULT), $_POST["ape2"]);
-						$stmt->execute();
-						if($conn->insert_id === 0) {
-							$respuesta = "El usuario ya se encontraba registrado";
+		if($_SESSION["busqueda"] == session_id()) {	
+			if(isset($_POST["pass_ante"]) && isset($_POST["pass"]) && isset($_POST["pass2"])) {				
+				$sql = "Select ID, PASSWORD FROM USUARIO WHERE lower(trim(LOGIN)) = lower(trim(?)) AND ACTIVO = true;";
+				try {
+					$stmt = $conn->prepare("$sql");
+					/*i - integer
+					d - double
+					s - string
+					b - BLOB*/
+					$stmt->bind_param("s", $_SESSION['login']);
+					$stmt->execute();
+					$stmt->bind_result($id, $pass);
+					$ret = "location:index.php?error=a";
+					$cambiar = 0;
+					while($stmt->fetch()) {
+						if (password_verify($_POST["pass_ante"], $pass)) {
+							if ($_POST["pass"] == $_POST["pass2"]) {
+								$cambiar = 1;
+							}
 						}
-						//$respuesta = . $respuesta . $conn->insert_id . $stmt->affected_rows;
-						$stmt->close();
-					} 
-					catch(Exception $e) {
-						$respuesta = "Se ha producido un error";
-						if($conn->errno === 1062) $respuesta = "El usuario ya esta registrado";
-						
+						else {
+							$respuesta = "Error en la clave";
+						}
+		   				
 					}
-					
+					$stmt->close();	
+					if ($cambiar == 1) {
+						$nuevo_pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+						$sql_update = "UPDATE USUARIO SET PASSWORD = ? WHERE ID = ?;";						
+						$stmt2 = $conn->prepare("$sql_update");
+						$stmt2->bind_param("si", $nuevo_pass,$id);
+						$stmt2->execute();
+						$stmt2->close();						
+						$respuesta = "Contraseña cambiada con éxito";
+					}
+				} 
+				catch(Exception $e) {
+					session_destroy();
+					header("location:index.php?error=catch"); 
+				
 				}	
+			} 
+			else {
+				session_destroy();
+				header("location:index.php?error=session"); 
 			}
-		
+
 		}
-	} 
-	else {
-		session_destroy();
-		header("location:gestionar_alta.php"); 
+		else { //SESION ERRONEA
+			header("location:index.php?error=session1"); 
+		}
+	}	
+	else { //SESSION ERRONEA
+		header("location:index.php?error=session2"); 
 	}
 ?>
-
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="css/alta.css">
+<link rel="stylesheet" type="text/css" href="css/main_busqueda.css">
+<link rel="shortcut icon" href="http://opencampus.uols.org/theme/image.php/lasalle1314/theme/1464558442/favicon">
 </head>
 <body>
 <header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>

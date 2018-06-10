@@ -9,16 +9,25 @@
 			if(isset($_POST['search'])){
 				$search = $_POST['search'];
 				$id_calle = $_POST['id_calle'];
-				$query = "SELECT * FROM NUMERO_CALLE WHERE NOMBRE like'%".$search."%'" . " AND ID_CALLE = " . $id_calle . "";
-				$result = mysqli_query($conn,$query);
-		
+				$query = "SELECT * FROM NUMERO_CALLE WHERE NOMBRE like ? AND ID_CALLE = ?";
+				$stmt = $conn->prepare("$query");
+				$nom = "%" . $search . "%";
+				$stmt->bind_param("si", $nom, $id_calle);
+				$stmt->execute();	
+				$result = $stmt->get_result();			
 				$response = array();
-				while($row = mysqli_fetch_array($result) ){
+				while ($row = $result->fetch_assoc()) {
 					$response[] = array("value"=>$row['ID'],"label"=>$row['NOMBRE']);
-				}
+				}	
+				$stmt->close();
 				echo json_encode($response);
 			}
 		}
+		else {
+			echo "Session Fallo 1";
+		}		
 	}
-	exit;
+	else {
+		echo "Session Fallo 2";
+	}
 ?>

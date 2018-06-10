@@ -1,54 +1,35 @@
 <?php
-	session_start();
-	$_SESSION['gestionar_alta']  = session_id();
-
-/*	require_once '../clases/util.php';
-	echo 'La fecha de hoy es: ' . Util::getFecha();
-	Util::iniciarConexion("../conf.txt");
-	$conn =  Util::getConexion();
-$sql = "select N_SECTOR FROM DATOS_BRUTOS GROUP BY N_SECTOR;";
-$result = $conn->query($sql);
-$id_tabla = 1;
-
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        echo "id_tabla: " . $id_tabla . " - N_SECTOR: " . $row["N_SECTOR"]. "<br>";
-    }
-} 
-else {
-    echo "Consulta sin resultados";
-}	
-Util::cerrarConexion();
-echo "cerrada<br>";
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        echo "id_tabla: " . $id_tabla . " - N_SECTOR: " . $row["N_SECTOR"]. "<br>";
-    }
-} 
-else {
-    echo "Consulta sin resultados";
-
-i	la variable correspondiente es de tipo entero
-d	la variable correspondiente es de tipo double
-s	la variable correspondiente es de tipo string
-
-
-}*/	
-
+	session_start();	
+	if(isset($_SESSION["busqueda"])) {
+		require_once './clases/util.php';			
+		Util::iniciarConexion("./conf.txt");
+		$conn =  Util::getConexion();
+		$respuesta = "Algo ha ido mal (1)";
+		if($_SESSION["busqueda"] == session_id()) {			
+		}
+		else { //SESION ERRONEA
+			header("location:index.php?error=session1"); 
+		}
+	}	
+	else { //SESSION ERRONEA
+		header("location:index.php?error=session1"); 
+	}
 ?>
+
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="css/alta.css">
+<link rel="shortcut icon" href="http://opencampus.uols.org/theme/image.php/lasalle1314/theme/1464558442/favicon">
 <script>
 	function validar() {
 	    var pass = document.forms["alta"]["pass"].value;
 	    var pass2 = document.forms["alta"]["pass2"].value;
 	    if (pass != pass2) {
 		alert("Las contraseñas tienen que coincidir");
-		return false;
+			return false;
 	    }
 	}
 </script>
@@ -58,39 +39,22 @@ s	la variable correspondiente es de tipo string
 	<header><img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png"></header>
 	<div class="container">
 		<div class="wrap-login">
-			<form action="comprobar_alta.php" method="post" onsubmit="return validar();" name="alta">
+			<form action="cambiar_clave_BD.php" method="post" onsubmit="return validar();" name="alta">
 				<span class="login-form-title">
-					Alta en Web de búsqueda de empresas
+					Cambiar contraseña
 				</span>
 				<div class="wrap-login2">						
-					<div class="wrap-input">
-						<span>Email</span>
-						<input class="input-class" type="text" name="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
-					</div>
-					
-					<div class="wrap-input rs1">
-						<span>Nombre</span>
-						<input class="input-class" type="text" name="nombre" placeholder="Nombre" required>
+
+					<div class="wrap-input rs1">	
+						<input class="input-class" type="password" name="pass_ante" placeholder="Contraseña anterior" required pattern=".{6,}" title="Al menos 6 caracteres">
 					</div>
 
 					<div class="wrap-input rs1">
-						<span>Apellido1</span>
-						<input class="input-class" type="text" name="ape1" placeholder="Apellido1" required>
+						<input class="input-class" type="password" name="pass" placeholder="Nueva contraseña" required pattern=".{6,}" title="Al menos 6 caracteres">
 					</div>
 					<div class="wrap-input rs1">
-						<span>Apellido2</span>
-						<input class="input-class" type="text" name="ape2" placeholder="Apellido2">
-					</div>
-
-					<div class="wrap-input rs1">
-						<span>Contraseña</span>	
-						<input class="input-class" type="password" name="pass" placeholder="Contraseña" required pattern=".{6,}" title="Al menos 6 caracteres">
-					</div>
-
-					<div class="wrap-input rs1">
-						<span>Repita contraseña</span>
-						<input class="input-class" type="password" name="pass2" placeholder="Repita contraseña" required pattern=".{6,}" title="Al menos 6 caracteres">
-					</div>
+						<input class="input-class" type="password" name="pass2" placeholder="Repita nueva contraseña" required pattern=".{6,}" title="Al menos 6 caracteres">
+					</div>					
 											
 					<div class="container-login-form-btn">
 						<button class="login-form-btn">

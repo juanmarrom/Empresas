@@ -6,19 +6,16 @@
 		Util::iniciarConexion("./conf.txt");
 		$conn =  Util::getConexion();
 		$respuesta = "Algo ha ido mal (1)";
-		/*if($_SESSION["busqueda"] == session_id()) {
-			if(isset($_POST['search'])){
-				$search = $_POST['search'];
-				$query = "SELECT * FROM DISTRITO WHERE NOMBRE like'%".$search."%'";
-				$result = mysqli_query($conn,$query);
-		
-				$response = array();
-				while($row = mysqli_fetch_array($result) ){
-					$response[] = array("value"=>$row['ID_DISTRITO'],"label"=>$row['NOMBRE']);
-				}
-				echo json_encode($response);
-			}
-		}*/
+		if($_SESSION["busqueda"] == session_id()) {
+		}
+		else {
+			session_destroy();
+			header("location:index.php?error=session"); 
+		}
+	}
+	else {
+		session_destroy();
+		header("location:index.php?error=session"); 
 	}
 ?>
 
@@ -195,7 +192,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, lat, lon
 				directionsDisplay.setDirections(response);
 			} 
 			else {
-				alert('Directions request failed due to ' + status);
+				alert('Error ' + status);
 			}
 		});
 	}
@@ -211,11 +208,10 @@ function pasar_pagina(pagina) {
 			pagina: pagina,
 		},
 		success: function( data ) {
-			//alert( data );
+			if (data.indexOf("Session") >= 0) {
+				location.href="index.php?error=session";
+			}
 			$("#id_lista_empresas").html(data);
-			//tb_remove();
-			//return;
-			//google.maps.event.addDomListener(window, 'load', init_map);
 			var j = 0;
 			marcadores_empresas = [];
 			for (var i=10; i > 0; i--) {
@@ -309,6 +305,9 @@ $(document).ready(function(){
 					search: request.term
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -333,7 +332,7 @@ $(document).ready(function(){
 	$("#id_galeria").blur(function() {
 	    //console.log("blur");
 	    if ($("#id_galeria_busqueda").val() == -1 || valor_mercado != $("#id_galeria").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			
 			$("#id_galeria").val("");
 			$("#id_galeria_busqueda").val(-1);
 			$('#id_mercado').prop("disabled", false); 
@@ -358,6 +357,9 @@ $(document).ready(function(){
 					search: request.term
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -382,7 +384,7 @@ $(document).ready(function(){
 	$("#id_ccomercial").blur(function() {
 	    //console.log("blur");
 	    if ($("#id_ccomercial_busqueda").val() == -1 || valor_mercado != $("#id_ccomercial").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			
 			$("#id_ccomercial").val("");
 			$("#id_ccomercial_busqueda").val(-1);
 			$('#id_mercado').prop("disabled", false); 
@@ -404,6 +406,9 @@ $(document).ready(function(){
 					search: request.term
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -428,7 +433,7 @@ $(document).ready(function(){
 	$("#id_mercado").blur(function() {
 	    //console.log("blur");
 	    if ($("#id_mercado_busqueda").val() == -1 || valor_mercado != $("#id_mercado").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			
 			$("#id_mercado").val("");
 			$("#id_mercado_busqueda").val(-1);
 			$('#id_ccomercial').prop("disabled", false); 
@@ -449,6 +454,9 @@ $(document).ready(function(){
 					search: request.term
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -473,7 +481,7 @@ $(document).ready(function(){
 	$("#id_pais").blur(function() {
 	    //console.log("blur");
 	    if ($("#id_pais_busqueda").val() == -1 || valor_pais != $("#id_pais").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			$("#id_pais_busqueda").val(-1);
 			$("#id_pais").val("");
 			deshabilitar(0);
 	    }
@@ -493,6 +501,9 @@ $(document).ready(function(){
 					id_pais: $("#id_pais_busqueda").val()
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -514,7 +525,7 @@ $(document).ready(function(){
 
 	$("#id_region").blur(function() {
 	    if ($("#id_region_busqueda").val() == -1 || valor_region != $("#id_region").val()) {
-		alert ("Hay que seleccionar una de las opciones");
+		$("#id_region_busqueda").val(-1);
 		$("#id_region").val("");
 		deshabilitar(1);
 	    }
@@ -533,6 +544,9 @@ $(document).ready(function(){
 					id_region: $("#id_region_busqueda").val()
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -554,7 +568,7 @@ $(document).ready(function(){
 
 	$("#id_provincia").blur(function() {
 	    if ($("#id_provincia_busqueda").val() == -1 || valor_provincia != $("#id_provincia").val()) {
-		alert ("Hay que seleccionar una de las opciones");
+		$("#id_provincia_busqueda").val(-1);
 		$("#id_provincia").val("");
 		deshabilitar(2);
 	    }
@@ -572,6 +586,9 @@ $(document).ready(function(){
 					id_provincia: $("#id_provincia_busqueda").val()
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -595,7 +612,7 @@ $(document).ready(function(){
 	});
 	$("#id_ciudad").blur(function() {
 		if ($("#id_ciudad_busqueda").val() == -1 || valor_ciudad != $("#id_ciudad").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			$("#id_ciudad_busqueda").val(-1);
 			$("#id_ciudad").val("");
 			deshabilitar(3);
 		}
@@ -615,6 +632,9 @@ $(document).ready(function(){
 				id_ciudad: $("#id_ciudad_busqueda").val()
 			},
 			success: function( data ) {
+				if (data.indexOf("Session") >= 0) {
+					location.href="index.php?error=session";
+				}				
 				response( data );
 			}
 		});
@@ -635,7 +655,7 @@ $(document).ready(function(){
 	});
 	$("#id_distrito").blur(function() {
 		if ($("#id_distrito_busqueda").val() == -1 || valor_distrito != $("#id_distrito").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			$("#id_distrito_busqueda").val(-1);
 			$("#id_distrito").val("");
 			deshabilitar(4);
 			habilitar_extras();
@@ -659,6 +679,9 @@ $(document).ready(function(){
 					id_distrito: $("#id_distrito_busqueda").val()
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -678,7 +701,7 @@ $(document).ready(function(){
 	});
 	$("#id_barrio").blur(function() {
 		if ($("#id_barrio_busqueda").val() == -1 || valor_barrio != $("#id_barrio").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			$("#id_barrio_busqueda").val(-1);
 			$("#id_barrio").val("");
 			deshabilitar(5);
 		}
@@ -697,6 +720,9 @@ $(document).ready(function(){
 					id_barrio: $("#id_barrio_busqueda").val()
 				},
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -724,7 +750,7 @@ $(document).ready(function(){
 	});
 	$("#id_calle").blur(function() {
 		if ($("#id_calle_busqueda").val() == -1 || valor_calle != $("#id_calle").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			$("#id_calle_busqueda").val(-1);
 			$("#id_calle").val("");
 			deshabilitar(6);
 		}
@@ -744,6 +770,9 @@ $(document).ready(function(){
 				},
 
 				success: function( data ) {
+					if (data.indexOf("Session") >= 0) {
+						location.href="index.php?error=session";
+					}					
 					response( data );
 				}
 			});
@@ -762,7 +791,7 @@ $(document).ready(function(){
 	});
 	$("#id_numero").blur(function() {
 		if ($("#id_numero_busqueda").val() == -1 || valor_numero != $("#id_numero").val()) {
-			alert ("Hay que seleccionar una de las opciones");
+			$("#id_numero_busqueda").val(-1);
 			$("#id_numero").val("");				
 		}
 	});	  
@@ -881,6 +910,21 @@ $(document).ready(function(){
 		);	*/
 
 	$("#id_buscar").click(function() {
+		if ($("#id_ciudad_busqueda").val() == -1) {
+			alert("Hay que elegir alguna ciudad");
+			return;
+		}
+
+		if ($("#id_radio").val() > 10000 || $("#id_radio").val() < 0) {
+			alert("El radio máximo es de 10.000 metros");
+			return;
+		}
+
+		if ($("#id_nombre_empresa").val().trim() == "" && ($("#latitud").val() == 0 || $("#id_radio").val() == "" ) ) {
+			alert("Sin nombre de empresa solo se puede buscar en un radio de 0 a 10.000 metros");
+			return;
+		}				
+
 		tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
 		
 		if ($('#id_actividad').val() == null) {
@@ -922,7 +966,7 @@ $(document).ready(function(){
 				id_mercado: $("#id_mercado_busqueda").val(),
 				id_ccomercial: $("#id_ccomercial_busqueda").val(),
 				id_galeria: $("#id_galeria_busqueda").val(),
-				nombre_empresa: $("#id_nombre_empresa").val(),
+				nombre_empresa: $("#id_nombre_empresa").val().trim(),
 				latitud_user: $("#latitud").val(),
 				longitud_user: $("#longitud").val(),
 				direccion_user: $("#direccion").val(),
@@ -930,7 +974,9 @@ $(document).ready(function(){
 				radio: $("#id_radio").val()
 			},
 			success: function( data ) {
-				//alert( data );
+				if (data.indexOf("Session") >= 0) {
+					location.href="index.php?error=session";
+				}
 				$("#id_lista_empresas").html(data);
 				//google.maps.event.addDomListener(window, 'load', init_map);
 				var j = 0;
@@ -955,34 +1001,50 @@ $(document).ready(function(){
 	});
 
 	$("#id_calcular").click(function() {
-		tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
-		$.ajax({
-			url: "get_coordenadas.php",
-			type: 'post',
-			data: { address: $("#id_posicion").val()  },
-				success: function(response){
-					//alert (response);
-					var myObj = JSON.parse(response);
-					if (myObj.latitude != "" && myObj.latitude != null && myObj.latitude != "undefined") {
-						$("#latitud").val(myObj.latitude);
-						$("#longitud").val(myObj.longitude);
-						$("#direccion").val(myObj.formatted_address);
-						$("#id_enlace_posicion").attr("href", "https://www.google.com/maps?q=" + myObj.formatted_address);
-						$("#id_enlace_posicion").css("visibility", "visible");
-					}
-					else {
-						alert("No se ha podido determinar su posición");
-					}
-					tb_remove();				
-				},				
-   				error: function (request, status, error) {
-        			//alert(request.responseText);
-        			alert("Error");
-					tb_remove();
-    		}			
-		});
+		if($("#id_posicion").val().trim() != "") {
+			tb_show("", "loading_2.html?keepThis=true&TBiframe=true&align=center&height=600&width=800&modal=true", false);
+			$.ajax({
+				url: "get_coordenadas.php",
+				type: 'post',
+				data: { address: $("#id_posicion").val()  },
+					success: function(response){
+						//alert (response);
+						var myObj = JSON.parse(response);
+						if (myObj.latitude != "" && myObj.latitude != null && myObj.latitude != "undefined") {
+							$("#latitud").val(myObj.latitude);
+							$("#longitud").val(myObj.longitude);
+							$("#direccion").val(myObj.formatted_address);
+							$("#id_enlace_posicion").attr("href", "https://www.google.com/maps?q=" + myObj.formatted_address);
+							$("#id_enlace_posicion").css("visibility", "visible");
+							alert("Su posición se ha podido determinar con éxito");
+						}
+						else {
+							alert("No se ha podido determinar su posición");
+						}
+						tb_remove();				
+					},				
+	   				error: function (request, status, error) {
+	        			//alert(request.responseText);
+	        			alert("Error");
+						tb_remove();
+	    		}			
+			});
+		}
+		else {
+			$("#id_posicion").val("");
+			alert ("Por favor introduzca una posición válida");
+		}
 		
 	});
+
+	$("#id_resetear").click(function() {
+		$("#latitud").val(0);
+		$("#longitud").val(0);
+		$("#direccion").val("");
+		$("#id_posicion").val("");		
+		$("#id_radio").val("");		
+		$("#id_enlace_posicion").css("visibility", "hidden");		
+	});	
 
 
   	$( function() {
@@ -1052,6 +1114,9 @@ $(document).ready(function(){
 					</span>';
 				}
 			?>
+				<span>
+					<button id="id_cambio" class="btn btn-outline-secondary btn-header" onclick="window.open('cambiar_clave.php', '_blank');">Contraseña</button>
+				</span>			
 				<span>
 					<button id="id_salir" class="btn btn-outline-secondary btn-header" onclick="location.href ='salir.php';">Salir</button>
 				</span>						
@@ -1158,17 +1223,17 @@ $(document).ready(function(){
 							<div class="input-group-prepend">
 								<span class="input-group-text">Su posición:</span>
 							</div>						
-							<input id="id_posicion" class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" style="width:40%;">
+							<input id="id_posicion" class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" style="width:30%;">
 							<button id="id_calcular" class="btn btn-outline-secondary">Calcular</button>
-							<!--<a id="id_enlace_posicion" style="visibility:hidden;" target='_blank'>
-								<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
-							</a>-->
 							&nbsp;
 							<div class="input-group-prepend">
 								<span class="input-group-text" >En un radio de (en metros):</span>
 							</div>						
-							<input id="id_radio" class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" style="width:10%;">							
-
+							<input id="id_radio" class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" style="width:5%;">
+							<button id="id_resetear" class="btn btn-outline-secondary">Resetear Posición</button>		
+							<a id="id_enlace_posicion" style="visibility:hidden;" target='_blank'>
+								<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
+							</a>
 					 	</div>
 					  </div>
 					  

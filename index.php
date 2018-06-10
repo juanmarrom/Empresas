@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="shortcut icon" href="http://opencampus.uols.org/theme/image.php/lasalle1314/theme/1464558442/favicon">
 </head>
 <body>
 <div id="wrap">
@@ -34,7 +35,7 @@
 							Has olvidado tu
 						</span>
 
-						<a href="#" class="txt2 hov1">
+						<a class="txt2 hov1" href="clave_olvidada.php">
 							usuario o contraseña?
 						</a>
 					</div>
