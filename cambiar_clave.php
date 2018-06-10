@@ -1,6 +1,40 @@
 <?php
 	session_start();
 	$_SESSION['gestionar_alta']  = session_id();
+
+/*	require_once '../clases/util.php';
+	echo 'La fecha de hoy es: ' . Util::getFecha();
+	Util::iniciarConexion("../conf.txt");
+	$conn =  Util::getConexion();
+$sql = "select N_SECTOR FROM DATOS_BRUTOS GROUP BY N_SECTOR;";
+$result = $conn->query($sql);
+$id_tabla = 1;
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        echo "id_tabla: " . $id_tabla . " - N_SECTOR: " . $row["N_SECTOR"]. "<br>";
+    }
+} 
+else {
+    echo "Consulta sin resultados";
+}	
+Util::cerrarConexion();
+echo "cerrada<br>";
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        echo "id_tabla: " . $id_tabla . " - N_SECTOR: " . $row["N_SECTOR"]. "<br>";
+    }
+} 
+else {
+    echo "Consulta sin resultados";
+
+i	la variable correspondiente es de tipo entero
+d	la variable correspondiente es de tipo double
+s	la variable correspondiente es de tipo string
+
+
+}*/	
+
 ?>
 
 <!DOCTYPE html>
@@ -8,20 +42,13 @@
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="css/alta.css">
-<link rel="shortcut icon" href="http://opencampus.uols.org/theme/image.php/lasalle1314/theme/1464558442/favicon">
 <script>
 	function validar() {
 	    var pass = document.forms["alta"]["pass"].value;
 	    var pass2 = document.forms["alta"]["pass2"].value;
-		if (document.getElementById("id_proteccion")) {
-			if(document.getElementById("id_proteccion").checked == false) {
-				alert("Tiene que aceptar los requisitos de la RGPD");
-				return false;
-			}
-		}	    
 	    if (pass != pass2) {
-			alert("Las contraseñas tienen que coincidir");
-			return false;
+		alert("Las contraseñas tienen que coincidir");
+		return false;
 	    }
 	}
 </script>
@@ -70,17 +97,8 @@
 							Aceptar
 						</button>
 					</div>
-				</div>				
+				</div>
 			</form>
-			<br>
-			<p><input type="checkbox" id="id_proteccion">
-				<span class="text-estandar">
-					Sus datos personales serán utilizados única y exclusivamente para poder ofrecerle este servicio de acuerdo con lo establecido RGPD. 
-					Una vez esto no se cumpla, serán eliminados. Marque esta casilla si está de acuerdo. 
-					En cualquier momento usted tiene derecho a establecer límites sobre el uso que hacemos de sus datos.
-				</span>				
-			</p>
-			<br>
 		</div>
 	</div>
 </div>	

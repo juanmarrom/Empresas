@@ -63,7 +63,7 @@
     public static function getCabeceraBusqueda($numero_filas) {
     	$texto = "";
     	if ($numero_filas == 0) {
-			$texto = "No se han encontrado empresas con los parametros indicados";
+			$texto = "No se han encontrado empresas con los parámetros indicados";
 		}
 	   	if ($numero_filas == 1) {
 			$texto = "Se ha encontrado " . $numero_filas . " empresa</span></div>";
@@ -171,7 +171,7 @@
 				$paginas .= "<span class='text-estandar-pagina' onclick='pasar_pagina(" . $numero_paginas . ")'>  ..." . $numero_paginas . "  </span>";
 			}
 		}
-		$paginas = "<div id='id_box_resultado_pagina' class='box-resultado-pagina' >Pagina" . $paginas . "</div>";
+		$paginas = "<div id='id_box_resultado_pagina' class='box-resultado-pagina' >Página" . $paginas . "</div>";
 		return $paginas;
     } 
 
@@ -214,7 +214,7 @@
 							<div class='clr'></div>
 							<div class='box-direccion'>
 								<span class='text-estandar'>
-								Direccion:" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "
+								Dirección:" .  $row['CALLE'] . " " . $row['NUMERO_CALLE'] . ", " . $row['CIUDAD'] . ", " . $row['REGION'] . ", " . $row['PAIS'] . "
 								</span>							
 									<a href='https://www.google.com/maps?q=" . str_replace("'", "%27", $row['NOMBRE']) . " " . str_replace("'", "%27", $row['CALLE'])  . " " . $row['NUMERO_CALLE']  . " " . str_replace("'", "%27", $row['CIUDAD'])  . " " . str_replace("'", "%27", $row['REGION']) . "' target='_blank'>
 										<i class='fas fa-map-marker-alt clase_iconos'></i>									 				

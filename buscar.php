@@ -24,6 +24,7 @@
 			$longitud_user =  $_POST['longitud_user']; 
 			$direccion_user =  $_POST['direccion_user'];
 			$radio = $_POST['radio'];
+			$no_activa =  $_POST['no_activa'];
 			
 			$tiempo_inicio = microtime(true);
 			///INSERTAR AUDITORIA
@@ -53,6 +54,10 @@
 				if (is_numeric($id_numero) && $id_numero != -1) {
 					$condiciones = $condiciones . " AND ID_NUMERO_CALLE = $id_numero";
 				}
+
+				if (is_numeric($no_activa) && $no_activa != -1 && $_SESSION['admin']) {
+					$condiciones = $condiciones . " AND ACTIVA = 0";
+				}				
 				
 				if (is_numeric($id_mercado) && $id_mercado != -1) {
 					$condiciones = $condiciones . " AND ID_MERCADO IN ( SELECT ID FROM MERCADO WHERE NOMBRE IN (SELECT NOMBRE FROM MERCADO WHERE ID = $id_mercado AND ID_CIUDAD = $id_ciudad) AND ID_CIUDAD = $id_ciudad )";
@@ -163,7 +168,10 @@ FROM EMPRESA $condiciones ";
 				$javascript = "";
 				$mostrar = 0;
 				$marca = 10;
-				$paginas = Util::getPaginacionBusqueda(1, $numero_paginas);
+				$paginas = "";
+				if ($numero_filas > 0) {
+					$paginas = Util::getPaginacionBusqueda(1, $numero_paginas);
+				}
 				$html .= $paginas;
 				$sql_insert = "INSERT INTO AUDITORIA_RESULTADO_BUSQUEDA (ID_AUDITORIA_BUSQUEDA, ID_EMPRESA) VALUES (?,?);";
 				$bandera = 10;

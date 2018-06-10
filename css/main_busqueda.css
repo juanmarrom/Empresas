@@ -47,6 +47,14 @@ input {
 	font-size: 1px;
 }
 
+i {
+	cursor: pointer;	
+}
+
+img {
+	cursor: pointer;	
+}
+
 
 input::-webkit-input-placeholder { color: #C8C7C7;}
 input:-moz-placeholder { color: #C8C7C7;}

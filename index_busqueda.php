@@ -46,6 +46,7 @@
 <script src="scripts/thickbox_neu.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCEUxuelm-ruuX7STQP7iDdk-KpoRedKCY"></script>
+<link rel="shortcut icon" href="http://opencampus.uols.org/theme/image.php/lasalle1314/theme/1464558442/favicon">
 <script>
 
 var map;
@@ -895,6 +896,13 @@ $(document).ready(function(){
 		else {
 			$("#id_grupo_actividad_busqueda").val($('#id_grupo_actividad').val());
 		}		
+		var no_activa = -1;
+
+		if ($("#id_no_activas")) {
+			if ($('#id_no_activas').prop('checked')) {
+				no_activa = 1;
+			}
+		}
 
 		$.ajax({
 			url: "buscar.php",
@@ -918,6 +926,7 @@ $(document).ready(function(){
 				latitud_user: $("#latitud").val(),
 				longitud_user: $("#longitud").val(),
 				direccion_user: $("#direccion").val(),
+				no_activa: no_activa,
 				radio: $("#id_radio").val()
 			},
 			success: function( data ) {
@@ -976,6 +985,45 @@ $(document).ready(function(){
 	});
 
 
+  	$( function() {
+	    $( "#ayuda" ).dialog({
+	      autoOpen: false,
+	      show: {
+	        effect: "blind",
+	        duration: 1000
+	      },
+	      hide: {
+	        effect: "explode",
+	        duration: 1000
+	      }
+	    });
+
+	    $( "#ayuda_2" ).dialog({
+	      autoOpen: false,
+	      show: {
+	        effect: "blind",
+	        duration: 1000
+	      },
+	      hide: {
+	        effect: "explode",
+	        duration: 1000
+	      }
+	    });	    
+	 
+	    $( "#opener" ).on( "click", function() {
+	      $( "#ayuda" ).dialog( "open" );
+	    });
+
+	    $( "#opener_2" ).on( "click", function() {
+	      $( "#ayuda" ).dialog( "open" );
+	    });
+
+	    $( "#opener_3" ).on( "click", function() {
+	      $( "#ayuda_2" ).dialog( "open" );
+	    });	    
+  } );
+
+
 	tb_remove();
 });
 
@@ -987,7 +1035,7 @@ $(document).ready(function(){
 	<div id="wrap">
 		<header>
 			<div class="div-header-1">
-				<img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png">
+				<img src="http://opencampus.uols.org/theme/lasalle1314/pix/logo-uols-lsuniversities.png" onclick="location.reload();">
 			</div>	
 			<div class="div-header-2">
 			
@@ -1028,10 +1076,10 @@ $(document).ready(function(){
 			<input type="hidden" id="direccion" value="">
 			<input type="hidden" id="radio" value="0">
 			<div id="menu" class="menu">
-				<label for="">Filtros Avanzados:</label>
+				<label class="text-bold" for="">Filtros de Localización</label>&nbsp;<i id="opener" class="fas fa-question-circle"></i>
 				<div class="input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text etiqueta">Pais</span>
+						<span class="input-group-text etiqueta">País</span>
 					</div>
 					<input type="text" class="form-control" id="id_pais">
 				</div>				
@@ -1078,7 +1126,7 @@ $(document).ready(function(){
 					<input type="text" class="form-control" id="id_numero" disabled>																	
 				</div>
 				<br>
-				<label for="">Extras:</label>		
+				<label class="text-bold" for="">Recintos Comerciales</label>&nbsp;<i id="opener_2" class="fas fa-question-circle"></i>	
 				<div class="input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text etiqueta-extra">Mercado</span>
@@ -1101,25 +1149,27 @@ $(document).ready(function(){
 			</div>
 			
 			<div id="resultado" class="panel">
-				<label for="">Búsqueda de Empresas:</label>
+				<label class="text-bold" for="">Búsqueda de Empresas</label>&nbsp;<i id="opener_3" class="fas fa-question-circle"></i>
 	
 				<div class="input-group margen-inputs">    					
 					<nav class="navbar navbar-light bg-light ancho-total">
 					  <div class="form-inline ancho-total">
 						<div class="input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text" >Su posición:</span>
-						</div>						
-						<input id="id_posicion" class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" style="width:40%;">
-						<div class="input-group-prepend">
-							<span class="input-group-text" >En un radio de (en metros):</span>
-						</div>						
-						<input id="id_radio" class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" style="width:10%;">
-						<button id="id_calcular" class="btn btn-outline-secondary" >Calcular</button>
-						<a id="id_enlace_posicion" style="visibility:hidden;" target='_blank'>
-							<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
-						</a>
-					  </div>
+							<div class="input-group-prepend">
+								<span class="input-group-text">Su posición:</span>
+							</div>						
+							<input id="id_posicion" class="form-control mr-sm-2" type="search" placeholder="P.ej. Av. Litoral, 30 08005 Barcelona" style="width:40%;">
+							<button id="id_calcular" class="btn btn-outline-secondary">Calcular</button>
+							<!--<a id="id_enlace_posicion" style="visibility:hidden;" target='_blank'>
+								<i class='fas fa-map-marker-alt clase_iconos'></i>									 				
+							</a>-->
+							&nbsp;
+							<div class="input-group-prepend">
+								<span class="input-group-text" >En un radio de (en metros):</span>
+							</div>						
+							<input id="id_radio" class="form-control mr-sm-2" type="search" placeholder="P.ej. 500" style="width:10%;">							
+
+					 	</div>
 					  </div>
 					  
 					</nav>					
@@ -1159,6 +1209,12 @@ $(document).ready(function(){
 						<span>&nbsp;&nbsp;&nbsp;</span>						
 						<input id="id_nombre_empresa" class="form-control mr-sm-2" type="search" placeholder="Empresa" aria-label="Empresa" style="width:30%;">
 						<button id="id_buscar" class="btn btn-outline-secondary">Buscar</button>
+						<?php
+							if ($_SESSION['admin']) {
+								echo "<br><br><span>&nbsp;Solo empresas no Activas&nbsp;</span><input type='checkbox' id='id_no_activas'>";	
+							}
+						?>							
+						
 					  </div>
 					</nav>					
 				</div>
@@ -1183,7 +1239,12 @@ $(document).ready(function(){
 	<footer>
 	<p>©2018 LA SALLE OPEN UNIVERSITY</p>
 	</footer>
-	
+	<div id="ayuda" title="Ayuda">
+	  <p>Tiene que seleccionar una de las opciones proporcionadas. No es posible el uso de texto libre.</p>
+	</div>
+	<div id="ayuda_2" title="Ayuda">
+	  <p>Puede introducir la posición desde donde quiere realizar una búsqueda radial. El resultado de empresas está limitado a 5.000. Las opciones Grupo Actividad y Actividad no son excluyentes entre ellas.</p>
+	</div>	
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     var mySelect = $('#first-disabled2');
