@@ -81,21 +81,7 @@ $(document).ready(function(){
 });
 	
 </script>
-<style>
-.table td {
-    border: 1px solid black;
-}
 
-.table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.table th {
-    height: 50px;
-    border: 1px solid black;
-}
-</style>
 </head>
 <body>
 	<div id="wrap">

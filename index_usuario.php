@@ -77,28 +77,6 @@ function activar(id, estado) {
 
 </script>
 
-<style>
-.table td {
-    border: 1px solid black;
-}
-
-.table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.table th {
-    height: 50px;
-    border: 1px solid black;
-}
-
-.div-tabla {
-    padding: 50px;
-    width: 100%;
-}
-
-</style>
-
 </head>
 <body>
 	<div id="wrap">

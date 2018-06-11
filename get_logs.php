@@ -18,7 +18,9 @@
 					if (is_numeric($tipo) && is_numeric($user)) {
 										
 						if ($tipo == 0) { //Login
-							$query = "SELECT (SELECT CONCAT(NOMBRE, ' ', APELLIDO_1 ,' ', APELLIDO_2) FROM USUARIO WHERE ID = ID_USUARIO) as NOMBRE, CUANDO, IP, LOGIN, LOGOUT, NAVEGADOR FROM AUDITORIA_LOGIN ";
+							$query = "SELECT (SELECT CONCAT(NOMBRE, ' ', APELLIDO_1 ,' ', APELLIDO_2) FROM USUARIO WHERE ID = ID_USUARIO) as NOMBRE, CUANDO, IP, LOGIN, LOGOUT, NAVEGADOR,
+								(SELECT EMAIL FROM USUARIO WHERE ID = ID_USUARIO) as EMAIL
+							 FROM AUDITORIA_LOGIN ";
 							$tabla .= "<td>USUARIO</td><td>CUANDO</td><td>LOGIN</td><td>LOGOUT</td><td>IP</td><td>NAVEGADOR</td></tr></thead>";
 						}
 						if ($tipo == 1) { // busqueda
@@ -58,7 +60,7 @@
 						$response = array();
 						while ($row = $result->fetch_assoc()) {
 							if ($tipo == 0) { //Login								
-								$tabla .= "<tr><td>" . $row['NOMBRE'] . "</td><td>" . $row['CUANDO'] . "</td><td>" . $row['LOGIN'] . "</td><td>" . $row['LOGOUT'] . "</td><td>" . $row['IP'] . "</td><td>" . $row['NAVEGADOR'] . "</td></tr>";
+								$tabla .= "<tr><td>" . $row['EMAIL'] . "<br>". $row['NOMBRE'] . "</td><td>" . $row['CUANDO'] . "</td><td>" . $row['LOGIN'] . "</td><td>" . $row['LOGOUT'] . "</td><td>" . $row['IP'] . "</td><td>" . $row['NAVEGADOR'] . "</td></tr>";
 							}
 							if ($tipo == 1) { // busqueda	
 								$detalle = "";

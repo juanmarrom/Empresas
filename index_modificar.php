@@ -155,7 +155,7 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			alert ("El nombreno puede estar vacio");
+			alert ("El nombre no puede estar vacio");
 		}	
 		
 	});	
@@ -165,21 +165,6 @@ $(document).ready(function(){
 
 </script>
 
-<style>
-.table td {
-    border: 1px solid black;
-}
-
-.table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.table th {
-    height: 50px;
-    border: 1px solid black;
-}
-</style>
 
 </head>
 <body>
@@ -209,7 +194,7 @@ $(document).ready(function(){
 								" . $empresa['NOMBRE'] . "
 								</span>				
 							</div><span class='text-estandar'>
-								Direccion:" .  $empresa['CALLE'] . " " . $empresa['NUMERO_CALLE'] . ", " . $empresa['CIUDAD'] . ", " . $empresa['REGION'] . ", " . $empresa['PAIS'] . "
+								Dirección:" .  $empresa['CALLE'] . " " . $empresa['NUMERO_CALLE'] . ", " . $empresa['CIUDAD'] . ", " . $empresa['REGION'] . ", " . $empresa['PAIS'] . "
 								</span>";
 					echo $html;		
 				?>

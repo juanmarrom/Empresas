@@ -127,21 +127,7 @@ function actualizar_text(id, id_idioma) {
 }
 
 </script>
-<style>
-.table td {
-    border: 1px solid black;
-}
 
-.table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.table th {
-    height: 50px;
-    border: 1px solid black;
-}
-</style>
 </head>
 <body>
 	<div id="wrap">
@@ -157,7 +143,7 @@ function actualizar_text(id, id_idioma) {
 		</header>
 		<div class="container_web">
 			<div id="menu" class="menu">
-				<label for="" class='text-bold'>Seleccione la aplicacion:</label>
+				<label for="" class='text-bold'>Seleccione la aplicación:</label>
 				<select id="id_app">
 					<option value="0">Ninguna</option>
 					<?php
@@ -173,7 +159,7 @@ function actualizar_text(id, id_idioma) {
 				<br>
 
 				<label class='text-bold' for="">Nueva variable:</label>
-				<br><span>Aplicacion:</span><select id="id_app-2">
+				<br><span>Aplicación:</span><select id="id_app-2">
 					<?php
 					  $result = $conn -> query ("SELECT * FROM APLICACION_WEB ");
 					  while ($valores = mysqli_fetch_array($result)) {

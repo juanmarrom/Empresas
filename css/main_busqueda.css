@@ -349,3 +349,37 @@ section, article, aside, footer, header, nav, hgroup {
     font-size: 15px;
     color: #444;
 }
+
+.table td {
+    border: 1px solid black;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th {
+    height: 50px;
+    border: 1px solid black;
+}
+
+thead tr td {
+    height: 60px;
+    font-weight: bold;
+    background-color: #C8C2C2;
+}
+
+.div-tabla {
+    padding: 50px;
+    width: 100%;
+}
+
+.login-form-title {
+  display: block;
+  font-family: OpenSans-Regular;
+  font-size: 30px;
+  color: #555555;
+  line-height: 1.2;
+  text-align: center;
+}
