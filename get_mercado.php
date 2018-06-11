@@ -28,6 +28,11 @@
 				}					
 			}
 		}
+		else {
+			echo "Session Fallo 1";
+		}		
 	}
-	exit;
+	else {
+		echo "Session Fallo 1";
+	}
 ?>
