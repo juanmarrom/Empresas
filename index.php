@@ -36,7 +36,7 @@
 						</span>
 
 						<a class="txt2 hov1" href="clave_olvidada.php">
-							usuario o contraseña?
+							contraseña?
 						</a>
 					</div>
 					
