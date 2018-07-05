@@ -76,18 +76,33 @@
 								if ($row['CALLE'] != "") {
 									$detalle .= ",Calle:".$row['CALLE'];			
 								}
+								if ($row['MERCADO'] != "") {
+									$detalle .= ",Mercado:".$row['MERCADO'];			
+								}
+								if ($row['GALERIA'] != "") {
+									$detalle .= ",Galería:".$row['GALERIA'];			
+								}
+								if ($row['CCOMERCIAL'] != "") {
+									$detalle .= ",C. Comercial:".$row['CCOMERCIAL'];			
+								}								
 								if ($row['DIRECCION'] != "") {
 									$detalle .= ",Dirección:".$row['DIRECCION'];			
 								}
 								if ($row['RADIO'] != "") {
 									$detalle .= ",Radio:".$row['RADIO'] ." metros";			
 								}
+								if ($row['ACTIVIDAD'] != "") {
+									$detalle .= ",Actvidad:".$row['ACTIVIDAD'];				
+								}
+								if ($row['GRUPO_ACTIVIDAD'] != "") {
+									$detalle .= ",Grupo Actvidad:".$row['GRUPO_ACTIVIDAD'];				
+								}																
 								if ($row['EMPRESA'] != "") {
 									$detalle .= ",Empresa:".$row['EMPRESA'];			
 								}
 								if ($row['NO_ACTIVA'] != "-1") {
 									$detalle .= ",No activa";			
-								}
+								}								
 								$tabla .= "<tr><td>" . $row['NOMBRE'] . "</td><td>" . $row['CUANDO'] . "</td><td>" . $row['TIEMPO'] . " segundos</td><td>" . $row['RESULTADO'] . " empresas</td><td>" . $detalle . "</td></tr>";
 							}
 						}
